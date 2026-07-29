@@ -23,6 +23,7 @@
   --gut:clamp(22px,5vw,64px);
   --serif:"Fraunces",Georgia,serif;
   --sans:"Inter Tight",system-ui,-apple-system,sans-serif;
+  --cover-ratio:.667; /* portrait width:height, classic magazine cover */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
@@ -37,21 +38,92 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   aspect-ratio:274.42 / 66.84;
 }
 
-/* ---- HERO (centered) ---- */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  padding:clamp(80px,12vh,140px) var(--gut) clamp(64px,10vh,96px);}
-.inner{width:100%;max-width:var(--maxw);margin:0 auto;}
+/* ---- COVER HERO (camera magazine cover, experimental) ---- */
+.cover{position:relative;min-height:100svh;overflow:hidden;background:var(--ink);isolation:isolate;
+  --cover-accent:#fff;color:var(--cover-accent);}
+@media(min-width:820px){
+  .cover{max-width:min(900px,calc(100svh * var(--cover-ratio)));margin:0 auto;}
+}
+.cover.is-picking-color{cursor:grabbing;}
+.cover video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+  transform:scaleX(-1);opacity:0;transition:opacity .8s ease;}
+.cover video.is-live{opacity:1;}
+.cover-scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0) 58%,rgba(0,0,0,.7) 100%);}
 
-.kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
-  opacity:.82;margin-bottom:clamp(24px,4vh,40px);}
+.cover-overlay{position:relative;z-index:1;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:space-between;padding:clamp(22px,4vw,40px);}
+
+.cover-top{display:flex;flex-direction:column;gap:10px;}
+.wordmark.cover-logo{width:90%;background-color:var(--cover-accent);margin:0 auto;
+  cursor:grab;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;
+  transition:filter .15s ease;}
+.cover.is-picking-color .cover-logo{filter:drop-shadow(0 0 20px var(--cover-accent));}
+.cover-logo.is-arming{animation:armPulse .6s ease-in-out infinite;}
+@keyframes armPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+@media(prefers-reduced-motion:reduce){.cover-logo.is-arming{animation:none;}}
+.cover-meta{width:100%;text-align:right;font-family:var(--sans);font-weight:600;font-size:clamp(.72rem,1.6vw,.88rem);
+  letter-spacing:.06em;line-height:1.5;text-transform:uppercase;}
+
+.cover-excerpt{position:absolute;left:clamp(22px,4vw,40px);right:clamp(22px,4vw,40px);bottom:20svh;
+  max-width:42ch;font-family:var(--sans);}
+.cover-excerpt .headline{display:block;font-weight:700;text-transform:uppercase;
+  font-size:clamp(.86rem,1.7vw,1.1rem);margin-bottom:.35em;}
+.cover-excerpt .body{display:block;font-size:clamp(.7rem,1.1vw,.8rem);line-height:1.5;opacity:.9;max-width:36ch;}
+
+.cover-bottom{display:flex;justify-content:flex-end;}
+.cover-barcode{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:0 0 auto;
+  background:none;border:none;padding:6px;cursor:pointer;transition:transform .15s ease;}
+.cover-barcode:hover{transform:scale(1.06);}
+.cover-barcode:active{transform:scale(.96);}
+.cover-barcode:focus-visible{outline:2px solid #fff;outline-offset:4px;}
+.cover-barcode:disabled{cursor:default;}
+.cover-barcode .bars{width:130px;height:56px;background-color:var(--cover-accent);
+  animation:barPulse 2.4s ease-in-out infinite;
+  -webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);
+  mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);}
+.cover-barcode .digits{font-family:var(--sans);font-size:.68rem;letter-spacing:.12em;color:var(--cover-accent);}
+@keyframes barPulse{0%,100%{opacity:1;}50%{opacity:.72;}}
+@media(prefers-reduced-motion:reduce){.cover-barcode .bars{animation:none;}}
+
+.snap-countdown{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.3);pointer-events:none;}
+.snap-countdown.is-active{display:flex;}
+.snap-countdown span{font-family:var(--serif);font-weight:500;color:#fff;font-size:clamp(6rem,22vw,13rem);
+  animation:countPulse .9s ease;}
+@keyframes countPulse{0%{opacity:0;transform:scale(1.35);}35%{opacity:1;transform:scale(1);}100%{opacity:1;transform:scale(1);}}
+
+.snap-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;}
+.snap-flash.is-flash{animation:flashPop .4s ease;}
+@keyframes flashPop{0%{opacity:.85;}100%{opacity:0;}}
+
+.snap-preview{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;
+  background:rgba(23,20,13,.92);padding:var(--gut);}
+.snap-preview.is-active{display:flex;}
+.snap-preview-inner{max-width:380px;width:100%;text-align:center;}
+.snap-preview img{width:100%;height:auto;display:block;border:1px solid rgba(242,236,221,.2);margin-bottom:18px;}
+.snap-actions{display:flex;flex-direction:column;gap:8px;}
+
+.cam-gate{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;
+  padding:var(--gut);background:rgba(23,20,13,.4);transition:opacity .5s ease;}
+.cam-gate.is-hidden{opacity:0;pointer-events:none;}
+.cam-card{max-width:380px;width:100%;background:var(--ink);border:1px solid rgba(242,236,221,.2);
+  padding:clamp(24px,4vw,32px);text-align:center;}
+.cam-card .cam-title{font-family:var(--serif);font-size:1.1rem;margin-bottom:10px;}
+.cam-card .cam-note{font-family:var(--sans);font-size:.8rem;opacity:.68;margin-top:14px;line-height:1.5;}
+.cam-allow{width:100%;height:48px;margin-top:6px;border:none;cursor:pointer;
+  font-family:var(--sans);font-weight:600;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);background:var(--cream);}
+.cam-allow:hover{opacity:.9;}
+.cam-allow[disabled]{opacity:.55;cursor:default;}
+.cam-skip{display:block;margin:12px auto 0;background:none;border:none;color:var(--cream);opacity:.6;
+  font-family:var(--sans);font-size:.76rem;text-decoration:underline;cursor:pointer;}
+
+.inner{width:100%;max-width:var(--maxw);margin:0 auto;}
 
 .wordmark{width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;transition:background-color .35s ease;}
 
-.tagline{font-family:var(--serif);font-weight:400;font-size:clamp(1.04rem,1.8vw,1.3rem);line-height:1.5;
-  max-width:44ch;margin:clamp(30px,4.5vh,46px) auto 0;opacity:.9;}
-.tagline .nobr{white-space:nowrap;}
-.tagline .db{display:none;}
-@media(min-width:820px){.tagline{max-width:44em;}.tagline .db{display:inline;}}
+.cta{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:clamp(20px,3vh,32px);}
 
 /* ---- EMAIL GRAB: field + arrow ---- */
 .signup{margin:clamp(30px,4.5vh,46px) auto 0;}
@@ -99,39 +171,76 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .foot .base{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;
   border-top:1px solid rgba(242,236,221,.16);padding-top:24px;width:100%;max-width:560px;
   font-size:.78rem;letter-spacing:.05em;opacity:.6;}
-
-.reveal{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards;}
-.d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.27s}.d4{animation-delay:.38s}
-@keyframes rise{to{opacity:1;transform:none;}}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;animation:none;}}
 </style>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
 
-<main class="hero">
-  <div class="inner">
-    <p class="kicker reveal d1">Coming soon — Issue 01</p>
+<section class="cover" id="cover">
+  <video id="camFeed" autoplay muted playsinline aria-hidden="true"></video>
+  <div class="cover-scrim" aria-hidden="true"></div>
 
-    <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
-
-    <p class="tagline reveal d3">COUSIN is an independent print magazine that widens the lens <br class="db">on the people and ideas that make <span class="nobr">Salt Lake City interesting</span>.</p>
-
-    <div class="signup reveal d4">
-      <div class="row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
-        <button id="submit" class="go" type="button">
-          <span>Keep in touch</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+  <div class="cover-overlay">
+    <div class="cover-top">
+      <div class="wordmark wm-mask cover-logo" role="img" aria-label="Cousin"></div>
+      <div class="cover-meta">
+        <span>Coming Soon</span><br>
+        <span>Issue 01</span>
       </div>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
+
+    <p class="cover-excerpt">
+      <span class="headline">An independent print magazine</span>
+      <span class="body">Cousin magazine widens the lens on the people and ideas that make Salt Lake City interesting.</span>
+    </p>
+
+    <div class="cover-bottom">
+      <button type="button" id="snapBtn" class="cover-barcode" aria-label="Take your cover photo">
+        <div class="bars"></div>
+        <div class="digits">0 51000 01251 7</div>
+      </button>
     </div>
   </div>
-</main>
+
+  <div class="snap-countdown" id="snapCountdown" aria-hidden="true"></div>
+  <div class="snap-flash" id="snapFlash" aria-hidden="true"></div>
+
+  <div class="cam-gate" id="camGate">
+    <div class="cam-card">
+      <p class="cam-title">Turn on your camera for the full experience.</p>
+      <button id="camAllow" class="cam-allow" type="button">Turn on camera</button>
+      <button id="camSkip" class="cam-skip" type="button">Not now</button>
+      <p class="cam-note" id="camNote">We don’t record or store anything — unless you choose to save your cover.</p>
+    </div>
+  </div>
+</section>
+
+<div class="snap-preview" id="snapPreview">
+  <div class="snap-preview-inner">
+    <img id="snapImage" alt="Your Cousin cover photo" />
+    <div class="snap-actions">
+      <button id="snapSave" class="cam-allow" type="button">Save photo</button>
+      <button id="snapRetake" class="cam-skip" type="button">Retake</button>
+    </div>
+  </div>
+</div>
 
 <footer class="foot">
   <div class="inner">
+    <div class="signup-block">
+      <p class="cta">Stay in the loop</p>
+      <div class="signup">
+        <div class="row">
+          <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
+          <button id="submit" class="go" type="button">
+            <span>Keep in touch</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+
     <nav class="links" aria-label="Contact">
       <a class="pitch" href="mailto:hello@cousinmag.com">Say hi, send us a pitch: hello@cousinmag.com</a>
     </nav>
@@ -155,6 +264,314 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </footer>
 
 <script>
+/* ===== COVER CAMERA (experimental) ===================================
+   Live front-camera feed as the cover background. Nothing is uploaded,
+   recorded, or stored — the stream stays local to the <video> element.
+   ==================================================================== */
+const camVideo=document.getElementById("camFeed");
+const camGate=document.getElementById("camGate");
+const camAllow=document.getElementById("camAllow");
+const camSkip=document.getElementById("camSkip");
+const camNote=document.getElementById("camNote");
+
+function hideCamGate(){
+  camGate.classList.add("is-hidden");
+  setTimeout(()=>camGate.remove(),600);
+}
+
+async function startCamera(){
+  camAllow.disabled=true;
+  camAllow.textContent="Requesting…";
+  try{
+    if(!navigator.mediaDevices?.getUserMedia) throw new Error("unsupported");
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false});
+    camVideo.srcObject=stream;
+    await camVideo.play();
+    camVideo.classList.add("is-live");
+    hideCamGate();
+  }catch(err){
+    camNote.textContent="Camera access denied or unavailable — here’s the cover without it.";
+    camAllow.textContent="Try again";
+    camAllow.disabled=false;
+  }
+}
+camAllow.addEventListener("click",startCamera);
+camSkip.addEventListener("click",hideCamGate);
+
+/* ===== COVER PHOTO SNAP (experimental) ===============================
+   Composites the live (mirrored) video frame with the cover overlay
+   (logo, meta, excerpt, barcode) onto a canvas, entirely client-side —
+   nothing is uploaded. Saving only happens if the user taps "Save".
+   ==================================================================== */
+const coverEl=document.getElementById("cover");
+const snapBtn=document.getElementById("snapBtn");
+const snapCountdown=document.getElementById("snapCountdown");
+const snapFlash=document.getElementById("snapFlash");
+const snapPreview=document.getElementById("snapPreview");
+const snapImage=document.getElementById("snapImage");
+const snapSave=document.getElementById("snapSave");
+const snapRetake=document.getElementById("snapRetake");
+const coverLogo=document.querySelector(".cover-logo");
+const coverMetaLines=document.querySelectorAll(".cover-meta span");
+const coverHeadline=document.querySelector(".cover-excerpt .headline");
+const coverBody=document.querySelector(".cover-excerpt .body");
+const coverBars=snapBtn.querySelector(".bars");
+const coverDigits=snapBtn.querySelector(".digits");
+
+let isCapturing=false;
+let currentPhotoUrl=null;
+
+function coverCropRect(sw,sh,tw,th){
+  const sRatio=sw/sh,tRatio=tw/th;
+  if(sRatio>tRatio){const ch=sh,cw=sh*tRatio;return{cx:(sw-cw)/2,cy:0,cw,ch};}
+  const cw=sw,ch=sw/tRatio;return{cx:0,cy:(sh-ch)/2,cw,ch};
+}
+function toCanvasRect(el,containerRect,scale){
+  const r=el.getBoundingClientRect();
+  return{x:(r.left-containerRect.left)*scale,y:(r.top-containerRect.top)*scale,w:r.width*scale,h:r.height*scale};
+}
+function cssFont(el,scale){
+  const cs=getComputedStyle(el);
+  return `${cs.fontWeight} ${parseFloat(cs.fontSize)*scale}px ${cs.fontFamily}`;
+}
+function wrapText(ctx,text,maxWidth){
+  const words=text.split(" "),lines=[];
+  let line="";
+  for(const w of words){
+    const test=line?line+" "+w:w;
+    if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=w;}
+    else line=test;
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+function loadImage(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=reject;
+    img.src=src;
+  });
+}
+function getMaskUrl(el){
+  const cs=getComputedStyle(el);
+  const val=cs.maskImage&&cs.maskImage!=="none"?cs.maskImage:cs.webkitMaskImage;
+  const match=/url\((['"]?)(.*?)\1\)/.exec(val||"");
+  return match?match[2]:null;
+}
+function drawBarcode(ctx,r,color){
+  ctx.fillStyle=color;
+  const unit=r.w/130;
+  const pattern=[[0,2],[4,1],[9,3],[13,4],[19,1]];
+  for(let c=0;c*24*unit<r.w;c++){
+    pattern.forEach(([start,w])=>{
+      const x=r.x+(c*24+start)*unit;
+      if(x<r.x+r.w)ctx.fillRect(x,r.y,Math.min(w*unit,r.x+r.w-x),r.h);
+    });
+  }
+}
+function drawTintedImage(ctx,img,r,color){
+  const off=document.createElement("canvas");
+  off.width=Math.max(1,Math.round(r.w));off.height=Math.max(1,Math.round(r.h));
+  const octx=off.getContext("2d");
+  octx.drawImage(img,0,0,off.width,off.height);
+  octx.globalCompositeOperation="source-in";
+  octx.fillStyle=color;
+  octx.fillRect(0,0,off.width,off.height);
+  ctx.drawImage(off,r.x,r.y,r.w,r.h);
+}
+
+async function composeCoverPhoto(){
+  if(document.fonts?.ready)await document.fonts.ready;
+  const rect=coverEl.getBoundingClientRect();
+  const scale=Math.min(window.devicePixelRatio||1,2);
+  const W=Math.round(rect.width*scale),H=Math.round(rect.height*scale);
+  const canvas=document.createElement("canvas");
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext("2d");
+
+  const{cx,cy,cw,ch}=coverCropRect(camVideo.videoWidth,camVideo.videoHeight,W,H);
+  ctx.save();
+  ctx.translate(W,0);ctx.scale(-1,1);
+  ctx.drawImage(camVideo,cx,cy,cw,ch,0,0,W,H);
+  ctx.restore();
+
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,"rgba(0,0,0,.6)");
+  grad.addColorStop(.26,"rgba(0,0,0,0)");
+  grad.addColorStop(.58,"rgba(0,0,0,0)");
+  grad.addColorStop(1,"rgba(0,0,0,.7)");
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+  const logoSrc=getMaskUrl(coverLogo);
+  if(logoSrc){
+    const logoImg=await loadImage(logoSrc);
+    const lr=toCanvasRect(coverLogo,rect,scale);
+    drawTintedImage(ctx,logoImg,lr,coverAccent);
+  }
+
+  ctx.textBaseline="top";
+  ctx.fillStyle=coverAccent;
+  ctx.textAlign="right";
+  coverMetaLines.forEach(span=>{
+    const r=toCanvasRect(span,rect,scale);
+    ctx.font=cssFont(span,scale);
+    ctx.fillText(span.textContent.toUpperCase(),r.x+r.w,r.y);
+  });
+
+  ctx.textAlign="left";
+  {
+    const r=toCanvasRect(coverHeadline,rect,scale);
+    ctx.font=cssFont(coverHeadline,scale);
+    ctx.fillText(coverHeadline.textContent.toUpperCase(),r.x,r.y);
+  }
+  {
+    const r=toCanvasRect(coverBody,rect,scale);
+    ctx.font=cssFont(coverBody,scale);
+    const lineHeight=parseFloat(getComputedStyle(coverBody).lineHeight)*scale||r.h;
+    wrapText(ctx,coverBody.textContent.trim(),r.w).forEach((line,i)=>ctx.fillText(line,r.x,r.y+i*lineHeight));
+  }
+
+  {
+    const barsR=toCanvasRect(coverBars,rect,scale);
+    drawBarcode(ctx,barsR,coverAccent);
+    const digitsR=toCanvasRect(coverDigits,rect,scale);
+    ctx.font=cssFont(coverDigits,scale);
+    ctx.textAlign="right";
+    ctx.fillStyle=coverAccent;
+    ctx.fillText(coverDigits.textContent,digitsR.x+digitsR.w,digitsR.y);
+  }
+
+  return canvas.toDataURL("image/png");
+}
+
+function runCountdown(){
+  return new Promise(resolve=>{
+    const seq=["3","2","1"];
+    let i=0;
+    snapCountdown.classList.add("is-active");
+    function tick(){
+      snapCountdown.innerHTML="";
+      const span=document.createElement("span");
+      span.textContent=seq[i];
+      snapCountdown.appendChild(span);
+      i++;
+      if(i<seq.length){setTimeout(tick,900);}
+      else{
+        setTimeout(()=>{
+          snapCountdown.classList.remove("is-active");
+          snapCountdown.innerHTML="";
+          snapFlash.classList.add("is-flash");
+          setTimeout(()=>snapFlash.classList.remove("is-flash"),400);
+          resolve();
+        },900);
+      }
+    }
+    tick();
+  });
+}
+
+async function handleSnap(){
+  if(isCapturing)return;
+  if(!camVideo.classList.contains("is-live")){startCamera();return;}
+  isCapturing=true;
+  snapBtn.disabled=true;
+  await runCountdown();
+  try{
+    const dataUrl=await composeCoverPhoto();
+    currentPhotoUrl=dataUrl;
+    snapImage.src=dataUrl;
+    snapPreview.classList.add("is-active");
+  }catch(err){/* capture failed silently; user can just try again */}
+  isCapturing=false;
+  snapBtn.disabled=false;
+}
+
+snapBtn.addEventListener("click",handleSnap);
+
+snapRetake.addEventListener("click",()=>{
+  snapPreview.classList.remove("is-active");
+  snapImage.src="";
+  currentPhotoUrl=null;
+});
+
+snapSave.addEventListener("click",async()=>{
+  if(!currentPhotoUrl)return;
+  const blob=await(await fetch(currentPhotoUrl)).blob();
+  const file=new File([blob],"cousin-cover.png",{type:"image/png"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file],title:"My Cousin cover"});return;}
+    catch(err){/* share cancelled/failed — fall back to download */}
+  }
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="cousin-cover.png";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+});
+
+/* ===== COVER COLOR PICKER (experimental easter egg) ===================
+   Press-and-hold the logo, then drag anywhere on screen — horizontal
+   position maps to hue, recoloring the logo/text/barcode live. Release
+   to lock it in. Feeds into the canvas capture via `coverAccent`.
+   ==================================================================== */
+let coverAccent="#ffffff";
+let colorPickActive=false;
+let longPressTimer=null;
+let pressStartX=0,pressStartY=0;
+const LONG_PRESS_MS=350;
+const MOVE_CANCEL_PX=18;
+
+function applyAccent(hue){
+  coverAccent=`hsl(${hue.toFixed(1)} 85% 65%)`;
+  coverEl.style.setProperty("--cover-accent",coverAccent);
+}
+function updateAccentFromX(clientX){
+  const hue=Math.max(0,Math.min(360,(clientX/window.innerWidth)*360));
+  applyAccent(hue);
+}
+function onColorDragMove(e){
+  updateAccentFromX(e.clientX);
+}
+function onColorDragEnd(){
+  colorPickActive=false;
+  coverEl.classList.remove("is-picking-color");
+  window.removeEventListener("pointermove",onColorDragMove);
+  window.removeEventListener("pointerup",onColorDragEnd);
+  window.removeEventListener("pointercancel",onColorDragEnd);
+}
+function armColorPick(e){
+  colorPickActive=true;
+  coverLogo.classList.remove("is-arming");
+  coverEl.classList.add("is-picking-color");
+  updateAccentFromX(e.clientX);
+  window.addEventListener("pointermove",onColorDragMove);
+  window.addEventListener("pointerup",onColorDragEnd);
+  window.addEventListener("pointercancel",onColorDragEnd);
+}
+function checkPreArmMove(e){
+  if(colorPickActive)return;
+  if(Math.hypot(e.clientX-pressStartX,e.clientY-pressStartY)>MOVE_CANCEL_PX)cancelLongPress();
+}
+function cancelLongPress(){
+  clearTimeout(longPressTimer);
+  coverLogo.classList.remove("is-arming");
+  window.removeEventListener("pointermove",checkPreArmMove);
+  window.removeEventListener("pointerup",cancelLongPress);
+}
+coverLogo.addEventListener("pointerdown",e=>{
+  pressStartX=e.clientX;pressStartY=e.clientY;
+  coverLogo.classList.add("is-arming");
+  window.addEventListener("pointermove",checkPreArmMove);
+  window.addEventListener("pointerup",cancelLongPress,{once:true});
+  longPressTimer=setTimeout(()=>{
+    window.removeEventListener("pointermove",checkPreArmMove);
+    armColorPick(e);
+  },LONG_PRESS_MS);
+});
+
 /* ===== EMAIL CAPTURE -> GOOGLE SHEET ================================
    Each signup is POSTed to a Google Apps Script web app that appends
    it to the Cousin subscribers sheet. no-cors = fire-and-forget (Apps
