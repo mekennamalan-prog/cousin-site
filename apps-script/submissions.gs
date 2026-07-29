@@ -13,11 +13,16 @@
  * form-urlencoded, mode:"no-cors") to this endpoint. type is "story"
  * or "photo" depending on which flow the user came from:
  *
- *   - "story" submissions are emailed straight to hello@cousinmag.com
- *     (via MailApp, sent from whichever account this script is
- *     deployed under) instead of being logged to the sheet — the
- *     pitch text itself is in the story field. Reply-to is set to the
- *     submitter's email so hitting "reply" goes straight to them.
+ *   - "story" submissions are emailed via MailApp, sent from whichever
+ *     account this script is deployed under, straight to
+ *     mekenna.malan@gmail.com — NOT hello@cousinmag.com. hello@
+ *     forwards to that same personal inbox, so sending "from you to
+ *     you" through that forward gets silently deduped/hidden by
+ *     Gmail; sending directly to the personal inbox skips that loop
+ *     and lands in the same place you already read mail. Reply-to is
+ *     set to the submitter's email so hitting "reply" goes straight
+ *     to them. Nothing is logged to the sheet for story submissions —
+ *     the pitch text itself is only in the email.
  *   - "photo" submissions still append a row to the sheet, same as
  *     before (the cover photo itself isn't sent here — only the
  *     reviewer sees it in-browser unless the user saves it).
@@ -58,7 +63,7 @@ function doPost(e) {
     if (name && email && type === 'story') {
       var story = p.story || '';
       MailApp.sendEmail({
-        to: 'hello@cousinmag.com',
+        to: 'mekenna.malan@gmail.com',
         replyTo: email,
         subject: 'New story pitch from ' + name + ' (cousinmag.com)',
         body: 'Name: ' + name + '\n' +
