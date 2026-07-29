@@ -23,6 +23,7 @@
   --gut:clamp(22px,5vw,64px);
   --serif:"Fraunces",Georgia,serif;
   --sans:"Inter Tight",system-ui,-apple-system,sans-serif;
+  --egg-ratio:.667; /* popup width:height — classic portrait magazine-cover ratio */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
@@ -69,22 +70,33 @@ button.go[disabled]{opacity:.55;cursor:default;}
 /* ---- FOOTER (ink band, centered) ---- */
 .foot{background:var(--ink);color:var(--cream);text-align:center;
   padding:clamp(56px,9vh,92px) var(--gut) clamp(36px,5vh,52px);}
-.foot .inner{display:flex;flex-direction:column;align-items:center;gap:clamp(26px,4.5vh,40px);}
-.foot .twain{font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:clamp(.84rem,1.3vw,.98rem);line-height:1.55;max-width:50ch;color:#FBF8F2;opacity:1;}
-.foot .twain .attr{display:block;font-style:italic;font-size:.8rem;opacity:.9;margin-top:1.1em;}
-.foot .twain .src{display:block;font-style:italic;font-size:.76rem;opacity:.7;margin-top:.25em;}
-.foot .wm{width:clamp(140px,24vw,190px);background-color:var(--cream);}
-.foot .links{display:flex;flex-direction:column;align-items:center;gap:16px;font-family:var(--serif);font-size:1.05rem;}
-.foot .links a{color:var(--wordmark);text-decoration:none;opacity:1;transition:opacity .15s;}
-.foot .links a.pitch:hover{opacity:1;text-decoration:underline;text-underline-offset:4px;}
+.foot .inner{display:flex;flex-direction:column;align-items:center;gap:clamp(22px,3.5vh,32px);}
+.foot-signup-label{font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--cream);opacity:.85;max-width:34ch;line-height:1.5;}
+.foot .row{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
+.foot input[type=email]{flex:0 1 250px;min-width:0;font-family:var(--sans);font-size:1rem;color:var(--ink);
+  background:var(--cream);border:1px solid rgba(23,20,13,.16);border-radius:0;padding:0 17px;height:52px;
+  outline:3px solid transparent;outline-offset:2px;}
+.foot input[type=email]::placeholder{color:rgba(23,20,13,.45);}
+.foot input[type=email]:focus-visible{outline-color:var(--cream);}
+.foot input[type=email]:-webkit-autofill,
+.foot input[type=email]:-webkit-autofill:hover,
+.foot input[type=email]:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--ink);
+  -webkit-box-shadow:0 0 0 1000px var(--cream) inset;
+  box-shadow:0 0 0 1000px var(--cream) inset;
+  transition:background-color 5000s ease-in-out 0s;
+}
+.foot .status{min-height:1.3em;font-size:.95rem;font-weight:500;}
+.foot-meta{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:6px;}
+.foot-meta .copyright{font-size:.78rem;letter-spacing:.05em;opacity:.6;}
+.foot-meta .privacy-link{font-size:.78rem;letter-spacing:.05em;color:var(--cream);opacity:.6;
+  text-decoration:underline;text-underline-offset:3px;transition:opacity .15s;}
+.foot-meta .privacy-link:hover{opacity:.9;}
 .foot .signoff{display:flex;align-items:center;justify-content:center;gap:18px;}
-.foot .ig{display:inline-flex;color:var(--cream);opacity:.85;transition:opacity .15s;}
-.foot .ig svg{width:24px;height:24px;}
-.foot .ig:hover{opacity:1;}
-.foot .base{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;
-  border-top:1px solid rgba(242,236,221,.16);padding-top:24px;width:100%;max-width:560px;
-  font-size:.78rem;letter-spacing:.05em;opacity:.6;}
+.foot .signoff a{display:inline-flex;color:var(--cream);opacity:.85;transition:opacity .15s;}
+.foot .signoff a svg{width:24px;height:24px;}
+.foot .signoff a:hover{opacity:1;}
 
 .reveal{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards;}
 .d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.27s}.d4{animation-delay:.38s}
@@ -101,7 +113,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-overlay{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;}
 .egg-overlay.is-open{display:flex;}
 .egg-backdrop{position:absolute;inset:0;background:rgba(23,20,13,.6);}
-.egg-card{position:relative;z-index:1;width:100%;max-width:430px;height:90svh;overflow:hidden;
+.egg-card{position:relative;z-index:1;width:100%;height:90svh;max-width:calc(90svh * var(--egg-ratio));overflow:hidden;
   background:var(--bg);color:var(--text);box-shadow:0 40px 90px rgba(0,0,0,.5);}
 @media(max-width:639px){
   .egg-card{max-width:none;height:100svh;box-shadow:none;}
@@ -124,6 +136,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 /* ---- fig 2: story ---- */
 #screen-egg-story .egg-screen-pad{padding-top:64px;}
+#screen-egg-story .egg-topleft-logo{margin-bottom:28px;}
 .egg-story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
   font-family:var(--sans);font-size:1.3rem;line-height:1.5;color:var(--wordmark);overflow:hidden;min-height:120px;}
 .egg-story-submit{margin-top:14px;}
@@ -145,7 +158,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-booth-logo{width:82%;background-color:#fff;margin:0 auto;}
 .egg-booth-meta{width:82%;margin:8px auto 0;text-align:right;font-family:var(--sans);line-height:1.5;}
 .egg-booth-meta .l1{display:block;font-weight:600;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;}
-.egg-booth-meta .l2{display:block;font-weight:500;font-size:.88rem;}
 .egg-booth-headline{position:absolute;left:26px;right:26px;bottom:20svh;font-family:var(--sans);
   font-weight:700;text-transform:uppercase;font-size:1.3rem;line-height:1.25;}
 .egg-booth-barcode{position:absolute;right:26px;bottom:100px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:1;}
@@ -154,7 +166,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
   mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);}
 .egg-booth-barcode .digits{font-family:var(--sans);font-size:.68rem;letter-spacing:.12em;color:#fff;}
 .egg-booth-tray{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:center;
-  justify-content:space-around;padding:18px 26px 30px;}
+  justify-content:space-around;padding:18px 26px 30px;background:var(--ink);}
 .egg-booth-tray button{background:none;border:none;color:#fff;cursor:pointer;width:40px;height:40px;
   padding:0;-webkit-tap-highlight-color:transparent;}
 .egg-booth-tray button svg{width:100%;height:100%;}
@@ -181,6 +193,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
   padding:0 0 10px;outline:none;}
 .egg-field::placeholder{color:rgba(42,106,242,.4);font-weight:700;}
 .egg-consent{font-family:var(--sans);font-size:.95rem;line-height:1.5;color:var(--wordmark);}
+.egg-checkbox-row{display:flex;align-items:flex-start;gap:10px;}
+.egg-checkbox-row input{width:18px;height:18px;margin-top:3px;flex:0 0 auto;accent-color:var(--wordmark);}
+.egg-checkbox-row label{font-family:var(--sans);font-weight:600;font-size:.85rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--wordmark);line-height:1.4;}
 .egg-submit-row{margin-top:6px;}
 </style>
 </head>
@@ -210,24 +226,27 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 <footer class="foot">
   <div class="inner">
-    <nav class="links" aria-label="Contact">
-      <a class="pitch" href="mailto:hello@cousinmag.com">Say hi, send us a pitch: hello@cousinmag.com</a>
-    </nav>
-    <p class="twain">“Next day we strolled about everywhere through the broad, straight, level streets, and enjoyed the pleasant strangeness of a city of fifteen thousand inhabitants with no loafers perceptible in it … and a grand general air of neatness, repair, thrift and comfort, around and about and over the whole.”
-      <span class="attr">— Mark Twain on Salt Lake City</span>
-      <span class="src">“Roughing It,” 1872</span>
-    </p>
+    <p class="foot-signup-label">Sign up to receive news about Cousin Magazine print releases and parties:</p>
+    <div class="row">
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
+      <button id="submit" class="go" type="button">
+        <span>Sign up</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
 
+    <div class="foot-meta">
+      <p class="copyright">© 2026 Cousin Magazine</p>
+      <a class="privacy-link" href="privacy.html">Privacy Policy</a>
+    </div>
     <div class="signoff">
-      <div class="wm wm-mask" role="img" aria-label="Cousin"></div>
+      <a class="email-icon" href="mailto:hello@cousinmag.com" aria-label="Email Cousin">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6.5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
       <a class="ig" href="https://instagram.com/cousin.mag" aria-label="Cousin on Instagram" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
       </a>
-    </div>
-
-    <div class="base">
-      <span>This is the place or whatever</span>
-      <span>© 2026 Cousin Magazine</span>
     </div>
   </div>
 </footer>
@@ -245,7 +264,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin"></div>
         <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story"></textarea>
         <div class="egg-story-submit">
-          <button class="egg-link" id="eggStorySubmit" type="button">Share with Cousin</button>
+          <button class="egg-link" id="eggStorySubmit" type="button">Share with Us</button>
         </div>
       </div>
     </section>
@@ -268,8 +287,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
       <div class="egg-booth-overlay">
         <div class="egg-booth-logo wm-mask" role="img" aria-label="Cousin"></div>
         <div class="egg-booth-meta">
-          <span class="l1">Salt Lake City</span>
-          <span class="l2">Issue no. 1</span>
+          <span class="l1">Spring 2027</span>
         </div>
       </div>
       <p class="egg-booth-headline">A new independent<br>print magazine for<br>Salt Lake City</p>
@@ -280,14 +298,14 @@ button.go[disabled]{opacity:.55;cursor:default;}
       <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
       <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
       <div class="egg-booth-tray">
-        <button id="eggBoothBack" aria-label="Back" type="button">
-          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <button id="eggBoothBack" aria-label="Close" type="button">
+          <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
         <button id="eggBoothShutter" class="shutter" aria-label="Take photo" type="button">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="6.2" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>
         </button>
-        <button id="eggBoothFlip" aria-label="Flip camera" type="button">
-          <svg viewBox="0 0 24 24"><path d="M12 4 L20 20 L4 20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <button id="eggBoothFlip" aria-label="Switch camera" type="button">
+          <svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 6H8a5 5 0 0 0-5 5v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 22l-4-4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h13a5 5 0 0 0 5-5v-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </section>
@@ -310,9 +328,13 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin" style="position:absolute;top:26px;left:26px;"></div>
         <form id="eggAddNameForm">
           <input class="egg-field" id="eggName" type="text" placeholder="Name" autocomplete="name" required />
-          <input class="egg-field" id="eggPhone" type="tel" placeholder="(801) 223-3344" autocomplete="tel" />
-          <input class="egg-field" id="eggEmail" type="email" placeholder="you@email.com" autocomplete="email" />
+          <input class="egg-field" id="eggEmail" type="email" placeholder="you@email.com" autocomplete="email" required />
+          <input class="egg-field" id="eggPhone" type="tel" placeholder="(801) 223-3344 (optional)" autocomplete="tel" />
           <p class="egg-consent" id="eggConsent">Our magazine team may use covers submitted to us in promotional materials.</p>
+          <div class="egg-checkbox-row">
+            <input type="checkbox" id="eggUpdateOptIn" />
+            <label for="eggUpdateOptIn">Update me on Cousin Magazine print releases and parties</label>
+          </div>
           <div class="egg-submit-row">
             <button class="egg-link" type="submit">Submit</button>
           </div>
@@ -323,6 +345,40 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </div>
 
 <script>
+/* ===== EMAIL CAPTURE -> GOOGLE SHEET ================================
+   Each signup is POSTed to a Google Apps Script web app that appends
+   it to the Cousin subscribers sheet. no-cors = fire-and-forget (Apps
+   Script returns no CORS headers), so success is shown optimistically.
+   ==================================================================== */
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbzo-qjKdZSil_DFNnh4zW4Vd_sxBXxjzegzHNzWmarqRa53xlz3su-DtBiSChmcuJREHw/exec";
+
+const emailEl=document.getElementById("email");
+const btn=document.getElementById("submit");
+const statusEl=document.getElementById("status");
+const valid=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const setStatus=m=>{statusEl.textContent=m;};
+
+async function subscribe(){
+  const email=emailEl.value.trim();
+  if(!valid(email)){setStatus("That email doesn’t look right — give it another go.");emailEl.focus();return;}
+  btn.disabled=true;
+  try{
+    await fetch(SHEET_ENDPOINT,{
+      method:"POST",
+      mode:"no-cors",
+      body:new URLSearchParams({email:email})
+    });
+    setStatus("You’re on the list.");
+    emailEl.value="";
+  }catch(e){
+    setStatus("Something broke on our end. Try again in a moment?");
+  }finally{
+    btn.disabled=false;
+  }
+}
+btn.addEventListener("click",subscribe);
+emailEl.addEventListener("keydown",e=>{if(e.key==="Enter")subscribe();});
+
 /* ===== EASTER EGG OVERLAY ===========================================
    Nothing here is uploaded anywhere — the camera stream, captured
    photo, and story text all stay local to this page unless the user
@@ -607,11 +663,28 @@ document.getElementById("eggStorySubmit").addEventListener("click",()=>{
   eggSetScreen("egg-addname");
 });
 
-/* ===== ADD NAME (fig 7) — stubbed tonight, no backend ================ */
+/* ===== ADD NAME -> GOOGLE SHEET ======================================
+   Posts name/email/phone/opt-in to a Google Apps Script web app bound
+   to the submissions sheet, same fire-and-forget pattern as the email
+   signup above. SUBMISSIONS_ENDPOINT needs to be set to that script's
+   deployed /exec URL (see apps-script/submissions.gs) before this
+   actually writes anywhere.
+   ==================================================================== */
+const SUBMISSIONS_ENDPOINT = "PASTE_YOUR_SUBMISSIONS_APPS_SCRIPT_URL_HERE";
+
 const eggConsent=document.getElementById("eggConsent");
 const eggAddNameForm=document.getElementById("eggAddNameForm");
 eggAddNameForm.addEventListener("submit",e=>{
   e.preventDefault();
+  const name=document.getElementById("eggName").value.trim();
+  const email=document.getElementById("eggEmail").value.trim();
+  const phone=document.getElementById("eggPhone").value.trim();
+  const updates=document.getElementById("eggUpdateOptIn").checked?"yes":"no";
+  fetch(SUBMISSIONS_ENDPOINT,{
+    method:"POST",
+    mode:"no-cors",
+    body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates})
+  }).catch(()=>{/* fire-and-forget — no user-visible error */});
   eggSubmissionType=null;
   eggClose();
 });
