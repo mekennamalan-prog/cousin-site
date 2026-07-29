@@ -1,10 +1,11 @@
 /**
  * Cousin — story/cover submission capture endpoint (Google Apps Script)
  * -----------------------------------------------------------------
- * This script is BOUND to the submissions Google Sheet
- * (https://docs.google.com/spreadsheets/d/17nisAAGCR9J0GsUyBOZStmVw082kA6LIbTp_lH-3gN8)
- * via Extensions -> Apps Script from inside that sheet, deployed as a
- * Web App, and its /exec URL is pasted into index.html as
+ * This is a STANDALONE script (not bound to a specific sheet) — it
+ * opens the photo-submissions sheet explicitly by ID
+ * (https://docs.google.com/spreadsheets/d/17nisAAGCR9J0GsUyBOZStmVw082kA6LIbTp_lH-3gN8),
+ * so it works the same whether run standalone or bound. Deployed as a
+ * Web App, its /exec URL is pasted into index.html as
  * SUBMISSIONS_ENDPOINT.
  *
  * The "add name" step of the easter-egg story/cover flow posts
@@ -43,6 +44,8 @@
  * Sheet layout (row 1 headers, photo submissions only):
  *   A = Timestamp, B = Type, C = Name, D = Email, E = Phone, F = Updates opt-in
  */
+var SUBMISSIONS_SHEET_ID = '17nisAAGCR9J0GsUyBOZStmVw082kA6LIbTp_lH-3gN8';
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
@@ -65,7 +68,7 @@ function doPost(e) {
               'Story:\n' + story
       });
     } else if (name && email) {
-      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+      var sheet = SpreadsheetApp.openById(SUBMISSIONS_SHEET_ID).getSheets()[0];
       sheet.appendRow([new Date(), type, name, email, p.phone || '', p.updates || 'no']);
     }
     return ContentService.createTextOutput('ok');
