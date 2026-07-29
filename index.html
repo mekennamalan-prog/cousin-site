@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cousin — A new print magazine for Salt Lake City</title>
-<meta name="description" content="Cousin is an independent print magazine widening the lens on Salt Lake City. Issue 01 coming soon — sign up for updates." />
-<meta property="og:title" content="Cousin — A new print magazine for Salt Lake City" />
-<meta property="og:description" content="An independent print magazine widening the lens on Salt Lake City. Issue 01 coming soon." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Cousin — Contribute</title>
+<meta name="description" content="Cousin is an independent print magazine widening the lens on Salt Lake City. Share a story or snap a cover photo to contribute to Issue 01." />
+<meta property="og:title" content="Cousin — Contribute" />
+<meta property="og:description" content="Share a story or snap a cover photo to contribute to Cousin's first issue." />
 <meta property="og:type" content="website" />
+<meta name="theme-color" content="#F2ECDD" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -15,22 +16,16 @@
 :root{
   --cream:#F2ECDD;
   --ink:#17140D;
-  /* themeable trio — cream + blue (current default) */
   --bg:#F2ECDD;
   --wordmark:#2A6AF2;
   --text:#17140D;
-  --maxw:1100px;
-  --gut:clamp(22px,5vw,64px);
   --serif:"Fraunces",Georgia,serif;
   --sans:"Inter Tight",system-ui,-apple-system,sans-serif;
-  --cover-ratio:.667; /* portrait width:height, classic magazine cover */
+  --gut:26px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .35s ease,color .35s ease;}
-
-.grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.07;mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+body{font-family:var(--sans);background:var(--ink);color:var(--text);-webkit-font-smoothing:antialiased;overflow:hidden;}
 
 .wm-mask{
   -webkit-mask:url("data:image/svg+xml,%3Csvg%20fill%3D%22%23ffffff%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20version%3D%221.1%22%20viewBox%3D%220%200%20274.42%2066.84%22%3E%3Cdefs%3E%3Cstyle%3E%0A%20%20%20%20%20%20.st0%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23ffffff%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C/style%3E%3C/defs%3E%3Cg%3E%3Cpath%20d%3D%22M269.47.53c-.76-.35-1.54-.53-2.31-.53-3.51%2C0-6.03%2C3.77-6.19%2C7.29-.25%2C5.52.24%2C11.04.72%2C16.37.37%2C4.16.75%2C8.47.77%2C12.71.02%2C2.86-.2%2C4.2-2.37%2C5.07-.42.17-.88.26-1.34.26-.96%2C0-1.92-.37-2.68-1.02-2-4.66-4.61-9.03-7.97-13.36-1.19-1.53-2.01-3.01-2.88-4.59-.75-1.35-1.53-2.76-2.6-4.3l-.42-.61c-2.42-3.58-5.28-7.4-8.44-7.4-1.53%2C0-2.83.89-3.86%2C2.64-2.57%2C4.36-4.01%2C9.89-5.4%2C15.24-.6%2C2.29-1.16%2C4.46-1.8%2C6.5-1.43%2C4.57-1.94%2C8.25-1.64%2C11.93.29%2C3.56%2C3.04%2C6.15%2C6.56%2C6.15.5%2C0%2C1-.05%2C1.5-.16%2C3.58-.74%2C3.05-4.35%2C2.82-5.89-.17-1.12-.47-2.13-.76-3.11-.4-1.32-.77-2.57-.73-3.92.04-1.31.53-2.27%2C1.14-3.47.26-.51.53-1.04.79-1.64.2-.46.38-.95.56-1.44.62-1.71%2C1.16-3.19%2C2.72-3.77.92-.34%2C1.79-.52%2C2.58-.52%2C2.37%2C0%2C4.3%2C1.58%2C6.07%2C4.99%2C1.11%2C2.15%2C2.32%2C3.63%2C3.49%2C5.07%2C1.14%2C1.39%2C2.21%2C2.71%2C3.24%2C4.63.62%2C1.16%2C1.21%2C2.55%2C1.83%2C4.01%2C2.29%2C5.37%2C5.13%2C12.05%2C11.97%2C12.05h.37c1.38-.06%2C2.42-.5%2C3.11-1.34%2C1.3-1.58.9-4.03.55-6.19-.15-.91-.29-1.77-.28-2.42.02-1.64.31-3.31.62-5.09.23-1.34.48-2.73.59-4.12.14-1.58.1-3.16.07-4.7-.04-1.96-.09-3.98.23-5.93.4-2.41%2C1.13-4.58%2C1.9-6.87.9-2.67%2C1.83-5.43%2C2.22-8.63.31-2.59.9-11.24-4.76-13.86Z%22/%3E%3Cpath%20d%3D%22M231.46%2C58.57c-3.83-4.3-10.25-.57-15.06-3.07-14.28-8.55-2.83-28.18%2C2.57-38.68%2C1.45-3.86%2C4.92-5.23%2C7.11-8.01%2C2.57-5.8-1.62-3.58-5.07-2.72-3.71.78-7.58.36-11.24%2C1.41-4.96%2C1.43-7.95%2C5.06-11.16%2C8.7-1.45%2C1.8-2.89%2C3.95-2.96%2C6.31-.11%2C2.16%2C1.32%2C4.35%2C3.54%2C3.49%2C1.57-.58%2C2.99-1.82%2C4.79-.69%2C3.65%2C2.61%2C2.26%2C7.8%2C1.54%2C11.51-.21%2C3.89-1.72%2C8.08-3.68%2C11.27-2.15%2C3.07-5.03%2C5.88-8.39%2C7.73-.6.37-1.12.84-1.48%2C1.45-1.72%2C3.23.09%2C6.36%2C3.62%2C7.2%2C4.6%2C1.31%2C8.73-.6%2C13.39-.77%2C3.1-.53%2C26.34%2C1.08%2C22.7-4.81l-.24-.32Z%22/%3E%3Cpath%20d%3D%22M48.49%2C46.74l-.28-.32c-1.95-2.24-4.07-2.71-5.5-2.71-2.38%2C0-4.87%2C1.24-6.94%2C3.42-1.56%2C1.35-2.65%2C2.9-3.7%2C4.39-.88%2C1.25-1.71%2C2.44-2.8%2C3.52-1.96%2C1.89-4.97%2C3.22-7.89%2C3.47-.42.04-.85.06-1.27.06-3.81%2C0-7.41-1.6-9.86-4.39-2.58-2.94-3.47-6.69-2.5-10.57%2C1.4-5.78%2C5.2-10.29%2C9.23-15.07.68-.8%2C1.35-1.61%2C2.02-2.42%2C3.73-4.57%2C7.31-6.88%2C10.63-6.88%2C2.17%2C0%2C4.35%2C1%2C6.6%2C3.06%2C1.05.72%2C2.25%2C1.11%2C3.46%2C1.11%2C2.27%2C0%2C4.45-1.33%2C5.56-3.4%2C1.18-2.19.87-4.67-.74-6.54-2.37-3.51-6.7-5.68-11.29-5.68-2.88%2C0-5.59.85-7.79%2C2.44-1.54%2C1.05-2.81%2C2.31-4.05%2C3.54-1.18%2C1.17-2.29%2C2.27-3.56%2C3.16C8.96%2C22.6%2C1.52%2C28.07.22%2C37.71c-1.02%2C6.99%2C1.63%2C15.3%2C6.57%2C20.7%2C3.54%2C3.86%2C8%2C6.02%2C12.9%2C6.25h.04s.04%2C0%2C.04%2C0c3.38-.08%2C6.35-1.65%2C9.22-3.17%2C1.11-.59%2C2.26-1.19%2C3.42-1.7%2C3.43-1.6%2C7.04-2.77%2C11.68-3.77%2C2.93-.55%2C5.04-1.92%2C5.79-3.75.49-1.18.64-3.1-1.39-5.54Z%22/%3E%3Cpath%20d%3D%22M144.75%2C52.61c-1.51-5.6-7.53-6.71-10.22-11.37-4.4-7.63%2C1.39-12.65%2C8.57-15.35%2C3.27-1.23%2C3.55-4.92%2C3.25-8.1-.1-1.09-.25-2.41-1.16-3.21-2.37-2.08-5.72-.87-8.04.69-5.31%2C3.56-9.03%2C8.43-11.77%2C13.94-2.24%2C4.51-2.56%2C9.36-4.47%2C13.76-1.64%2C3.8-4.41%2C6.87-8.91%2C6.26-6.21-.83-8.02-7.73-7.95-13.45.06-5.15%2C2.53-9.67%2C5-14.12%2C2.47-4.45%2C5.52-8.73%2C5.17-13.95-.16-2.44-2.23-4.05-4.64-4.26-5.67-.48-10.26%2C2.9-10.98%2C8.73-.53%2C4.28%2C1.02%2C8.32.31%2C12.68-1.48%2C9.11-5.11%2C17.64-1.6%2C26.75%2C1.11%2C2.87%2C3.45%2C5.11%2C6.46%2C6.07%2C3.96%2C1.27%2C7.88-.02%2C11.51-1.86%2C4.09-2.08%2C6.86-8.68%2C12.12-7.3%2C5.26%2C1.37%2C7.76%2C9.66%2C13.47%2C10.11%2C3.35.26%2C4-3.28%2C3.94-5.77%2C0-.06-.06-.18-.08-.24Z%22/%3E%3Cg%3E%3Cpath%20d%3D%22M69.4%2C8.7h-.5%22/%3E%3Cpath%20class%3D%22st0%22%20d%3D%22M69.4%2C7.2h-.5c-.21%2C0-.4.04-.58.13-.19.06-.35.16-.48.31-.15.14-.25.3-.31.48-.09.18-.14.37-.13.58l.05.4c.07.25.2.47.39.66l.3.23c.23.14.49.2.76.2h.5c.21%2C0%2C.4-.04.58-.13.19-.06.35-.16.48-.31.15-.14.25-.3.31-.48.09-.18.14-.37.13-.58l-.05-.4c-.07-.25-.2-.47-.39-.66l-.3-.23c-.23-.14-.49-.2-.76-.2h0Z%22/%3E%3C/g%3E%3Cpath%20d%3D%22M91.15%2C17.83c-2.72-3.04-6.07-5.31-9.47-7.5-2.25-1.45-4.63-2.58-7.31-2.73-6.29-.35-12.03.81-17.17%2C4.49-2.12%2C2.97-.66%2C6.3-2.08%2C9.5-1.77%2C4-4.5%2C7.1-4.51%2C11.83%2C0%2C2.74.94%2C5.3%2C2.55%2C7.58%2C1.25%2C1.78%2C3.15%2C3.34%2C3.74%2C5.43%2C1.95%2C6.92-.14%2C14.51%2C8.98%2C16.2%2C7.12%2C1.32%2C15.02-2.76%2C19.53-8.65%2C3.69-4.82%2C2.53-11.28%2C4.36-16.95%2C2.1-6.51%2C5.25-12.35%2C1.54-18.98-.03-.06-.1-.17-.15-.22ZM83.83%2C41.76c-1.97%2C3.17-4.73%2C6.25-6.42%2C9.5-1.3%2C2.48-1.93%2C6.23-4.64%2C7.12-6.96%2C2.28-6.85-4.21-7.4-9.35-.45-4.26-3.46-7.13-5.37-10.77-2.5-4.77-1.71-9.86%2C0-14.46%2C3.86-10.41%2C7.08-9.4%2C14.29-1.97%2C2.52%2C2.6%2C5.92%2C5.73%2C8.92%2C8.22%2C3.92%2C3.24%2C2.73%2C7.38.74%2C11.49-.03.06-.08.16-.11.22Z%22/%3E%3Cpath%20d%3D%22M152.47%2C66.84c-2.3%2C0-3.92-.46-4.67-1.34-.46-.53-.62-1.22-.5-2.1.31-2.14%2C5.05-9.89%2C6.86-11.87%2C1.96-2.13%2C7.53-6.05%2C10.73-6.05.35%2C0%2C.67.05.94.14.99.34%2C1.81%2C1.61%2C2.68%2C2.95%2C1.19%2C1.83%2C2.42%2C3.73%2C4.37%2C3.73%2C1.2%2C0%2C2.49-.74%2C3.95-2.25.32-.33%2C1.17-1.32%2C1.31-1.95.48-2.21.16-10.29-1.52-12.23-.6-.69-1.4-1.04-2.4-1.04-1.78%2C0-3.83%2C1.09-5.65%2C2.04-.75.39-1.45.76-2.01.99-4.2%2C1.68-10.31%2C3.67-15.62%2C3.67-1.53%2C0-2.93-.17-4.17-.5-1.44-.39-2.35-.98-2.76-1.81-.65-1.3-.07-3.17.66-4.99%2C1.17-2.94%2C10.72-14.34%2C13.59-15.81%2C1.19-.61%2C2.34-.74%2C3.55-.89.93-.11%2C1.89-.22%2C2.86-.57.95-.34%2C1.87-.89%2C2.85-1.46%2C1.14-.67%2C2.31-1.37%2C3.61-1.78%2C2.56-.82%2C7.2-1.7%2C10.25-1.7.45%2C0%2C.88.02%2C1.26.06%2C2.39.27%2C5.49%2C1.53%2C6.78%2C3.41.61.89.78%2C1.87.5%2C2.9-.12.45-2.29%2C4.71-2.67%2C5.31-.95%2C1.49-2.76%2C3-4.67%2C3-.91%2C0-1.72-.35-2.42-1.05-.78-.78-1.75-2.19-2.68-3.56-1.2-1.75-2.33-3.41-3.29-4.13-1.03-.78-2.28-1.19-3.6-1.19-3.76%2C0-7.4%2C3.1-7.95%2C6.77-.39%2C2.62.03%2C4.66%2C1.25%2C6.09%2C1.51%2C1.75%2C4.14%2C2.57%2C8.28%2C2.57.97%2C0%2C2.04-.04%2C3.37-.13%2C1.87-.13%2C3.46-.63%2C4.99-1.11%2C1.72-.54%2C3.35-1.05%2C5.32-1.05.61%2C0%2C1.24.05%2C1.87.15%2C3.57.57%2C5.57%2C2.28%2C5.92%2C5.08.69%2C5.39-4.99%2C13.23-9.89%2C15.38-1.41.62-2.55.69-3.66.76-1.95.12-3.79.24-6.41%2C3.25-1.1%2C1.26-1.97%2C2.44-2.74%2C3.47-2.2%2C2.96-3.79%2C5.1-8.56%2C7-1.87.75-6.32%2C1.85-9.92%2C1.85Z%22/%3E%3C/g%3E%3Cpath%20d%3D%22M161.24%2C18.7c.61.1%2C1.23.06%2C1.81-.15.12-.05.23-.11.3-.23.06-.11.09-.27.05-.39-.08-.24-.35-.45-.62-.35-.21.08-.43.13-.65.16l.13-.02c-.27.04-.54.04-.81%2C0l.13.02s-.06%2C0-.08-.01c-.14-.02-.26-.02-.39.05-.1.06-.2.18-.23.3-.03.13-.02.27.05.39.07.1.17.21.3.23h0Z%22/%3E%3C/svg%3E") center/contain no-repeat;
@@ -38,288 +33,411 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   aspect-ratio:274.42 / 66.84;
 }
 
-/* ---- COVER HERO (camera magazine cover, experimental) ---- */
-.cover{position:relative;min-height:100svh;overflow:hidden;background:var(--ink);isolation:isolate;
-  --cover-accent:#fff;color:var(--cover-accent);}
-@media(min-width:820px){
-  .cover{max-width:min(900px,calc(100svh * var(--cover-ratio)));margin:0 auto;}
+/* ---- APP SHELL ---- */
+.app{position:relative;width:100%;height:100svh;overflow:hidden;background:var(--bg);}
+@media(min-width:640px){
+  .app{max-width:430px;height:94svh;margin:3svh auto;box-shadow:0 40px 90px rgba(0,0,0,.5);}
 }
-.cover.is-picking-color{cursor:grabbing;}
-.cover video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
-  transform:scaleX(-1);opacity:0;transition:opacity .8s ease;}
-.cover video.is-live{opacity:1;}
-.cover-scrim{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0) 58%,rgba(0,0,0,.7) 100%);}
 
-.cover-overlay{position:relative;z-index:1;min-height:100svh;display:flex;flex-direction:column;
-  justify-content:space-between;padding:clamp(22px,4vw,40px);}
+/* ---- SCREEN ROUTER ---- */
+.screen{display:none;position:absolute;inset:0;flex-direction:column;background:var(--bg);color:var(--text);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.screen.is-active{display:flex;}
+.screen.theme-blue{background:var(--wordmark);color:var(--cream);}
+.screen-pad{padding:var(--gut);flex:1;display:flex;flex-direction:column;}
 
-.cover-top{display:flex;flex-direction:column;gap:10px;}
-.wordmark.cover-logo{width:90%;background-color:var(--cover-accent);margin:0 auto;
-  cursor:grab;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;
-  transition:filter .15s ease;}
-.cover.is-picking-color .cover-logo{filter:drop-shadow(0 0 20px var(--cover-accent));}
-.cover-logo.is-arming{animation:armPulse .6s ease-in-out infinite;}
-@keyframes armPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
-@media(prefers-reduced-motion:reduce){.cover-logo.is-arming{animation:none;}}
-.cover-meta{width:100%;text-align:right;font-family:var(--sans);font-weight:600;font-size:clamp(.72rem,1.6vw,.88rem);
-  letter-spacing:.06em;line-height:1.5;text-transform:uppercase;}
+/* ---- SHARED TYPE / LINK-BUTTON STYLE ---- */
+.link-cta{appearance:none;background:none;border:none;border-bottom:2px solid currentColor;
+  font:inherit;font-family:var(--sans);font-weight:700;font-size:1.05rem;color:inherit;
+  text-decoration:none;padding:0 0 5px;margin:0;cursor:pointer;display:inline-block;text-align:left;
+  -webkit-tap-highlight-color:transparent;}
+.link-cta:disabled{opacity:.5;cursor:default;}
+.stack{display:flex;flex-direction:column;gap:22px;align-items:flex-start;}
+.body-copy{font-family:var(--sans);font-size:1.15rem;line-height:1.5;}
+.body-copy b{font-weight:700;}
 
-.cover-excerpt{position:absolute;left:clamp(22px,4vw,40px);right:clamp(22px,4vw,40px);bottom:20svh;
-  max-width:42ch;font-family:var(--sans);}
-.cover-excerpt .headline{display:block;font-weight:700;text-transform:uppercase;
-  font-size:clamp(.86rem,1.7vw,1.1rem);margin-bottom:.35em;}
-.cover-excerpt .body{display:block;font-size:clamp(.7rem,1.1vw,.8rem);line-height:1.5;opacity:.9;max-width:36ch;}
+/* ---- C-ICON DRAWER TRIGGER (persistent, hidden per-screen) ---- */
+.c-trigger{position:absolute;top:22px;left:var(--gut);z-index:20;width:34px;height:34px;
+  background:none;border:none;color:var(--wordmark);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.c-trigger svg{width:100%;height:100%;}
+.app[data-screen="landing"] .c-trigger,
+.app[data-screen="booth"] .c-trigger,
+.app[data-screen="drawer"] .c-trigger{display:none;}
+.app[data-screen="drawer"] .c-trigger,
+.app[data-screen="loop"] .c-trigger{color:var(--cream);}
+.drawer-close{position:absolute;top:20px;right:var(--gut);z-index:20;width:30px;height:30px;
+  background:none;border:none;color:var(--cream);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.drawer-close svg{width:100%;height:100%;}
 
-.cover-bottom{display:flex;justify-content:flex-end;}
-.cover-barcode{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:0 0 auto;
-  background:none;border:none;padding:6px;cursor:pointer;transition:transform .15s ease;}
-.cover-barcode:hover{transform:scale(1.06);}
-.cover-barcode:active{transform:scale(.96);}
-.cover-barcode:focus-visible{outline:2px solid #fff;outline-offset:4px;}
-.cover-barcode:disabled{cursor:default;}
-.cover-barcode .bars{width:130px;height:56px;background-color:var(--cover-accent);
-  animation:barPulse 2.4s ease-in-out infinite;
-  -webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);
-  mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);}
-.cover-barcode .digits{font-family:var(--sans);font-size:.68rem;letter-spacing:.12em;color:var(--cover-accent);}
-@keyframes barPulse{0%,100%{opacity:1;}50%{opacity:.72;}}
-@media(prefers-reduced-motion:reduce){.cover-barcode .bars{animation:none;}}
+/* ---- 1. LANDING ---- */
+#screen-landing .screen-pad{align-items:center;justify-content:center;text-align:center;gap:34px;}
+.landing-wm{width:78%;background-color:var(--wordmark);}
+#screen-landing .link-cta{font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;}
 
-.snap-countdown{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;
+/* ---- 2. CONTRIBUTE PATH ---- */
+#screen-contribute .screen-pad{justify-content:space-between;padding-top:64px;}
+#screen-contribute .body-copy{color:var(--wordmark);}
+#screen-contribute .link-cta{color:var(--wordmark);}
+.contribute-mark{width:34px;background-color:var(--wordmark);align-self:center;margin-top:24px;}
+
+/* ---- 3. ALLOW CAMERA ---- */
+#screen-allow .screen-pad{justify-content:center;align-items:center;text-align:center;gap:18px;}
+.allow-topbar{position:absolute;top:26px;right:var(--gut);font-family:var(--sans);font-weight:700;
+  font-size:1.05rem;color:var(--wordmark);}
+#screen-allow .link-cta{font-size:1.3rem;text-transform:uppercase;letter-spacing:.02em;color:var(--wordmark);}
+.allow-note{font-family:var(--sans);color:var(--wordmark);font-size:.95rem;line-height:1.5;}
+.allow-note .fine{display:block;opacity:.75;font-size:.86rem;margin-top:2px;}
+.allow-error{font-family:var(--sans);color:#B3261E;font-size:.9rem;min-height:1.3em;}
+
+/* ---- 3.1 CAMERA BOOTH ---- */
+#screen-booth{background:var(--ink);color:#fff;}
+.booth-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;}
+.booth-video.is-live{opacity:1;}
+.booth-video.mirrored{transform:scaleX(-1);}
+.booth-scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,0) 60%,rgba(0,0,0,.75) 100%);}
+.booth-overlay{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;
+  justify-content:space-between;padding:22px var(--gut) 100px;}
+.booth-top{display:flex;flex-direction:column;gap:8px;}
+.booth-logo{width:82%;background-color:#fff;margin:0 auto;}
+.booth-meta{width:100%;text-align:right;font-family:var(--sans);line-height:1.4;}
+.booth-meta .l1{display:block;font-weight:700;font-size:1rem;text-transform:uppercase;}
+.booth-meta .l2{display:block;font-weight:500;font-size:.95rem;}
+.booth-excerpt{position:absolute;left:var(--gut);right:var(--gut);bottom:110px;max-width:70%;font-family:var(--sans);}
+.booth-excerpt .headline{display:block;font-weight:700;font-size:1rem;text-transform:uppercase;margin-bottom:.3em;}
+.booth-excerpt .body{display:block;font-size:.82rem;line-height:1.45;opacity:.92;}
+.booth-qr{position:absolute;right:var(--gut);bottom:100px;width:76px;height:76px;background:#fff;
+  padding:6px;display:flex;}
+.booth-qr svg{width:100%;height:100%;}
+.booth-tray{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:center;
+  justify-content:space-around;padding:18px var(--gut) 30px;}
+.booth-tray button{background:none;border:none;color:#fff;cursor:pointer;width:40px;height:40px;
+  padding:0;-webkit-tap-highlight-color:transparent;}
+.booth-tray button svg{width:100%;height:100%;}
+.booth-tray .shutter{width:56px;height:56px;}
+
+.booth-countdown{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;
   background:rgba(0,0,0,.3);pointer-events:none;}
-.snap-countdown.is-active{display:flex;}
-.snap-countdown span{font-family:var(--serif);font-weight:500;color:#fff;font-size:clamp(6rem,22vw,13rem);
-  animation:countPulse .9s ease;}
+.booth-countdown.is-active{display:flex;}
+.booth-countdown span{font-family:var(--serif);font-weight:500;color:#fff;font-size:7rem;animation:countPulse .9s ease;}
 @keyframes countPulse{0%{opacity:0;transform:scale(1.35);}35%{opacity:1;transform:scale(1);}100%{opacity:1;transform:scale(1);}}
-
-.snap-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;}
-.snap-flash.is-flash{animation:flashPop .4s ease;}
+.booth-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;}
+.booth-flash.is-flash{animation:flashPop .4s ease;}
 @keyframes flashPop{0%{opacity:.85;}100%{opacity:0;}}
 
-.snap-preview{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;
-  background:rgba(23,20,13,.92);padding:var(--gut);}
-.snap-preview.is-active{display:flex;}
-.snap-preview-inner{max-width:380px;width:100%;text-align:center;}
-.snap-preview img{width:100%;height:auto;display:block;border:1px solid rgba(242,236,221,.2);margin-bottom:18px;}
-.snap-actions{display:flex;flex-direction:column;gap:8px;}
+/* ---- 3.2 REVIEW ---- */
+#screen-review .screen-pad{align-items:center;padding-top:56px;gap:22px;}
+.review-photo{width:100%;max-width:280px;box-shadow:0 18px 40px rgba(0,0,0,.35);}
+.review-actions{display:flex;flex-direction:column;gap:16px;align-items:flex-start;width:100%;
+  max-width:280px;color:var(--wordmark);}
 
-.cam-gate{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;
-  padding:var(--gut);background:rgba(23,20,13,.4);transition:opacity .5s ease;}
-.cam-gate.is-hidden{opacity:0;pointer-events:none;}
-.cam-card{max-width:380px;width:100%;background:var(--ink);border:1px solid rgba(242,236,221,.2);
-  padding:clamp(24px,4vw,32px);text-align:center;}
-.cam-card .cam-title{font-family:var(--serif);font-size:1.1rem;margin-bottom:10px;}
-.cam-card .cam-note{font-family:var(--sans);font-size:.8rem;opacity:.68;margin-top:14px;line-height:1.5;}
-.cam-allow{width:100%;height:48px;margin-top:6px;border:none;cursor:pointer;
-  font-family:var(--sans);font-weight:600;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ink);background:var(--cream);}
-.cam-allow:hover{opacity:.9;}
-.cam-allow[disabled]{opacity:.55;cursor:default;}
-.cam-skip{display:block;margin:12px auto 0;background:none;border:none;color:var(--cream);opacity:.6;
-  font-family:var(--sans);font-size:.76rem;text-decoration:underline;cursor:pointer;}
+/* ---- 4. STORY WRITER ---- */
+#screen-story .screen-pad{padding-top:64px;}
+.story-topbar{position:absolute;top:26px;right:var(--gut);z-index:5;}
+.story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
+  font-family:var(--sans);font-size:1.3rem;line-height:1.5;color:var(--wordmark);
+  overflow:hidden;min-height:120px;}
+.story-textarea::placeholder{color:var(--wordmark);opacity:.5;}
+.story-submit-row{margin-top:14px;color:var(--wordmark);}
 
-.inner{width:100%;max-width:var(--maxw);margin:0 auto;}
+/* ---- 5. FINALIZE (share + anonymize) ---- */
+#screen-finalize .screen-pad{justify-content:center;gap:22px;padding-top:64px;}
+#screen-finalize h2{font-family:var(--sans);font-weight:700;font-size:1.9rem;color:var(--wordmark);}
+#screen-finalize .stack{color:var(--wordmark);}
 
-.wordmark{width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;transition:background-color .35s ease;}
+/* ---- 5.1 ADD NAME ---- */
+#screen-addname .screen-pad{padding-top:64px;gap:26px;}
+#screen-addname form{display:flex;flex-direction:column;gap:26px;flex:1;}
+.field-underline{border:none;border-bottom:1px solid rgba(42,106,242,.35);background:none;
+  font-family:var(--sans);font-weight:700;font-size:1.7rem;color:var(--wordmark);width:100%;
+  padding:0 0 10px;outline:none;}
+.field-underline::placeholder{color:rgba(42,106,242,.4);font-weight:700;}
+.consent-copy{font-family:var(--sans);font-size:1rem;line-height:1.5;color:var(--wordmark);}
+.form-submit-row{margin-top:auto;display:flex;justify-content:flex-end;color:var(--wordmark);}
 
-.cta{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:clamp(20px,3vh,32px);}
+/* ---- 0 DRAWER MENU ---- */
+#screen-drawer .screen-pad{padding-top:74px;gap:30px;}
+#screen-drawer .body-copy{color:var(--cream);}
+#screen-drawer .stack{color:var(--cream);}
+#screen-drawer .link-cta{color:var(--cream);}
+.drawer-footer{margin-top:auto;display:flex;flex-direction:column;gap:10px;}
+.drawer-footer .contact-line{font-family:var(--sans);font-size:.95rem;color:var(--cream);opacity:.9;}
+.drawer-footer .fine-line{font-family:var(--sans);font-size:.82rem;color:var(--cream);opacity:.75;}
+.drawer-wm{width:min(60vw,220px);background-color:var(--cream);margin-top:6px;}
 
-/* ---- EMAIL GRAB: field + arrow ---- */
-.signup{margin:clamp(30px,4.5vh,46px) auto 0;}
-.row{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
-input[type=email]{flex:0 1 250px;min-width:0;font-family:var(--sans);font-size:1rem;color:var(--ink);
-  background:var(--cream);border:1px solid rgba(23,20,13,.16);border-radius:0;padding:0 17px;height:52px;
-  outline:3px solid transparent;outline-offset:2px;}
-input[type=email]::placeholder{color:rgba(23,20,13,.45);}
-input[type=email]:focus-visible{outline-color:var(--wordmark);}
-input[type=email]:-webkit-autofill,
-input[type=email]:-webkit-autofill:hover,
-input[type=email]:-webkit-autofill:focus{
-  -webkit-text-fill-color:var(--ink);
-  -webkit-box-shadow:0 0 0 1000px var(--cream) inset;
-  box-shadow:0 0 0 1000px var(--cream) inset;
-  transition:background-color 5000s ease-in-out 0s;
-}
-button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;gap:10px;padding:0 20px;cursor:pointer;
-  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--bg);background:var(--wordmark);border:none;border-radius:0;
-  transition:transform .15s ease,opacity .15s ease,background .35s ease;}
-button.go svg{width:18px;height:18px;flex:0 0 auto;}
-button.go:hover{opacity:.88;}
-button.go:active{transform:translateY(1px);}
-button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
-button.go[disabled]{opacity:.55;cursor:default;}
-.status{min-height:1.3em;margin-top:14px;font-size:.95rem;font-weight:500;}
-
-/* ---- FOOTER (ink band, centered) ---- */
-.foot{background:var(--ink);color:var(--cream);text-align:center;
-  padding:clamp(56px,9vh,92px) var(--gut) clamp(36px,5vh,52px);}
-.foot .inner{display:flex;flex-direction:column;align-items:center;gap:clamp(26px,4.5vh,40px);}
-.foot .twain{font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:clamp(.84rem,1.3vw,.98rem);line-height:1.55;max-width:50ch;color:#FBF8F2;opacity:1;}
-.foot .twain .attr{display:block;font-style:italic;font-size:.8rem;opacity:.9;margin-top:1.1em;}
-.foot .twain .src{display:block;font-style:italic;font-size:.76rem;opacity:.7;margin-top:.25em;}
-.foot .wm{width:clamp(140px,24vw,190px);background-color:var(--cream);}
-.foot .links{display:flex;flex-direction:column;align-items:center;gap:16px;font-family:var(--serif);font-size:1.05rem;}
-.foot .links a{color:var(--wordmark);text-decoration:none;opacity:1;transition:opacity .15s;}
-.foot .links a.pitch:hover{opacity:1;text-decoration:underline;text-underline-offset:4px;}
-.foot .signoff{display:flex;align-items:center;justify-content:center;gap:18px;}
-.foot .ig{display:inline-flex;color:var(--cream);opacity:.85;transition:opacity .15s;}
-.foot .ig svg{width:24px;height:24px;}
-.foot .ig:hover{opacity:1;}
-.foot .base{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;
-  border-top:1px solid rgba(242,236,221,.16);padding-top:24px;width:100%;max-width:560px;
-  font-size:.78rem;letter-spacing:.05em;opacity:.6;}
+/* ---- 0 STAY IN THE LOOP ---- */
+#screen-loop .screen-pad{padding-top:120px;gap:22px;}
+#screen-loop .field-underline{color:var(--cream);border-bottom-color:rgba(242,236,221,.4);}
+#screen-loop .field-underline::placeholder{color:rgba(242,236,221,.55);}
+#screen-loop .consent-copy{color:var(--cream);}
+#screen-loop .form-submit-row{color:var(--cream);}
+#screen-loop .link-cta{color:var(--cream);}
+.loop-status{font-family:var(--sans);font-size:1rem;color:var(--cream);min-height:1.3em;}
 </style>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
+<div class="app" id="app" data-screen="landing">
 
-<section class="cover" id="cover">
-  <video id="camFeed" autoplay muted playsinline aria-hidden="true"></video>
-  <div class="cover-scrim" aria-hidden="true"></div>
+  <button class="c-trigger" id="cTrigger" aria-label="Open menu" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6a8 8 0 1 0 0 12" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>
+  </button>
 
-  <div class="cover-overlay">
-    <div class="cover-top">
-      <div class="wordmark wm-mask cover-logo" role="img" aria-label="Cousin"></div>
-      <div class="cover-meta">
-        <span>Coming Soon</span><br>
-        <span>Issue 01</span>
+  <!-- 1. LANDING -->
+  <section class="screen is-active" id="screen-landing">
+    <div class="screen-pad">
+      <div class="landing-wm wm-mask" role="img" aria-label="Cousin"></div>
+      <button class="link-cta" id="enterSiteBtn" type="button">Enter site</button>
+    </div>
+  </section>
+
+  <!-- 2. CONTRIBUTE PATH -->
+  <section class="screen" id="screen-contribute">
+    <div class="screen-pad">
+      <p class="body-copy"><b>Cousin</b> is an independent print magazine coming to Salt Lake City in the spring of 2027. Our goal is to widen the lens on the people and ideas that make Salt Lake City interesting. <b>For our first issue we want to hear from you. Tell us your stories, secret places, memories, or anything that makes Salt Lake yours.</b></p>
+      <div class="stack">
+        <button class="link-cta" id="shareStoryBtn" type="button">Share a story</button>
+        <button class="link-cta" id="snapCoverBtn" type="button">Snap a cover photo</button>
+      </div>
+      <div class="contribute-mark wm-mask" role="img" aria-label="Cousin"></div>
+    </div>
+  </section>
+
+  <!-- 3. ALLOW CAMERA -->
+  <section class="screen" id="screen-allow">
+    <p class="allow-topbar">Snap a cover photo</p>
+    <div class="screen-pad">
+      <button class="link-cta" id="allowCameraBtn" type="button">Allow camera access</button>
+      <p class="allow-error" id="allowError" role="status" aria-live="polite"></p>
+      <p class="allow-note">We won't sell your data<span class="fine">Read our privacy policy.</span></p>
+    </div>
+  </section>
+
+  <!-- 3.1 CAMERA BOOTH -->
+  <section class="screen" id="screen-booth">
+    <video class="booth-video" id="boothVideo" autoplay muted playsinline aria-hidden="true"></video>
+    <div class="booth-scrim" aria-hidden="true"></div>
+    <div class="booth-overlay">
+      <div class="booth-top">
+        <div class="booth-logo wm-mask" role="img" aria-label="Cousin"></div>
+        <div class="booth-meta">
+          <span class="l1">Salt Lake City</span>
+          <span class="l2">Issue no. 1</span>
+        </div>
       </div>
     </div>
-
-    <p class="cover-excerpt">
-      <span class="headline">An independent print magazine</span>
-      <span class="body">Cousin magazine widens the lens on the people and ideas that make Salt Lake City interesting.</span>
+    <p class="booth-excerpt">
+      <span class="headline">Cover photos in print media</span>
+      <span class="body">Cousin magazine is looking for photographers to contribute to the 2027 issue of an independent local magazine. Scan to get involved.</span>
     </p>
-
-    <div class="cover-bottom">
-      <button type="button" id="snapBtn" class="cover-barcode" aria-label="Take your cover photo">
-        <div class="bars"></div>
-        <div class="digits">0 51000 01251 7</div>
+    <a class="booth-qr" href="https://cousinmag.com" target="_blank" rel="noopener" aria-label="QR code linking to cousinmag.com">
+      <svg viewBox="0 0 25 25"><path d="M0,0H1V1H0zM1,0H2V1H1zM2,0H3V1H2zM3,0H4V1H3zM4,0H5V1H4zM5,0H6V1H5zM6,0H7V1H6zM8,0H9V1H8zM9,0H10V1H9zM10,0H11V1H10zM14,0H15V1H14zM16,0H17V1H16zM18,0H19V1H18zM19,0H20V1H19zM20,0H21V1H20zM21,0H22V1H21zM22,0H23V1H22zM23,0H24V1H23zM24,0H25V1H24zM0,1H1V2H0zM6,1H7V2H6zM11,1H12V2H11zM13,1H14V2H13zM14,1H15V2H14zM16,1H17V2H16zM18,1H19V2H18zM24,1H25V2H24zM0,2H1V3H0zM2,2H3V3H2zM3,2H4V3H3zM4,2H5V3H4zM6,2H7V3H6zM8,2H9V3H8zM9,2H10V3H9zM11,2H12V3H11zM12,2H13V3H12zM13,2H14V3H13zM14,2H15V3H14zM18,2H19V3H18zM20,2H21V3H20zM21,2H22V3H21zM22,2H23V3H22zM24,2H25V3H24zM0,3H1V4H0zM2,3H3V4H2zM3,3H4V4H3zM4,3H5V4H4zM6,3H7V4H6zM10,3H11V4H10zM12,3H13V4H12zM13,3H14V4H13zM14,3H15V4H14zM18,3H19V4H18zM20,3H21V4H20zM21,3H22V4H21zM22,3H23V4H22zM24,3H25V4H24zM0,4H1V5H0zM2,4H3V5H2zM3,4H4V5H3zM4,4H5V5H4zM6,4H7V5H6zM9,4H10V5H9zM11,4H12V5H11zM12,4H13V5H12zM13,4H14V5H13zM14,4H15V5H14zM18,4H19V5H18zM20,4H21V5H20zM21,4H22V5H21zM22,4H23V5H22zM24,4H25V5H24zM0,5H1V6H0zM6,5H7V6H6zM8,5H9V6H8zM9,5H10V6H9zM11,5H12V6H11zM13,5H14V6H13zM16,5H17V6H16zM18,5H19V6H18zM24,5H25V6H24zM0,6H1V7H0zM1,6H2V7H1zM2,6H3V7H2zM3,6H4V7H3zM4,6H5V7H4zM5,6H6V7H5zM6,6H7V7H6zM8,6H9V7H8zM10,6H11V7H10zM12,6H13V7H12zM14,6H15V7H14zM16,6H17V7H16zM18,6H19V7H18zM19,6H20V7H19zM20,6H21V7H20zM21,6H22V7H21zM22,6H23V7H22zM23,6H24V7H23zM24,6H25V7H24zM10,7H11V8H10zM11,7H12V8H11zM14,7H15V8H14zM0,8H1V9H0zM2,8H3V9H2zM6,8H7V9H6zM7,8H8V9H7zM11,8H12V9H11zM12,8H13V9H12zM15,8H16V9H15zM16,8H17V9H16zM19,8H20V9H19zM22,8H23V9H22zM24,8H25V9H24zM0,9H1V10H0zM2,9H3V10H2zM5,9H6V10H5zM7,9H8V10H7zM9,9H10V10H9zM10,9H11V10H10zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM16,9H17V10H16zM18,9H19V10H18zM19,9H20V10H19zM21,9H22V10H21zM23,9H24V10H23zM24,9H25V10H24zM6,10H7V11H6zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM12,10H13V11H12zM15,10H16V11H15zM21,10H22V11H21zM22,10H23V11H22zM24,10H25V11H24zM3,11H4V12H3zM4,11H5V12H4zM7,11H8V12H7zM8,11H9V12H8zM10,11H11V12H10zM14,11H15V12H14zM16,11H17V12H16zM17,11H18V12H17zM18,11H19V12H18zM21,11H22V12H21zM0,12H1V13H0zM1,12H2V13H1zM2,12H3V13H2zM4,12H5V13H4zM6,12H7V13H6zM7,12H8V13H7zM8,12H9V13H8zM11,12H12V13H11zM12,12H13V13H12zM16,12H17V13H16zM18,12H19V13H18zM19,12H20V13H19zM24,12H25V13H24zM5,13H6V14H5zM7,13H8V14H7zM10,13H11V14H10zM12,13H13V14H12zM13,13H14V14H13zM15,13H16V14H15zM16,13H17V14H16zM17,13H18V14H17zM18,13H19V14H18zM19,13H20V14H19zM23,13H24V14H23zM24,13H25V14H24zM0,14H1V15H0zM1,14H2V15H1zM2,14H3V15H2zM3,14H4V15H3zM6,14H7V15H6zM8,14H9V15H8zM10,14H11V15H10zM12,14H13V15H12zM13,14H14V15H13zM15,14H16V15H15zM16,14H17V15H16zM18,14H19V15H18zM21,14H22V15H21zM22,14H23V15H22zM24,14H25V15H24zM2,15H3V16H2zM4,15H5V16H4zM7,15H8V16H7zM9,15H10V16H9zM10,15H11V16H10zM11,15H12V16H11zM12,15H13V16H12zM14,15H15V16H14zM15,15H16V16H15zM16,15H17V16H16zM17,15H18V16H17zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM0,16H1V17H0zM1,16H2V17H1zM3,16H4V17H3zM6,16H7V17H6zM7,16H8V17H7zM8,16H9V17H8zM9,16H10V17H9zM13,16H14V17H13zM14,16H15V17H14zM16,16H17V17H16zM17,16H18V17H17zM18,16H19V17H18zM19,16H20V17H19zM20,16H21V17H20zM23,16H24V17H23zM8,17H9V18H8zM13,17H14V18H13zM16,17H17V18H16zM20,17H21V18H20zM24,17H25V18H24zM0,18H1V19H0zM1,18H2V19H1zM2,18H3V19H2zM3,18H4V19H3zM4,18H5V19H4zM5,18H6V19H5zM6,18H7V19H6zM8,18H9V19H8zM11,18H12V19H11zM16,18H17V19H16zM18,18H19V19H18zM20,18H21V19H20zM24,18H25V19H24zM0,19H1V20H0zM6,19H7V20H6zM10,19H11V20H10zM13,19H14V20H13zM15,19H16V20H15zM16,19H17V20H16zM20,19H21V20H20zM23,19H24V20H23zM0,20H1V21H0zM2,20H3V21H2zM3,20H4V21H3zM4,20H5V21H4zM6,20H7V21H6zM9,20H10V21H9zM10,20H11V21H10zM11,20H12V21H11zM12,20H13V21H12zM13,20H14V21H13zM15,20H16V21H15zM16,20H17V21H16zM17,20H18V21H17zM18,20H19V21H18zM19,20H20V21H19zM20,20H21V21H20zM24,20H25V21H24zM0,21H1V22H0zM2,21H3V22H2zM3,21H4V22H3zM4,21H5V22H4zM6,21H7V22H6zM9,21H10V22H9zM10,21H11V22H10zM12,21H13V22H12zM15,21H16V22H15zM17,21H18V22H17zM20,21H21V22H20zM22,21H23V22H22zM23,21H24V22H23zM0,22H1V23H0zM2,22H3V23H2zM3,22H4V23H3zM4,22H5V23H4zM6,22H7V23H6zM8,22H9V23H8zM10,22H11V23H10zM12,22H13V23H12zM13,22H14V23H13zM14,22H15V23H14zM15,22H16V23H15zM19,22H20V23H19zM20,22H21V23H20zM21,22H22V23H21zM23,22H24V23H23zM24,22H25V23H24zM0,23H1V24H0zM6,23H7V24H6zM9,23H10V24H9zM10,23H11V24H10zM11,23H12V24H11zM12,23H13V24H12zM14,23H15V24H14zM16,23H17V24H16zM19,23H20V24H19zM20,23H21V24H20zM0,24H1V25H0zM1,24H2V25H1zM2,24H3V25H2zM3,24H4V25H3zM4,24H5V25H4zM5,24H6V25H5zM6,24H7V25H6zM8,24H9V25H8zM9,24H10V25H9zM10,24H11V25H10zM13,24H14V25H13zM14,24H15V25H14zM16,24H17V25H16zM21,24H22V25H21zM24,24H25V25H24z" fill="#17140D"/></svg>
+    </a>
+    <div class="booth-countdown" id="boothCountdown" aria-hidden="true"></div>
+    <div class="booth-flash" id="boothFlash" aria-hidden="true"></div>
+    <div class="booth-tray">
+      <button id="boothBack" aria-label="Back" type="button">
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <button id="boothShutter" class="shutter" aria-label="Take photo" type="button">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="6.2" fill="currentColor"/></svg>
+      </button>
+      <button id="boothFlip" aria-label="Flip camera" type="button">
+        <svg viewBox="0 0 24 24"><path d="M12 4 L20 20 L4 20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
       </button>
     </div>
-  </div>
+  </section>
 
-  <div class="snap-countdown" id="snapCountdown" aria-hidden="true"></div>
-  <div class="snap-flash" id="snapFlash" aria-hidden="true"></div>
-
-  <div class="cam-gate" id="camGate">
-    <div class="cam-card">
-      <p class="cam-title">Turn on your camera for the full experience.</p>
-      <button id="camAllow" class="cam-allow" type="button">Turn on camera</button>
-      <button id="camSkip" class="cam-skip" type="button">Not now</button>
-      <p class="cam-note" id="camNote">We don’t record or store anything — unless you choose to save your cover.</p>
-    </div>
-  </div>
-</section>
-
-<div class="snap-preview" id="snapPreview">
-  <div class="snap-preview-inner">
-    <img id="snapImage" alt="Your Cousin cover photo" />
-    <div class="snap-actions">
-      <button id="snapSave" class="cam-allow" type="button">Save photo</button>
-      <button id="snapRetake" class="cam-skip" type="button">Retake</button>
-    </div>
-  </div>
-</div>
-
-<footer class="foot">
-  <div class="inner">
-    <div class="signup-block">
-      <p class="cta">Stay in the loop</p>
-      <div class="signup">
-        <div class="row">
-          <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
-          <button id="submit" class="go" type="button">
-            <span>Keep in touch</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-        <p class="status" id="status" role="status" aria-live="polite"></p>
+  <!-- 3.2 REVIEW -->
+  <section class="screen" id="screen-review">
+    <div class="screen-pad">
+      <img class="review-photo" id="reviewPhoto" alt="Your Cousin cover photo" />
+      <div class="review-actions">
+        <button class="link-cta" id="reviewShare" type="button">Share this cover photo with cousin</button>
+        <button class="link-cta" id="reviewSave" type="button">Save to camera roll</button>
+        <button class="link-cta" id="reviewRetake" type="button">Retake cover photo</button>
+        <button class="link-cta" id="reviewStartOver" type="button">Start over</button>
       </div>
     </div>
+  </section>
 
-    <nav class="links" aria-label="Contact">
-      <a class="pitch" href="mailto:hello@cousinmag.com">Say hi, send us a pitch: hello@cousinmag.com</a>
-    </nav>
-    <p class="twain">“Next day we strolled about everywhere through the broad, straight, level streets, and enjoyed the pleasant strangeness of a city of fifteen thousand inhabitants with no loafers perceptible in it … and a grand general air of neatness, repair, thrift and comfort, around and about and over the whole.”
-      <span class="attr">— Mark Twain on Salt Lake City</span>
-      <span class="src">“Roughing It,” 1872</span>
-    </p>
-
-    <div class="signoff">
-      <div class="wm wm-mask" role="img" aria-label="Cousin"></div>
-      <a class="ig" href="https://instagram.com/cousin.mag" aria-label="Cousin on Instagram" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
-      </a>
+  <!-- 4. STORY WRITER -->
+  <section class="screen" id="screen-story">
+    <div class="screen-pad">
+      <textarea class="story-textarea" id="storyTextarea" placeholder="" aria-label="Your story"></textarea>
+      <div class="story-submit-row">
+        <button class="link-cta" id="storySubmitBtn" type="button">Share with Cousin</button>
+      </div>
     </div>
+  </section>
 
-    <div class="base">
-      <span>This is the place or whatever</span>
-      <span>© 2026 Cousin Magazine</span>
+  <!-- 5. FINALIZE (share + anonymize) -->
+  <section class="screen" id="screen-finalize">
+    <div class="screen-pad">
+      <h2>Thanks for sharing</h2>
+      <div class="stack">
+        <button class="link-cta" id="keepAnonymousBtn" type="button">Keep it anonymous</button>
+        <button class="link-cta" id="addNameLinkBtn" type="button">Add a name to your submission</button>
+      </div>
     </div>
-  </div>
-</footer>
+  </section>
+
+  <!-- 5.1 ADD NAME -->
+  <section class="screen" id="screen-addname">
+    <div class="screen-pad">
+      <form id="addNameForm">
+        <input class="field-underline" id="addNameName" type="text" placeholder="Name" autocomplete="name" required />
+        <input class="field-underline" id="addNamePhone" type="tel" placeholder="(801) 223-3344" autocomplete="tel" />
+        <input class="field-underline" id="addNameEmail" type="email" placeholder="you@email.com" autocomplete="email" />
+        <p class="consent-copy">Add my name to my submission and send me updates about future events and publications from cousin magazine.</p>
+        <div class="form-submit-row">
+          <button class="link-cta" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 0 DRAWER MENU -->
+  <section class="screen theme-blue" id="screen-drawer">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu" type="button">
+      <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="screen-pad">
+      <p class="body-copy"><b>Cousin</b> is an independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting. Coming spring 2027.</p>
+      <div class="stack">
+        <button class="link-cta" id="drawerShareStory" type="button">Share a story idea</button>
+        <button class="link-cta" id="drawerSnapCover" type="button">Snap a cover photo</button>
+        <button class="link-cta" id="drawerStayLoop" type="button">Stay in the loop</button>
+      </div>
+      <div class="drawer-footer">
+        <p class="contact-line">hello@cousinmag.com</p>
+        <p class="fine-line">© 2026 Cousin Magazine</p>
+        <p class="fine-line">Privacy Policy</p>
+        <div class="drawer-wm wm-mask" role="img" aria-label="Cousin"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 0 STAY IN THE LOOP -->
+  <section class="screen theme-blue" id="screen-loop">
+    <div class="screen-pad">
+      <form id="loopForm">
+        <input class="field-underline" id="loopPhone" type="tel" placeholder="(801) 223-3344" autocomplete="tel" required />
+        <p class="consent-copy">Send me updates about future events and publications from cousin magazine.</p>
+        <p class="loop-status" id="loopStatus" role="status" aria-live="polite"></p>
+        <div class="form-submit-row">
+          <button class="link-cta" type="submit">Sign up</button>
+        </div>
+      </form>
+      <div class="drawer-footer">
+        <p class="contact-line">hello@cousinmag.com</p>
+        <p class="fine-line">© 2026 Cousin Magazine</p>
+        <p class="fine-line">Privacy Policy</p>
+      </div>
+    </div>
+  </section>
+
+</div>
 
 <script>
-/* ===== COVER CAMERA (experimental) ===================================
-   Live front-camera feed as the cover background. Nothing is uploaded,
-   recorded, or stored — the stream stays local to the <video> element.
-   ==================================================================== */
-const camVideo=document.getElementById("camFeed");
-const camGate=document.getElementById("camGate");
-const camAllow=document.getElementById("camAllow");
-const camSkip=document.getElementById("camSkip");
-const camNote=document.getElementById("camNote");
+/* ===== SCREEN ROUTER ============================================== */
+const app=document.getElementById("app");
+let currentScreenName="landing";
+let drawerReturnTo="contribute";
 
-function hideCamGate(){
-  camGate.classList.add("is-hidden");
-  setTimeout(()=>camGate.remove(),600);
+function showScreen(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("is-active"));
+  document.getElementById("screen-"+name).classList.add("is-active");
+  currentScreenName=name;
+  app.dataset.screen=name;
 }
 
-async function startCamera(){
-  camAllow.disabled=true;
-  camAllow.textContent="Requesting…";
-  try{
-    if(!navigator.mediaDevices?.getUserMedia) throw new Error("unsupported");
-    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false});
-    camVideo.srcObject=stream;
-    await camVideo.play();
-    camVideo.classList.add("is-live");
-    hideCamGate();
-  }catch(err){
-    camNote.textContent="Camera access denied or unavailable — here’s the cover without it.";
-    camAllow.textContent="Try again";
-    camAllow.disabled=false;
+document.getElementById("cTrigger").addEventListener("click",()=>{
+  drawerReturnTo=currentScreenName;
+  showScreen("drawer");
+});
+document.getElementById("drawerClose").addEventListener("click",()=>showScreen(drawerReturnTo));
+
+document.getElementById("enterSiteBtn").addEventListener("click",()=>showScreen("contribute"));
+
+/* ===== CAMERA STATE ================================================
+   Nothing is uploaded, recorded, or stored anywhere — the stream and
+   any captured photo stay local to this page unless the user
+   explicitly taps Save/Share.
+   ==================================================================== */
+const boothVideo=document.getElementById("boothVideo");
+let currentStream=null;
+let currentFacingMode="user";
+let cameraGranted=false;
+
+function stopStream(){
+  if(currentStream){
+    currentStream.getTracks().forEach(t=>t.stop());
+    currentStream=null;
   }
 }
-camAllow.addEventListener("click",startCamera);
-camSkip.addEventListener("click",hideCamGate);
+async function ensureStream(facingMode){
+  stopStream();
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode},audio:false});
+  currentStream=stream;
+  currentFacingMode=facingMode;
+  boothVideo.srcObject=stream;
+  await boothVideo.play();
+  boothVideo.classList.toggle("mirrored",facingMode==="user");
+  boothVideo.classList.add("is-live");
+  cameraGranted=true;
+}
 
-/* ===== COVER PHOTO SNAP (experimental) ===============================
-   Composites the live (mirrored) video frame with the cover overlay
-   (logo, meta, excerpt, barcode) onto a canvas, entirely client-side —
-   nothing is uploaded. Saving only happens if the user taps "Save".
-   ==================================================================== */
-const coverEl=document.getElementById("cover");
-const snapBtn=document.getElementById("snapBtn");
-const snapCountdown=document.getElementById("snapCountdown");
-const snapFlash=document.getElementById("snapFlash");
-const snapPreview=document.getElementById("snapPreview");
-const snapImage=document.getElementById("snapImage");
-const snapSave=document.getElementById("snapSave");
-const snapRetake=document.getElementById("snapRetake");
-const coverLogo=document.querySelector(".cover-logo");
-const coverMetaLines=document.querySelectorAll(".cover-meta span");
-const coverHeadline=document.querySelector(".cover-excerpt .headline");
-const coverBody=document.querySelector(".cover-excerpt .body");
-const coverBars=snapBtn.querySelector(".bars");
-const coverDigits=snapBtn.querySelector(".digits");
+function goToCameraFlow(){
+  if(cameraGranted){
+    ensureStream(currentFacingMode).then(()=>showScreen("booth")).catch(()=>showScreen("allow"));
+  }else{
+    showScreen("allow");
+  }
+}
+document.getElementById("snapCoverBtn").addEventListener("click",goToCameraFlow);
+document.getElementById("drawerSnapCover").addEventListener("click",()=>{drawerReturnTo="contribute";goToCameraFlow();});
+
+const allowError=document.getElementById("allowError");
+document.getElementById("allowCameraBtn").addEventListener("click",async()=>{
+  allowError.textContent="";
+  try{
+    if(!navigator.mediaDevices?.getUserMedia)throw new Error("unsupported");
+    await ensureStream("user");
+    showScreen("booth");
+  }catch(err){
+    allowError.textContent="Camera access denied or unavailable — try again.";
+  }
+});
+
+document.getElementById("boothBack").addEventListener("click",()=>{
+  stopStream();
+  boothVideo.classList.remove("is-live");
+  showScreen("contribute");
+});
+document.getElementById("boothFlip").addEventListener("click",async()=>{
+  const next=currentFacingMode==="user"?"environment":"user";
+  try{await ensureStream(next);}catch(err){/* camera unavailable in that mode; stay as-is */}
+});
+
+/* ===== COVER PHOTO CAPTURE ========================================= */
+const boothCountdown=document.getElementById("boothCountdown");
+const boothFlash=document.getElementById("boothFlash");
+const boothLogo=document.querySelector(".booth-logo");
+const boothMetaLines=document.querySelectorAll(".booth-meta span");
+const boothHeadline=document.querySelector(".booth-excerpt .headline");
+const boothBody=document.querySelector(".booth-excerpt .body");
+const boothQrWrap=document.querySelector(".booth-qr");
+const boothScreen=document.getElementById("screen-booth");
+const reviewPhoto=document.getElementById("reviewPhoto");
+
+const QR_PATH_D="M0,0H1V1H0zM1,0H2V1H1zM2,0H3V1H2zM3,0H4V1H3zM4,0H5V1H4zM5,0H6V1H5zM6,0H7V1H6zM8,0H9V1H8zM9,0H10V1H9zM10,0H11V1H10zM14,0H15V1H14zM16,0H17V1H16zM18,0H19V1H18zM19,0H20V1H19zM20,0H21V1H20zM21,0H22V1H21zM22,0H23V1H22zM23,0H24V1H23zM24,0H25V1H24zM0,1H1V2H0zM6,1H7V2H6zM11,1H12V2H11zM13,1H14V2H13zM14,1H15V2H14zM16,1H17V2H16zM18,1H19V2H18zM24,1H25V2H24zM0,2H1V3H0zM2,2H3V3H2zM3,2H4V3H3zM4,2H5V3H4zM6,2H7V3H6zM8,2H9V3H8zM9,2H10V3H9zM11,2H12V3H11zM12,2H13V3H12zM13,2H14V3H13zM14,2H15V3H14zM18,2H19V3H18zM20,2H21V3H20zM21,2H22V3H21zM22,2H23V3H22zM24,2H25V3H24zM0,3H1V4H0zM2,3H3V4H2zM3,3H4V4H3zM4,3H5V4H4zM6,3H7V4H6zM10,3H11V4H10zM12,3H13V4H12zM13,3H14V4H13zM14,3H15V4H14zM18,3H19V4H18zM20,3H21V4H20zM21,3H22V4H21zM22,3H23V4H22zM24,3H25V4H24zM0,4H1V5H0zM2,4H3V5H2zM3,4H4V5H3zM4,4H5V5H4zM6,4H7V5H6zM9,4H10V5H9zM11,4H12V5H11zM12,4H13V5H12zM13,4H14V5H13zM14,4H15V5H14zM18,4H19V5H18zM20,4H21V5H20zM21,4H22V5H21zM22,4H23V5H22zM24,4H25V5H24zM0,5H1V6H0zM6,5H7V6H6zM8,5H9V6H8zM9,5H10V6H9zM11,5H12V6H11zM13,5H14V6H13zM16,5H17V6H16zM18,5H19V6H18zM24,5H25V6H24zM0,6H1V7H0zM1,6H2V7H1zM2,6H3V7H2zM3,6H4V7H3zM4,6H5V7H4zM5,6H6V7H5zM6,6H7V7H6zM8,6H9V7H8zM10,6H11V7H10zM12,6H13V7H12zM14,6H15V7H14zM16,6H17V7H16zM18,6H19V7H18zM19,6H20V7H19zM20,6H21V7H20zM21,6H22V7H21zM22,6H23V7H22zM23,6H24V7H23zM24,6H25V7H24zM10,7H11V8H10zM11,7H12V8H11zM14,7H15V8H14zM0,8H1V9H0zM2,8H3V9H2zM6,8H7V9H6zM7,8H8V9H7zM11,8H12V9H11zM12,8H13V9H12zM15,8H16V9H15zM16,8H17V9H16zM19,8H20V9H19zM22,8H23V9H22zM24,8H25V9H24zM0,9H1V10H0zM2,9H3V10H2zM5,9H6V10H5zM7,9H8V10H7zM9,9H10V10H9zM10,9H11V10H10zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM16,9H17V10H16zM18,9H19V10H18zM19,9H20V10H19zM21,9H22V10H21zM23,9H24V10H23zM24,9H25V10H24zM6,10H7V11H6zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM12,10H13V11H12zM15,10H16V11H15zM21,10H22V11H21zM22,10H23V11H22zM24,10H25V11H24zM3,11H4V12H3zM4,11H5V12H4zM7,11H8V12H7zM8,11H9V12H8zM10,11H11V12H10zM14,11H15V12H14zM16,11H17V12H16zM17,11H18V12H17zM18,11H19V12H18zM21,11H22V12H21zM0,12H1V13H0zM1,12H2V13H1zM2,12H3V13H2zM4,12H5V13H4zM6,12H7V13H6zM7,12H8V13H7zM8,12H9V13H8zM11,12H12V13H11zM12,12H13V13H12zM16,12H17V13H16zM18,12H19V13H18zM19,12H20V13H19zM24,12H25V13H24zM5,13H6V14H5zM7,13H8V14H7zM10,13H11V14H10zM12,13H13V14H12zM13,13H14V14H13zM15,13H16V14H15zM16,13H17V14H16zM17,13H18V14H17zM18,13H19V14H18zM19,13H20V14H19zM23,13H24V14H23zM24,13H25V14H24zM0,14H1V15H0zM1,14H2V15H1zM2,14H3V15H2zM3,14H4V15H3zM6,14H7V15H6zM8,14H9V15H8zM10,14H11V15H10zM12,14H13V15H12zM13,14H14V15H13zM15,14H16V15H15zM16,14H17V15H16zM18,14H19V15H18zM21,14H22V15H21zM22,14H23V15H22zM24,14H25V15H24zM2,15H3V16H2zM4,15H5V16H4zM7,15H8V16H7zM9,15H10V16H9zM10,15H11V16H10zM11,15H12V16H11zM12,15H13V16H12zM14,15H15V16H14zM15,15H16V16H15zM16,15H17V16H16zM17,15H18V16H17zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM0,16H1V17H0zM1,16H2V17H1zM3,16H4V17H3zM6,16H7V17H6zM7,16H8V17H7zM8,16H9V17H8zM9,16H10V17H9zM13,16H14V17H13zM14,16H15V17H14zM16,16H17V17H16zM17,16H18V17H17zM18,16H19V17H18zM19,16H20V17H19zM20,16H21V17H20zM23,16H24V17H23zM8,17H9V18H8zM13,17H14V18H13zM16,17H17V18H16zM20,17H21V18H20zM24,17H25V18H24zM0,18H1V19H0zM1,18H2V19H1zM2,18H3V19H2zM3,18H4V19H3zM4,18H5V19H4zM5,18H6V19H5zM6,18H7V19H6zM8,18H9V19H8zM11,18H12V19H11zM16,18H17V19H16zM18,18H19V19H18zM20,18H21V19H20zM24,18H25V19H24zM0,19H1V20H0zM6,19H7V20H6zM10,19H11V20H10zM13,19H14V20H13zM15,19H16V20H15zM16,19H17V20H16zM20,19H21V20H20zM23,19H24V20H23zM0,20H1V21H0zM2,20H3V21H2zM3,20H4V21H3zM4,20H5V21H4zM6,20H7V21H6zM9,20H10V21H9zM10,20H11V21H10zM11,20H12V21H11zM12,20H13V21H12zM13,20H14V21H13zM15,20H16V21H15zM16,20H17V21H16zM17,20H18V21H17zM18,20H19V21H18zM19,20H20V21H19zM20,20H21V21H20zM24,20H25V21H24zM0,21H1V22H0zM2,21H3V22H2zM3,21H4V22H3zM4,21H5V22H4zM6,21H7V22H6zM9,21H10V22H9zM10,21H11V22H10zM12,21H13V22H12zM15,21H16V22H15zM17,21H18V22H17zM20,21H21V22H20zM22,21H23V22H22zM23,21H24V22H23zM0,22H1V23H0zM2,22H3V23H2zM3,22H4V23H3zM4,22H5V23H4zM6,22H7V23H6zM8,22H9V23H8zM10,22H11V23H10zM12,22H13V23H12zM13,22H14V23H13zM14,22H15V23H14zM15,22H16V23H15zM19,22H20V23H19zM20,22H21V23H20zM21,22H22V23H21zM23,22H24V23H23zM24,22H25V23H24zM0,23H1V24H0zM6,23H7V24H6zM9,23H10V24H9zM10,23H11V24H10zM11,23H12V24H11zM12,23H13V24H12zM14,23H15V24H14zM16,23H17V24H16zM19,23H20V24H19zM20,23H21V24H20zM0,24H1V25H0zM1,24H2V25H1zM2,24H3V25H2zM3,24H4V25H3zM4,24H5V25H4zM5,24H6V25H5zM6,24H7V25H6zM8,24H9V25H8zM9,24H10V25H9zM10,24H11V25H10zM13,24H14V25H13zM14,24H15V25H14zM16,24H17V25H16zM21,24H22V25H21zM24,24H25V25H24z";
+const QR_SVG_SRC="data:image/svg+xml;utf8,"+encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25"><path d="'+QR_PATH_D+'" fill="#17140D"/></svg>'
+);
 
 let isCapturing=false;
-let currentPhotoUrl=null;
+let capturedPhotoDataUrl=null;
+let pendingSubmissionType=null;
 
 function coverCropRect(sw,sh,tw,th){
   const sRatio=sw/sh,tRatio=tw/th;
@@ -332,7 +450,7 @@ function toCanvasRect(el,containerRect,scale){
 }
 function cssFont(el,scale){
   const cs=getComputedStyle(el);
-  return `${cs.fontWeight} ${parseFloat(cs.fontSize)*scale}px ${cs.fontFamily}`;
+  return cs.fontWeight+" "+(parseFloat(cs.fontSize)*scale)+"px "+cs.fontFamily;
 }
 function wrapText(ctx,text,maxWidth){
   const words=text.split(" "),lines=[];
@@ -359,17 +477,6 @@ function getMaskUrl(el){
   const match=/url\((['"]?)(.*?)\1\)/.exec(val||"");
   return match?match[2]:null;
 }
-function drawBarcode(ctx,r,color){
-  ctx.fillStyle=color;
-  const unit=r.w/130;
-  const pattern=[[0,2],[4,1],[9,3],[13,4],[19,1]];
-  for(let c=0;c*24*unit<r.w;c++){
-    pattern.forEach(([start,w])=>{
-      const x=r.x+(c*24+start)*unit;
-      if(x<r.x+r.w)ctx.fillRect(x,r.y,Math.min(w*unit,r.x+r.w-x),r.h);
-    });
-  }
-}
 function drawTintedImage(ctx,img,r,color){
   const off=document.createElement("canvas");
   off.width=Math.max(1,Math.round(r.w));off.height=Math.max(1,Math.round(r.h));
@@ -383,63 +490,66 @@ function drawTintedImage(ctx,img,r,color){
 
 async function composeCoverPhoto(){
   if(document.fonts?.ready)await document.fonts.ready;
-  const rect=coverEl.getBoundingClientRect();
+  const rect=boothScreen.getBoundingClientRect();
   const scale=Math.min(window.devicePixelRatio||1,2);
   const W=Math.round(rect.width*scale),H=Math.round(rect.height*scale);
   const canvas=document.createElement("canvas");
   canvas.width=W;canvas.height=H;
   const ctx=canvas.getContext("2d");
 
-  const{cx,cy,cw,ch}=coverCropRect(camVideo.videoWidth,camVideo.videoHeight,W,H);
-  ctx.save();
-  ctx.translate(W,0);ctx.scale(-1,1);
-  ctx.drawImage(camVideo,cx,cy,cw,ch,0,0,W,H);
-  ctx.restore();
+  const{cx,cy,cw,ch}=coverCropRect(boothVideo.videoWidth,boothVideo.videoHeight,W,H);
+  if(currentFacingMode==="user"){
+    ctx.save();
+    ctx.translate(W,0);ctx.scale(-1,1);
+    ctx.drawImage(boothVideo,cx,cy,cw,ch,0,0,W,H);
+    ctx.restore();
+  }else{
+    ctx.drawImage(boothVideo,cx,cy,cw,ch,0,0,W,H);
+  }
 
   const grad=ctx.createLinearGradient(0,0,0,H);
   grad.addColorStop(0,"rgba(0,0,0,.6)");
-  grad.addColorStop(.26,"rgba(0,0,0,0)");
-  grad.addColorStop(.58,"rgba(0,0,0,0)");
-  grad.addColorStop(1,"rgba(0,0,0,.7)");
+  grad.addColorStop(.24,"rgba(0,0,0,0)");
+  grad.addColorStop(.6,"rgba(0,0,0,0)");
+  grad.addColorStop(1,"rgba(0,0,0,.75)");
   ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
 
-  const logoSrc=getMaskUrl(coverLogo);
+  const logoSrc=getMaskUrl(boothLogo);
   if(logoSrc){
     const logoImg=await loadImage(logoSrc);
-    const lr=toCanvasRect(coverLogo,rect,scale);
-    drawTintedImage(ctx,logoImg,lr,coverAccent);
+    const lr=toCanvasRect(boothLogo,rect,scale);
+    drawTintedImage(ctx,logoImg,lr,"#ffffff");
   }
 
   ctx.textBaseline="top";
-  ctx.fillStyle=coverAccent;
+  ctx.fillStyle="#fff";
   ctx.textAlign="right";
-  coverMetaLines.forEach(span=>{
+  boothMetaLines.forEach(span=>{
     const r=toCanvasRect(span,rect,scale);
     ctx.font=cssFont(span,scale);
-    ctx.fillText(span.textContent.toUpperCase(),r.x+r.w,r.y);
+    ctx.fillText(span.textContent,r.x+r.w,r.y);
   });
 
   ctx.textAlign="left";
   {
-    const r=toCanvasRect(coverHeadline,rect,scale);
-    ctx.font=cssFont(coverHeadline,scale);
-    ctx.fillText(coverHeadline.textContent.toUpperCase(),r.x,r.y);
+    const r=toCanvasRect(boothHeadline,rect,scale);
+    ctx.font=cssFont(boothHeadline,scale);
+    ctx.fillText(boothHeadline.textContent.toUpperCase(),r.x,r.y);
   }
   {
-    const r=toCanvasRect(coverBody,rect,scale);
-    ctx.font=cssFont(coverBody,scale);
-    const lineHeight=parseFloat(getComputedStyle(coverBody).lineHeight)*scale||r.h;
-    wrapText(ctx,coverBody.textContent.trim(),r.w).forEach((line,i)=>ctx.fillText(line,r.x,r.y+i*lineHeight));
+    const r=toCanvasRect(boothBody,rect,scale);
+    ctx.font=cssFont(boothBody,scale);
+    const lineHeight=parseFloat(getComputedStyle(boothBody).lineHeight)*scale||r.h;
+    wrapText(ctx,boothBody.textContent.trim(),r.w).forEach((line,i)=>ctx.fillText(line,r.x,r.y+i*lineHeight));
   }
 
   {
-    const barsR=toCanvasRect(coverBars,rect,scale);
-    drawBarcode(ctx,barsR,coverAccent);
-    const digitsR=toCanvasRect(coverDigits,rect,scale);
-    ctx.font=cssFont(coverDigits,scale);
-    ctx.textAlign="right";
-    ctx.fillStyle=coverAccent;
-    ctx.fillText(coverDigits.textContent,digitsR.x+digitsR.w,digitsR.y);
+    const qrImg=await loadImage(QR_SVG_SRC);
+    const qr=toCanvasRect(boothQrWrap,rect,scale);
+    ctx.fillStyle="#fff";
+    ctx.fillRect(qr.x,qr.y,qr.w,qr.h);
+    const pad=qr.w*0.08;
+    ctx.drawImage(qrImg,qr.x+pad,qr.y+pad,qr.w-pad*2,qr.h-pad*2);
   }
 
   return canvas.toDataURL("image/png");
@@ -449,20 +559,20 @@ function runCountdown(){
   return new Promise(resolve=>{
     const seq=["3","2","1"];
     let i=0;
-    snapCountdown.classList.add("is-active");
+    boothCountdown.classList.add("is-active");
     function tick(){
-      snapCountdown.innerHTML="";
+      boothCountdown.innerHTML="";
       const span=document.createElement("span");
       span.textContent=seq[i];
-      snapCountdown.appendChild(span);
+      boothCountdown.appendChild(span);
       i++;
       if(i<seq.length){setTimeout(tick,900);}
       else{
         setTimeout(()=>{
-          snapCountdown.classList.remove("is-active");
-          snapCountdown.innerHTML="";
-          snapFlash.classList.add("is-flash");
-          setTimeout(()=>snapFlash.classList.remove("is-flash"),400);
+          boothCountdown.classList.remove("is-active");
+          boothCountdown.innerHTML="";
+          boothFlash.classList.add("is-flash");
+          setTimeout(()=>boothFlash.classList.remove("is-flash"),400);
           resolve();
         },900);
       }
@@ -471,33 +581,36 @@ function runCountdown(){
   });
 }
 
-async function handleSnap(){
+document.getElementById("boothShutter").addEventListener("click",async()=>{
   if(isCapturing)return;
-  if(!camVideo.classList.contains("is-live")){startCamera();return;}
   isCapturing=true;
-  snapBtn.disabled=true;
   await runCountdown();
   try{
     const dataUrl=await composeCoverPhoto();
-    currentPhotoUrl=dataUrl;
-    snapImage.src=dataUrl;
-    snapPreview.classList.add("is-active");
+    capturedPhotoDataUrl=dataUrl;
+    reviewPhoto.src=dataUrl;
+    stopStream();
+    boothVideo.classList.remove("is-live");
+    showScreen("review");
   }catch(err){/* capture failed silently; user can just try again */}
   isCapturing=false;
-  snapBtn.disabled=false;
-}
-
-snapBtn.addEventListener("click",handleSnap);
-
-snapRetake.addEventListener("click",()=>{
-  snapPreview.classList.remove("is-active");
-  snapImage.src="";
-  currentPhotoUrl=null;
 });
 
-snapSave.addEventListener("click",async()=>{
-  if(!currentPhotoUrl)return;
-  const blob=await(await fetch(currentPhotoUrl)).blob();
+document.getElementById("reviewRetake").addEventListener("click",async()=>{
+  try{await ensureStream(currentFacingMode);showScreen("booth");}
+  catch(err){showScreen("allow");}
+});
+document.getElementById("reviewStartOver").addEventListener("click",()=>{
+  capturedPhotoDataUrl=null;
+  showScreen("contribute");
+});
+document.getElementById("reviewShare").addEventListener("click",()=>{
+  pendingSubmissionType="photo";
+  showScreen("finalize");
+});
+document.getElementById("reviewSave").addEventListener("click",async()=>{
+  if(!capturedPhotoDataUrl)return;
+  const blob=await(await fetch(capturedPhotoDataUrl)).blob();
   const file=new File([blob],"cousin-cover.png",{type:"image/png"});
   if(navigator.canShare&&navigator.canShare({files:[file]})){
     try{await navigator.share({files:[file],title:"My Cousin cover"});return;}
@@ -512,99 +625,52 @@ snapSave.addEventListener("click",async()=>{
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 });
 
-/* ===== COVER COLOR PICKER (experimental easter egg) ===================
-   Press-and-hold the logo, then drag anywhere on screen — horizontal
-   position maps to hue, recoloring the logo/text/barcode live. Release
-   to lock it in. Feeds into the canvas capture via `coverAccent`.
-   ==================================================================== */
-let coverAccent="#ffffff";
-let colorPickActive=false;
-let longPressTimer=null;
-let pressStartX=0,pressStartY=0;
-const LONG_PRESS_MS=350;
-const MOVE_CANCEL_PX=18;
+/* ===== STORY WRITER ================================================ */
+const storyTextarea=document.getElementById("storyTextarea");
+function autoGrowStory(){
+  storyTextarea.style.height="auto";
+  storyTextarea.style.height=storyTextarea.scrollHeight+"px";
+}
+storyTextarea.addEventListener("input",autoGrowStory);
 
-function applyAccent(hue){
-  coverAccent=`hsl(${hue.toFixed(1)} 85% 65%)`;
-  coverEl.style.setProperty("--cover-accent",coverAccent);
-}
-function updateAccentFromX(clientX){
-  const hue=Math.max(0,Math.min(360,(clientX/window.innerWidth)*360));
-  applyAccent(hue);
-}
-function onColorDragMove(e){
-  updateAccentFromX(e.clientX);
-}
-function onColorDragEnd(){
-  colorPickActive=false;
-  coverEl.classList.remove("is-picking-color");
-  window.removeEventListener("pointermove",onColorDragMove);
-  window.removeEventListener("pointerup",onColorDragEnd);
-  window.removeEventListener("pointercancel",onColorDragEnd);
-}
-function armColorPick(e){
-  colorPickActive=true;
-  coverLogo.classList.remove("is-arming");
-  coverEl.classList.add("is-picking-color");
-  updateAccentFromX(e.clientX);
-  window.addEventListener("pointermove",onColorDragMove);
-  window.addEventListener("pointerup",onColorDragEnd);
-  window.addEventListener("pointercancel",onColorDragEnd);
-}
-function checkPreArmMove(e){
-  if(colorPickActive)return;
-  if(Math.hypot(e.clientX-pressStartX,e.clientY-pressStartY)>MOVE_CANCEL_PX)cancelLongPress();
-}
-function cancelLongPress(){
-  clearTimeout(longPressTimer);
-  coverLogo.classList.remove("is-arming");
-  window.removeEventListener("pointermove",checkPreArmMove);
-  window.removeEventListener("pointerup",cancelLongPress);
-}
-coverLogo.addEventListener("pointerdown",e=>{
-  pressStartX=e.clientX;pressStartY=e.clientY;
-  coverLogo.classList.add("is-arming");
-  window.addEventListener("pointermove",checkPreArmMove);
-  window.addEventListener("pointerup",cancelLongPress,{once:true});
-  longPressTimer=setTimeout(()=>{
-    window.removeEventListener("pointermove",checkPreArmMove);
-    armColorPick(e);
-  },LONG_PRESS_MS);
+document.getElementById("shareStoryBtn").addEventListener("click",()=>{
+  showScreen("story");
+  requestAnimationFrame(()=>storyTextarea.focus());
+});
+document.getElementById("drawerShareStory").addEventListener("click",()=>{
+  showScreen("story");
+  requestAnimationFrame(()=>storyTextarea.focus());
+});
+document.getElementById("storySubmitBtn").addEventListener("click",()=>{
+  pendingSubmissionType="story";
+  showScreen("finalize");
 });
 
-/* ===== EMAIL CAPTURE -> GOOGLE SHEET ================================
-   Each signup is POSTed to a Google Apps Script web app that appends
-   it to the Cousin subscribers sheet. no-cors = fire-and-forget (Apps
-   Script returns no CORS headers), so success is shown optimistically.
+/* ===== FINALIZE (share + anonymize) — stubbed tonight, no backend =====
+   Both the photo and story paths land here. Nothing is persisted yet;
+   both options just simulate a submission and return to the
+   contribute path.
    ==================================================================== */
-const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbzo-qjKdZSil_DFNnh4zW4Vd_sxBXxjzegzHNzWmarqRa53xlz3su-DtBiSChmcuJREHw/exec";
+document.getElementById("keepAnonymousBtn").addEventListener("click",()=>{
+  pendingSubmissionType=null;
+  showScreen("contribute");
+});
+document.getElementById("addNameLinkBtn").addEventListener("click",()=>showScreen("addname"));
 
-const emailEl=document.getElementById("email");
-const btn=document.getElementById("submit");
-const statusEl=document.getElementById("status");
-const valid=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-const setStatus=m=>{statusEl.textContent=m;};
+document.getElementById("addNameForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  pendingSubmissionType=null;
+  showScreen("contribute");
+});
 
-async function subscribe(){
-  const email=emailEl.value.trim();
-  if(!valid(email)){setStatus("That email doesn’t look right — give it another go.");emailEl.focus();return;}
-  btn.disabled=true;
-  try{
-    await fetch(SHEET_ENDPOINT,{
-      method:"POST",
-      mode:"no-cors",
-      body:new URLSearchParams({email:email})
-    });
-    setStatus("You’re on the list.");
-    emailEl.value="";
-  }catch(e){
-    setStatus("Something broke on our end. Try again in a moment?");
-  }finally{
-    btn.disabled=false;
-  }
-}
-btn.addEventListener("click",subscribe);
-emailEl.addEventListener("keydown",e=>{if(e.key==="Enter")subscribe();});
+/* ===== STAY IN THE LOOP — front-end stub, no backend tonight ========= */
+document.getElementById("drawerStayLoop").addEventListener("click",()=>showScreen("loop"));
+const loopStatus=document.getElementById("loopStatus");
+document.getElementById("loopForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  loopStatus.textContent="You're on the list.";
+  document.getElementById("loopPhone").value="";
+});
 </script>
 </body>
 </html>
