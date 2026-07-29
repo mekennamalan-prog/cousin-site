@@ -8,11 +8,16 @@
  * SUBMISSIONS_ENDPOINT.
  *
  * The "add name" step of the easter-egg story/cover flow posts
- * { type, name, email, phone, updates } (application/x-www-form-
- * urlencoded, mode:"no-cors") to this endpoint; doPost appends a
+ * { type, name, email, phone, updates, story } (application/x-www-
+ * form-urlencoded, mode:"no-cors") to this endpoint; doPost appends a
  * timestamped row. type is "story" or "photo" depending on which flow
- * the user came from. updates is "yes"/"no" for the print-releases-
- * and-parties opt-in checkbox.
+ * the user came from. story holds the actual pitch text for story
+ * submissions (empty for photo submissions — the cover photo itself
+ * isn't sent here, only the reviewer sees it in-browser unless saved).
+ * updates is "yes"/"no" for the print-releases-and-parties opt-in
+ * checkbox — when "yes", index.html ALSO posts to a separate,
+ * dedicated opt-in sheet (see updates.gs), so this column is just a
+ * record of what was checked at submission time.
  *
  * DEPLOY / REDEPLOY (same as subscribers.gs):
  *   Deploy -> New deployment -> type: Web app
@@ -27,7 +32,8 @@
  * -> Edit (pencil) -> New version, instead of "New deployment".
  *
  * Sheet layout (row 1 headers):
- *   A = Timestamp, B = Type, C = Name, D = Email, E = Phone, F = Updates opt-in
+ *   A = Timestamp, B = Type, C = Name, D = Email, E = Phone,
+ *   F = Updates opt-in, G = Story text
  */
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -38,7 +44,7 @@ function doPost(e) {
     var name = (p.name || '').trim();
     var email = (p.email || '').trim();
     if (name && email) {
-      sheet.appendRow([new Date(), p.type || '', name, email, p.phone || '', p.updates || 'no']);
+      sheet.appendRow([new Date(), p.type || '', name, email, p.phone || '', p.updates || 'no', p.story || '']);
     }
     return ContentService.createTextOutput('ok');
   } catch (err) {

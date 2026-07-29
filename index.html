@@ -58,7 +58,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:12px;justify-content:center;}
 @media(max-width:639px){.triggers{flex-direction:column;align-items:stretch;}}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
-  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;
+  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:0;
   transition:transform .15s ease,opacity .15s ease,background .35s ease;}
 button.go svg{width:18px;height:18px;flex:0 0 auto;}
@@ -68,10 +68,12 @@ button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
 /* ---- FOOTER (ink band, centered) ---- */
-.foot{background:var(--ink);color:var(--cream);text-align:center;
+.foot{background:var(--ink);color:var(--cream);
   padding:22px var(--gut);}
-.foot .inner{display:flex;flex-direction:column;align-items:center;gap:14px;}
-.foot .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;}
+.foot .inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;text-align:left;}
+.foot-left{display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+.foot-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.foot .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:16px;}
 .foot input[type=email]{flex:0 1 250px;min-width:0;font-family:var(--sans);font-size:1rem;color:var(--ink);
   background:var(--cream);border:1px solid rgba(23,20,13,.16);border-radius:0;padding:0 17px;height:44px;
   outline:3px solid transparent;outline-offset:2px;}
@@ -87,21 +89,30 @@ button.go[disabled]{opacity:.55;cursor:default;}
 }
 .foot-keep-btn{appearance:none;background:none;border:none;padding:0 0 4px;margin:0;cursor:pointer;
   display:inline-flex;align-items:center;gap:8px;color:var(--wordmark);
-  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;
+  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   border-bottom:2px solid currentColor;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
 .foot-keep-btn svg{width:16px;height:16px;flex:0 0 auto;}
 .foot-keep-btn:hover{opacity:.8;}
 .foot-keep-btn[disabled]{opacity:.5;cursor:default;}
-.foot .status{min-height:1.1em;font-size:.85rem;font-weight:500;}
-.foot-meta{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:2px;}
+.foot .status{min-height:1.1em;font-size:.85rem;font-weight:500;text-align:right;}
+.foot-meta{display:flex;flex-direction:column;align-items:flex-start;gap:4px;}
 .foot-meta .copyright{font-family:var(--serif);font-size:.78rem;letter-spacing:.05em;opacity:.6;}
 .foot-meta .privacy-link{font-size:.78rem;letter-spacing:.05em;color:var(--cream);opacity:.6;
   text-decoration:underline;text-underline-offset:3px;transition:opacity .15s;}
 .foot-meta .privacy-link:hover{opacity:.9;}
-.foot .signoff{display:flex;align-items:center;justify-content:center;gap:18px;}
+.foot .signoff{display:flex;align-items:center;justify-content:flex-start;gap:18px;}
 .foot .signoff a{display:inline-flex;color:var(--cream);opacity:.85;transition:opacity .15s;}
 .foot .signoff a svg{width:24px;height:24px;}
 .foot .signoff a:hover{opacity:1;}
+@media(max-width:639px){
+  .foot .inner{flex-direction:column;align-items:center;text-align:center;}
+  .foot-left{align-items:center;}
+  .foot-right{align-items:center;width:100%;}
+  .foot-meta{align-items:center;}
+  .foot .row{justify-content:center;}
+  .foot .signoff{justify-content:center;}
+  .foot .status{text-align:center;}
+}
 
 .reveal{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards;}
 .d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.27s}.d4{animation-delay:.38s}
@@ -134,7 +145,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 .egg-link{appearance:none;background:none;border:none;border-bottom:2px solid currentColor;
   font:inherit;font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--wordmark);
-  text-decoration:none;text-transform:uppercase;letter-spacing:.24em;padding:0 0 5px;margin:0;
+  text-decoration:none;text-transform:uppercase;letter-spacing:.08em;padding:0 0 5px;margin:0;
   cursor:pointer;display:inline-block;text-align:left;-webkit-tap-highlight-color:transparent;}
 .egg-link:disabled{opacity:.5;cursor:default;}
 .egg-topleft-logo{width:130px;background-color:var(--wordmark);}
@@ -151,6 +162,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-cam-icon{width:64px;height:64px;color:var(--wordmark);}
 .egg-allow-error{font-family:var(--serif);color:#B3261E;font-size:.9rem;min-height:1.3em;}
 .egg-privacy{font-family:var(--serif);color:var(--wordmark);opacity:.75;font-size:.82rem;line-height:1.5;max-width:34ch;}
+.egg-privacy a{color:inherit;}
 
 /* ---- fig 4/5: booth ---- */
 #screen-egg-booth{background:var(--ink);color:#fff;}
@@ -162,9 +174,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-booth-overlay{position:relative;z-index:1;height:100%;padding:34px 26px 0;}
 .egg-booth-logo{width:82%;background-color:#fff;margin:0 auto;}
 .egg-booth-meta{width:82%;margin:8px auto 0;text-align:right;font-family:var(--sans);line-height:1.5;}
-.egg-booth-meta .l1{display:block;font-weight:600;font-size:.88rem;letter-spacing:.24em;text-transform:uppercase;}
-.egg-booth-headline{position:absolute;left:26px;right:26px;bottom:20svh;font-family:var(--sans);
-  font-weight:600;text-transform:uppercase;letter-spacing:.24em;font-size:1.3rem;line-height:1.25;}
+.egg-booth-meta .l1{display:block;font-weight:600;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;}
 .egg-booth-barcode{position:absolute;right:26px;bottom:100px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:1;}
 .egg-booth-barcode .bars{width:130px;height:56px;background-color:#fff;
   -webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);
@@ -186,7 +196,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 @keyframes eggFlashPop{0%{opacity:.85;}100%{opacity:0;}}
 
 /* ---- fig 6: review ---- */
-#screen-egg-review .egg-screen-pad{align-items:center;padding-top:56px;gap:22px;}
+#screen-egg-review .egg-screen-pad{align-items:center;padding-top:56px;gap:40px;}
 .egg-review-photo{width:100%;max-width:280px;box-shadow:0 18px 40px rgba(0,0,0,.35);}
 .egg-review-actions{display:flex;flex-direction:column;gap:16px;align-items:flex-start;width:100%;max-width:280px;}
 
@@ -201,7 +211,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-consent a{color:inherit;}
 .egg-checkbox-row{display:flex;align-items:flex-start;gap:10px;}
 .egg-checkbox-row input{width:18px;height:18px;margin-top:3px;flex:0 0 auto;accent-color:var(--wordmark);}
-.egg-checkbox-row label{font-family:var(--sans);font-weight:600;font-size:.85rem;letter-spacing:.24em;
+.egg-checkbox-row label{font-family:var(--sans);font-weight:600;font-size:.85rem;letter-spacing:.08em;
   text-transform:uppercase;color:var(--wordmark);line-height:1.4;}
 .egg-submit-row{margin-top:6px;}
 </style>
@@ -230,26 +240,30 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 <footer class="foot">
   <div class="inner">
-    <div class="row">
-      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
-      <button id="submit" class="foot-keep-btn" type="button">
-        <span>Keep in touch</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
+    <div class="foot-left">
+      <div class="foot-meta">
+        <p class="copyright">© 2026 Cousin Magazine</p>
+        <a class="privacy-link" href="privacy.html">Privacy Policy</a>
+      </div>
+      <div class="signoff">
+        <a class="email-icon" href="mailto:hello@cousinmag.com" aria-label="Email Cousin">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6.5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="ig" href="https://instagram.com/cousin.mag" aria-label="Cousin on Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
+        </a>
+      </div>
     </div>
-    <p class="status" id="status" role="status" aria-live="polite"></p>
 
-    <div class="foot-meta">
-      <p class="copyright">© 2026 Cousin Magazine</p>
-      <a class="privacy-link" href="privacy.html">Privacy Policy</a>
-    </div>
-    <div class="signoff">
-      <a class="email-icon" href="mailto:hello@cousinmag.com" aria-label="Email Cousin">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6.5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="ig" href="https://instagram.com/cousin.mag" aria-label="Cousin on Instagram" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
-      </a>
+    <div class="foot-right">
+      <div class="row">
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
+        <button id="submit" class="foot-keep-btn" type="button">
+          <span>Keep in touch</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
     </div>
   </div>
 </footer>
@@ -279,7 +293,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <svg class="egg-cam-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7l1.5-2h5L16 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
         <button class="egg-link" id="eggAllowBtn" type="button">Allow camera access</button>
         <p class="egg-allow-error" id="eggAllowError" role="status" aria-live="polite"></p>
-        <p class="egg-privacy">Privacy policy: Your cover image will only be stored if you choose to share it with us.</p>
+        <p class="egg-privacy"><a href="privacy.html">Read our privacy policy.</a></p>
       </div>
     </section>
 
@@ -290,13 +304,12 @@ button.go[disabled]{opacity:.55;cursor:default;}
       <div class="egg-booth-overlay">
         <div class="egg-booth-logo wm-mask" role="img" aria-label="Cousin"></div>
         <div class="egg-booth-meta">
-          <span class="l1">Spring 2027</span>
+          <span class="l1">Salt Lake City</span>
         </div>
       </div>
-      <p class="egg-booth-headline">A new independent<br>print magazine for<br>Salt Lake City</p>
       <div class="egg-booth-barcode" aria-hidden="true">
         <div class="bars"></div>
-        <div class="digits">0 51000 01251 7</div>
+        <div class="digits">00000000001</div>
       </div>
       <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
       <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
@@ -470,8 +483,6 @@ const eggBoothCountdown=document.getElementById("eggBoothCountdown");
 const eggBoothFlash=document.getElementById("eggBoothFlash");
 const eggBoothLogo=document.querySelector(".egg-booth-logo");
 const eggBoothMetaLines=document.querySelectorAll(".egg-booth-meta span");
-const eggBoothHeadline=document.querySelector(".egg-booth-headline");
-const eggBoothHeadlineLines=["A new independent","print magazine for","Salt Lake City"];
 const eggBoothBars=document.querySelector(".egg-booth-barcode .bars");
 const eggBoothDigits=document.querySelector(".egg-booth-barcode .digits");
 const eggBoothScreen=document.getElementById("screen-egg-booth");
@@ -572,14 +583,6 @@ async function eggComposeCoverPhoto(){
   });
 
   {
-    const r=eggToCanvasRect(eggBoothHeadline,rect,scale);
-    ctx.font=eggCssFont(eggBoothHeadline,scale);
-    ctx.textAlign="left";
-    const lineHeight=parseFloat(getComputedStyle(eggBoothHeadline).lineHeight)*scale||r.h/3;
-    eggBoothHeadlineLines.forEach((line,i)=>ctx.fillText(line.toUpperCase(),r.x,r.y+i*lineHeight));
-  }
-
-  {
     // The live tray (square/circle/triangle controls) sits below the
     // barcode on-screen, but isn't part of the captured photo — so we
     // nudge the barcode down here, canvas-only, to sit closer to the
@@ -671,14 +674,19 @@ document.getElementById("eggStorySubmit").addEventListener("click",()=>{
   eggSetScreen("egg-addname");
 });
 
-/* ===== ADD NAME -> GOOGLE SHEET ======================================
-   Posts name/email/phone/opt-in to a Google Apps Script web app bound
-   to the submissions sheet, same fire-and-forget pattern as the email
-   signup above. SUBMISSIONS_ENDPOINT needs to be set to that script's
-   deployed /exec URL (see apps-script/submissions.gs) before this
-   actually writes anywhere.
+/* ===== ADD NAME -> GOOGLE SHEETS =====================================
+   Every submission posts name/email/phone/opt-in/story to the main
+   submissions sheet via SUBMISSIONS_ENDPOINT (see
+   apps-script/submissions.gs). If the "update me" box is checked, a
+   second, separate post goes to UPDATES_ENDPOINT (see
+   apps-script/updates.gs) — its own dedicated opt-in sheet, so it
+   stays a clean mailing list. Both are the same fire-and-forget
+   no-cors pattern as the email signup above. UPDATES_ENDPOINT needs
+   its own script deployed and its /exec URL pasted in below before
+   the opt-in checkbox actually writes anywhere.
    ==================================================================== */
 const SUBMISSIONS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxMiIAD3ytlesrajTzybgIIWuZh8tBLCNy1SoOGxSYuYtfieLZ5jA4xsXdfwlvmlTXiRA/exec";
+const UPDATES_ENDPOINT = "PASTE_YOUR_UPDATES_APPS_SCRIPT_URL_HERE";
 
 const eggConsent=document.getElementById("eggConsent");
 const eggAddNameForm=document.getElementById("eggAddNameForm");
@@ -688,11 +696,19 @@ eggAddNameForm.addEventListener("submit",e=>{
   const email=document.getElementById("eggEmail").value.trim();
   const phone=document.getElementById("eggPhone").value.trim();
   const updates=document.getElementById("eggUpdateOptIn").checked?"yes":"no";
+  const story=eggSubmissionType==="story"?eggStoryTextarea.value.trim():"";
   fetch(SUBMISSIONS_ENDPOINT,{
     method:"POST",
     mode:"no-cors",
-    body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates})
+    body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates,story})
   }).catch(()=>{/* fire-and-forget — no user-visible error */});
+  if(updates==="yes"){
+    fetch(UPDATES_ENDPOINT,{
+      method:"POST",
+      mode:"no-cors",
+      body:new URLSearchParams({name,email,phone})
+    }).catch(()=>{/* fire-and-forget — no user-visible error */});
+  }
   eggSubmissionType=null;
   eggClose();
 });
