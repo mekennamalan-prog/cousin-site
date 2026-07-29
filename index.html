@@ -339,23 +339,57 @@ body{font-family:var(--sans);background:var(--ink);color:var(--text);-webkit-fon
 </div>
 
 <script>
-/* ===== SCREEN ROUTER ============================================== */
+/* ===== SCREEN ROUTER ===============================================
+   showScreen() is the only entry point for forward navigation (button
+   clicks) — it pushes a history entry. setScreen() is the pure DOM
+   swap, shared with the popstate handler so the browser's back/forward
+   buttons walk the same flow, with the same enter/exit side effects
+   (stopping the camera, focusing the story textarea, etc).
+   ==================================================================== */
 const app=document.getElementById("app");
 let currentScreenName="landing";
 let drawerReturnTo="contribute";
 
-function showScreen(name){
+function exitScreen(name){
+  if(name==="booth"){
+    stopStream();
+    boothVideo.classList.remove("is-live");
+  }
+}
+function enterScreen(name){
+  if(name==="booth"&&!boothVideo.classList.contains("is-live")){
+    ensureStream(currentFacingMode).catch(()=>{
+      setScreen("allow");
+      history.replaceState({screen:"allow"},"","#allow");
+    });
+  }else if(name==="story"){
+    requestAnimationFrame(()=>storyTextarea.focus());
+  }
+}
+function setScreen(name){
+  if(name===currentScreenName)return;
+  exitScreen(currentScreenName);
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("is-active"));
   document.getElementById("screen-"+name).classList.add("is-active");
   currentScreenName=name;
   app.dataset.screen=name;
+  enterScreen(name);
 }
+function showScreen(name){
+  if(name===currentScreenName)return;
+  setScreen(name);
+  history.pushState({screen:name},"","#"+name);
+}
+history.replaceState({screen:"landing"},"","#landing");
+window.addEventListener("popstate",e=>{
+  setScreen((e.state&&e.state.screen)||"landing");
+});
 
 document.getElementById("cTrigger").addEventListener("click",()=>{
   drawerReturnTo=currentScreenName;
   showScreen("drawer");
 });
-document.getElementById("drawerClose").addEventListener("click",()=>showScreen(drawerReturnTo));
+document.getElementById("drawerClose").addEventListener("click",()=>history.back());
 
 document.getElementById("enterSiteBtn").addEventListener("click",()=>showScreen("contribute"));
 
@@ -388,11 +422,9 @@ async function ensureStream(facingMode){
 }
 
 function goToCameraFlow(){
-  if(cameraGranted){
-    ensureStream(currentFacingMode).then(()=>showScreen("booth")).catch(()=>showScreen("allow"));
-  }else{
-    showScreen("allow");
-  }
+  // enterScreen("booth") (re)acquires the stream — already-granted permission
+  // means no prompt, so this can jump straight there instead of via "allow".
+  showScreen(cameraGranted?"booth":"allow");
 }
 document.getElementById("snapCoverBtn").addEventListener("click",goToCameraFlow);
 document.getElementById("drawerSnapCover").addEventListener("click",()=>{drawerReturnTo="contribute";goToCameraFlow();});
@@ -410,8 +442,7 @@ document.getElementById("allowCameraBtn").addEventListener("click",async()=>{
 });
 
 document.getElementById("boothBack").addEventListener("click",()=>{
-  stopStream();
-  boothVideo.classList.remove("is-live");
+  // exitScreen("booth") stops the stream as part of the screen swap.
   showScreen("contribute");
 });
 document.getElementById("boothFlip").addEventListener("click",async()=>{
@@ -589,16 +620,15 @@ document.getElementById("boothShutter").addEventListener("click",async()=>{
     const dataUrl=await composeCoverPhoto();
     capturedPhotoDataUrl=dataUrl;
     reviewPhoto.src=dataUrl;
-    stopStream();
-    boothVideo.classList.remove("is-live");
-    showScreen("review");
+    showScreen("review"); // exitScreen("booth") stops the stream
   }catch(err){/* capture failed silently; user can just try again */}
   isCapturing=false;
 });
 
-document.getElementById("reviewRetake").addEventListener("click",async()=>{
-  try{await ensureStream(currentFacingMode);showScreen("booth");}
-  catch(err){showScreen("allow");}
+document.getElementById("reviewRetake").addEventListener("click",()=>{
+  // enterScreen("booth") (re)acquires the stream, falling back to
+  // "allow" if it fails.
+  showScreen("booth");
 });
 document.getElementById("reviewStartOver").addEventListener("click",()=>{
   capturedPhotoDataUrl=null;
