@@ -58,7 +58,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:12px;justify-content:center;}
 @media(max-width:639px){.triggers{flex-direction:column;align-items:stretch;}}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
-  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.13em;text-transform:uppercase;
+  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:0;
   transition:transform .15s ease,opacity .15s ease,background .35s ease;}
 button.go svg{width:18px;height:18px;flex:0 0 auto;}
@@ -69,13 +69,11 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 /* ---- FOOTER (ink band, centered) ---- */
 .foot{background:var(--ink);color:var(--cream);text-align:center;
-  padding:clamp(56px,9vh,92px) var(--gut) clamp(36px,5vh,52px);}
-.foot .inner{display:flex;flex-direction:column;align-items:center;gap:clamp(22px,3.5vh,32px);}
-.foot-signup-label{font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--cream);opacity:.85;max-width:34ch;line-height:1.5;}
-.foot .row{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
+  padding:22px var(--gut);}
+.foot .inner{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.foot .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;}
 .foot input[type=email]{flex:0 1 250px;min-width:0;font-family:var(--sans);font-size:1rem;color:var(--ink);
-  background:var(--cream);border:1px solid rgba(23,20,13,.16);border-radius:0;padding:0 17px;height:52px;
+  background:var(--cream);border:1px solid rgba(23,20,13,.16);border-radius:0;padding:0 17px;height:44px;
   outline:3px solid transparent;outline-offset:2px;}
 .foot input[type=email]::placeholder{color:rgba(23,20,13,.45);}
 .foot input[type=email]:focus-visible{outline-color:var(--cream);}
@@ -87,9 +85,16 @@ button.go[disabled]{opacity:.55;cursor:default;}
   box-shadow:0 0 0 1000px var(--cream) inset;
   transition:background-color 5000s ease-in-out 0s;
 }
-.foot .status{min-height:1.3em;font-size:.95rem;font-weight:500;}
-.foot-meta{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:6px;}
-.foot-meta .copyright{font-size:.78rem;letter-spacing:.05em;opacity:.6;}
+.foot-keep-btn{appearance:none;background:none;border:none;padding:0 0 4px;margin:0;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;color:var(--wordmark);
+  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;
+  border-bottom:2px solid currentColor;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+.foot-keep-btn svg{width:16px;height:16px;flex:0 0 auto;}
+.foot-keep-btn:hover{opacity:.8;}
+.foot-keep-btn[disabled]{opacity:.5;cursor:default;}
+.foot .status{min-height:1.1em;font-size:.85rem;font-weight:500;}
+.foot-meta{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:2px;}
+.foot-meta .copyright{font-family:var(--serif);font-size:.78rem;letter-spacing:.05em;opacity:.6;}
 .foot-meta .privacy-link{font-size:.78rem;letter-spacing:.05em;color:var(--cream);opacity:.6;
   text-decoration:underline;text-underline-offset:3px;transition:opacity .15s;}
 .foot-meta .privacy-link:hover{opacity:.9;}
@@ -128,8 +133,8 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-screen-pad{padding:26px;flex:1;display:flex;flex-direction:column;}
 
 .egg-link{appearance:none;background:none;border:none;border-bottom:2px solid currentColor;
-  font:inherit;font-family:var(--sans);font-weight:700;font-size:1.05rem;color:var(--wordmark);
-  text-decoration:none;text-transform:uppercase;letter-spacing:.02em;padding:0 0 5px;margin:0;
+  font:inherit;font-family:var(--sans);font-weight:600;font-size:1.05rem;color:var(--wordmark);
+  text-decoration:none;text-transform:uppercase;letter-spacing:.24em;padding:0 0 5px;margin:0;
   cursor:pointer;display:inline-block;text-align:left;-webkit-tap-highlight-color:transparent;}
 .egg-link:disabled{opacity:.5;cursor:default;}
 .egg-topleft-logo{width:130px;background-color:var(--wordmark);}
@@ -138,14 +143,14 @@ button.go[disabled]{opacity:.55;cursor:default;}
 #screen-egg-story .egg-screen-pad{padding-top:64px;}
 #screen-egg-story .egg-topleft-logo{margin-bottom:28px;}
 .egg-story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
-  font-family:var(--sans);font-size:1.3rem;line-height:1.5;color:var(--wordmark);overflow:hidden;min-height:120px;}
+  font-family:var(--serif);font-size:1.3rem;line-height:1.5;color:var(--wordmark);overflow:hidden;min-height:120px;}
 .egg-story-submit{margin-top:14px;}
 
 /* ---- fig 3: allow camera ---- */
 #screen-egg-allow .egg-screen-pad{align-items:center;justify-content:center;text-align:center;gap:16px;padding-top:64px;}
 .egg-cam-icon{width:64px;height:64px;color:var(--wordmark);}
-.egg-allow-error{font-family:var(--sans);color:#B3261E;font-size:.9rem;min-height:1.3em;}
-.egg-privacy{font-family:var(--sans);color:var(--wordmark);opacity:.75;font-size:.82rem;line-height:1.5;max-width:34ch;}
+.egg-allow-error{font-family:var(--serif);color:#B3261E;font-size:.9rem;min-height:1.3em;}
+.egg-privacy{font-family:var(--serif);color:var(--wordmark);opacity:.75;font-size:.82rem;line-height:1.5;max-width:34ch;}
 
 /* ---- fig 4/5: booth ---- */
 #screen-egg-booth{background:var(--ink);color:#fff;}
@@ -157,9 +162,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-booth-overlay{position:relative;z-index:1;height:100%;padding:34px 26px 0;}
 .egg-booth-logo{width:82%;background-color:#fff;margin:0 auto;}
 .egg-booth-meta{width:82%;margin:8px auto 0;text-align:right;font-family:var(--sans);line-height:1.5;}
-.egg-booth-meta .l1{display:block;font-weight:600;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;}
+.egg-booth-meta .l1{display:block;font-weight:600;font-size:.88rem;letter-spacing:.24em;text-transform:uppercase;}
 .egg-booth-headline{position:absolute;left:26px;right:26px;bottom:20svh;font-family:var(--sans);
-  font-weight:700;text-transform:uppercase;font-size:1.3rem;line-height:1.25;}
+  font-weight:600;text-transform:uppercase;letter-spacing:.24em;font-size:1.3rem;line-height:1.25;}
 .egg-booth-barcode{position:absolute;right:26px;bottom:100px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:1;}
 .egg-booth-barcode .bars{width:130px;height:56px;background-color:#fff;
   -webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);
@@ -192,10 +197,11 @@ button.go[disabled]{opacity:.55;cursor:default;}
   font-family:var(--sans);font-weight:700;font-size:1.5rem;color:var(--wordmark);width:100%;
   padding:0 0 10px;outline:none;}
 .egg-field::placeholder{color:rgba(42,106,242,.4);font-weight:700;}
-.egg-consent{font-family:var(--sans);font-size:.95rem;line-height:1.5;color:var(--wordmark);}
+.egg-consent{font-family:var(--serif);font-size:.95rem;line-height:1.5;color:var(--wordmark);}
+.egg-consent a{color:inherit;}
 .egg-checkbox-row{display:flex;align-items:flex-start;gap:10px;}
 .egg-checkbox-row input{width:18px;height:18px;margin-top:3px;flex:0 0 auto;accent-color:var(--wordmark);}
-.egg-checkbox-row label{font-family:var(--sans);font-weight:600;font-size:.85rem;letter-spacing:.04em;
+.egg-checkbox-row label{font-family:var(--sans);font-weight:600;font-size:.85rem;letter-spacing:.24em;
   text-transform:uppercase;color:var(--wordmark);line-height:1.4;}
 .egg-submit-row{margin-top:6px;}
 </style>
@@ -205,7 +211,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 <main class="hero">
   <div class="inner">
-    <p class="kicker reveal d1">Coming soon — Issue 01</p>
+    <p class="kicker reveal d1">Issue 01 — Spring 2027</p>
 
     <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
 
@@ -213,11 +219,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <div class="triggers reveal d4">
       <button id="triggerStory" class="go" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l4-1 10-10-3-3-10 10-1 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M13 6l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <span>Share a story</span>
       </button>
       <button id="triggerCover" class="go" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 7l1.5-2h5L16 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
         <span>Capture a cover</span>
       </button>
     </div>
@@ -226,11 +230,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 <footer class="foot">
   <div class="inner">
-    <p class="foot-signup-label">Sign up to receive news about Cousin Magazine print releases and parties:</p>
     <div class="row">
       <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
-      <button id="submit" class="go" type="button">
-        <span>Sign up</span>
+      <button id="submit" class="foot-keep-btn" type="button">
+        <span>Keep in touch</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
@@ -315,7 +318,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
       <div class="egg-screen-pad">
         <img class="egg-review-photo" id="eggReviewPhoto" alt="Your Cousin cover photo" />
         <div class="egg-review-actions">
-          <button class="egg-link" id="eggReviewShare" type="button">Share with Cousin</button>
+          <button class="egg-link" id="eggReviewShare" type="button">Share with Us</button>
           <button class="egg-link" id="eggReviewSave" type="button">Save to camera roll</button>
           <button class="egg-link" id="eggReviewRetake" type="button">Retake</button>
         </div>
@@ -330,7 +333,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
           <input class="egg-field" id="eggName" type="text" placeholder="Name" autocomplete="name" required />
           <input class="egg-field" id="eggEmail" type="email" placeholder="you@email.com" autocomplete="email" required />
           <input class="egg-field" id="eggPhone" type="tel" placeholder="(801) 223-3344 (optional)" autocomplete="tel" />
-          <p class="egg-consent" id="eggConsent">Our magazine team may use covers submitted to us in promotional materials.</p>
+          <p class="egg-consent" id="eggConsent">Read our <a href="privacy.html">privacy policy</a>.</p>
           <div class="egg-checkbox-row">
             <input type="checkbox" id="eggUpdateOptIn" />
             <label for="eggUpdateOptIn">Update me on Cousin Magazine print releases and parties</label>
@@ -577,9 +580,16 @@ async function eggComposeCoverPhoto(){
   }
 
   {
+    // The live tray (square/circle/triangle controls) sits below the
+    // barcode on-screen, but isn't part of the captured photo — so we
+    // nudge the barcode down here, canvas-only, to sit closer to the
+    // bottom edge instead of floating in the gap the tray left behind.
+    const barcodeDrop=60*scale;
     const barsR=eggToCanvasRect(eggBoothBars,rect,scale);
+    barsR.y+=barcodeDrop;
     eggDrawBarcode(ctx,barsR);
     const digitsR=eggToCanvasRect(eggBoothDigits,rect,scale);
+    digitsR.y+=barcodeDrop;
     ctx.font=eggCssFont(eggBoothDigits,scale);
     ctx.textAlign="right";
     ctx.fillStyle="#fff";
@@ -631,7 +641,6 @@ document.getElementById("eggBoothShutter").addEventListener("click",async()=>{
 document.getElementById("eggReviewRetake").addEventListener("click",()=>eggSetScreen("egg-booth"));
 document.getElementById("eggReviewShare").addEventListener("click",()=>{
   eggSubmissionType="photo";
-  eggConsent.style.display="";
   eggSetScreen("egg-addname");
 });
 document.getElementById("eggReviewSave").addEventListener("click",async()=>{
@@ -659,7 +668,6 @@ eggStoryTextarea.addEventListener("input",()=>{
 });
 document.getElementById("eggStorySubmit").addEventListener("click",()=>{
   eggSubmissionType="story";
-  eggConsent.style.display="none";
   eggSetScreen("egg-addname");
 });
 
