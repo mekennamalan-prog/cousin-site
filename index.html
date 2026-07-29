@@ -53,23 +53,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .tagline .db{display:none;}
 @media(min-width:820px){.tagline{max-width:44em;}.tagline .db{display:inline;}}
 
-/* ---- EMAIL GRAB: field + arrow ---- */
-.signup{margin:clamp(30px,4.5vh,46px) auto 0;}
-.row{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
-input[type=email]{flex:0 1 250px;min-width:0;font-family:var(--sans);font-size:1rem;color:var(--ink);
-  background:var(--cream);border:1px solid rgba(23,20,13,.16);border-radius:0;padding:0 17px;height:52px;
-  outline:3px solid transparent;outline-offset:2px;}
-input[type=email]::placeholder{color:rgba(23,20,13,.45);}
-input[type=email]:focus-visible{outline-color:var(--wordmark);}
-input[type=email]:-webkit-autofill,
-input[type=email]:-webkit-autofill:hover,
-input[type=email]:-webkit-autofill:focus{
-  -webkit-text-fill-color:var(--ink);
-  -webkit-box-shadow:0 0 0 1000px var(--cream) inset;
-  box-shadow:0 0 0 1000px var(--cream) inset;
-  transition:background-color 5000s ease-in-out 0s;
-}
-button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;gap:10px;padding:0 20px;cursor:pointer;
+/* ---- HERO TRIGGERS: share a story / capture a cover ---- */
+.triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:12px;justify-content:center;}
+@media(max-width:639px){.triggers{flex-direction:column;align-items:stretch;}}
+button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.13em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:0;
   transition:transform .15s ease,opacity .15s ease,background .35s ease;}
@@ -78,7 +65,6 @@ button.go:hover{opacity:.88;}
 button.go:active{transform:translateY(1px);}
 button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
-.status{min-height:1.3em;margin-top:14px;font-size:.95rem;font-weight:500;}
 
 /* ---- FOOTER (ink band, centered) ---- */
 .foot{background:var(--ink);color:var(--cream);text-align:center;
@@ -104,6 +90,98 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.27s}.d4{animation-delay:.38s}
 @keyframes rise{to{opacity:1;transform:none;}}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;animation:none;}}
+
+/* ==================================================================
+   EASTER EGG OVERLAY: share a story / capture a cover
+   Popup on desktop (dimmed backdrop over the homepage), full-screen
+   takeover on mobile. Nothing is uploaded anywhere yet — the photo
+   and story stay local unless the user taps a "Share with Cousin"
+   button, and even then submission is a front-end stub for now.
+   ================================================================== */
+.egg-overlay{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;}
+.egg-overlay.is-open{display:flex;}
+.egg-backdrop{position:absolute;inset:0;background:rgba(23,20,13,.6);}
+.egg-card{position:relative;z-index:1;width:100%;max-width:430px;height:90svh;overflow:hidden;
+  background:var(--bg);color:var(--text);box-shadow:0 40px 90px rgba(0,0,0,.5);}
+@media(max-width:639px){
+  .egg-card{max-width:none;height:100svh;box-shadow:none;}
+}
+.egg-close{position:absolute;top:18px;right:18px;z-index:30;width:30px;height:30px;
+  background:none;border:none;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.egg-close svg{width:100%;height:100%;}
+
+.egg-card .screen{display:none;position:absolute;inset:0;flex-direction:column;
+  background:var(--bg);color:var(--text);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.egg-card .screen.is-active{display:flex;}
+.egg-screen-pad{padding:26px;flex:1;display:flex;flex-direction:column;}
+
+.egg-link{appearance:none;background:none;border:none;border-bottom:2px solid currentColor;
+  font:inherit;font-family:var(--sans);font-weight:700;font-size:1.05rem;color:var(--wordmark);
+  text-decoration:none;text-transform:uppercase;letter-spacing:.02em;padding:0 0 5px;margin:0;
+  cursor:pointer;display:inline-block;text-align:left;-webkit-tap-highlight-color:transparent;}
+.egg-link:disabled{opacity:.5;cursor:default;}
+.egg-topleft-logo{width:130px;background-color:var(--wordmark);}
+
+/* ---- fig 2: story ---- */
+#screen-egg-story .egg-screen-pad{padding-top:64px;}
+.egg-story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
+  font-family:var(--sans);font-size:1.3rem;line-height:1.5;color:var(--wordmark);overflow:hidden;min-height:120px;}
+.egg-story-submit{margin-top:14px;}
+
+/* ---- fig 3: allow camera ---- */
+#screen-egg-allow .egg-screen-pad{align-items:center;justify-content:center;text-align:center;gap:16px;padding-top:64px;}
+.egg-cam-icon{width:64px;height:64px;color:var(--wordmark);}
+.egg-allow-error{font-family:var(--sans);color:#B3261E;font-size:.9rem;min-height:1.3em;}
+.egg-privacy{font-family:var(--sans);color:var(--wordmark);opacity:.75;font-size:.82rem;line-height:1.5;max-width:34ch;}
+
+/* ---- fig 4/5: booth ---- */
+#screen-egg-booth{background:var(--ink);color:#fff;}
+.egg-booth-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;}
+.egg-booth-video.is-live{opacity:1;}
+.egg-booth-video.mirrored{transform:scaleX(-1);}
+.egg-booth-scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0) 58%,rgba(0,0,0,.7) 100%);}
+.egg-booth-overlay{position:relative;z-index:1;height:100%;padding:34px 26px 0;}
+.egg-booth-logo{width:82%;background-color:#fff;margin:0 auto;}
+.egg-booth-meta{width:82%;margin:8px auto 0;text-align:right;font-family:var(--sans);line-height:1.5;}
+.egg-booth-meta .l1{display:block;font-weight:600;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;}
+.egg-booth-meta .l2{display:block;font-weight:500;font-size:.88rem;}
+.egg-booth-headline{position:absolute;left:26px;right:26px;bottom:20svh;font-family:var(--sans);
+  font-weight:700;text-transform:uppercase;font-size:1.3rem;line-height:1.25;}
+.egg-booth-barcode{position:absolute;right:26px;bottom:100px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:1;}
+.egg-booth-barcode .bars{width:130px;height:56px;background-color:#fff;
+  -webkit-mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);
+  mask-image:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 9px,#000 9px 12px,transparent 12px 13px,#000 13px 17px,transparent 17px 19px,#000 19px 20px,transparent 20px 24px);}
+.egg-booth-barcode .digits{font-family:var(--sans);font-size:.68rem;letter-spacing:.12em;color:#fff;}
+.egg-booth-tray{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;align-items:center;
+  justify-content:space-around;padding:18px 26px 30px;}
+.egg-booth-tray button{background:none;border:none;color:#fff;cursor:pointer;width:40px;height:40px;
+  padding:0;-webkit-tap-highlight-color:transparent;}
+.egg-booth-tray button svg{width:100%;height:100%;}
+.egg-booth-tray .shutter{width:56px;height:56px;}
+.egg-booth-countdown{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.3);pointer-events:none;}
+.egg-booth-countdown.is-active{display:flex;}
+.egg-booth-countdown span{font-family:var(--serif);font-weight:500;color:#fff;font-size:6.5rem;animation:eggCountPulse .9s ease;}
+@keyframes eggCountPulse{0%{opacity:0;transform:scale(1.35);}35%{opacity:1;transform:scale(1);}100%{opacity:1;transform:scale(1);}}
+.egg-booth-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;}
+.egg-booth-flash.is-flash{animation:eggFlashPop .4s ease;}
+@keyframes eggFlashPop{0%{opacity:.85;}100%{opacity:0;}}
+
+/* ---- fig 6: review ---- */
+#screen-egg-review .egg-screen-pad{align-items:center;padding-top:56px;gap:22px;}
+.egg-review-photo{width:100%;max-width:280px;box-shadow:0 18px 40px rgba(0,0,0,.35);}
+.egg-review-actions{display:flex;flex-direction:column;gap:16px;align-items:flex-start;width:100%;max-width:280px;}
+
+/* ---- fig 7: add name ---- */
+#screen-egg-addname .egg-screen-pad{padding-top:120px;gap:22px;}
+#screen-egg-addname form{display:flex;flex-direction:column;gap:24px;}
+.egg-field{border:none;border-bottom:1px solid rgba(42,106,242,.35);background:none;
+  font-family:var(--sans);font-weight:700;font-size:1.5rem;color:var(--wordmark);width:100%;
+  padding:0 0 10px;outline:none;}
+.egg-field::placeholder{color:rgba(42,106,242,.4);font-weight:700;}
+.egg-consent{font-family:var(--sans);font-size:.95rem;line-height:1.5;color:var(--wordmark);}
+.egg-submit-row{margin-top:6px;}
 </style>
 </head>
 <body>
@@ -117,15 +195,15 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <p class="tagline reveal d3">COUSIN is an independent print magazine that widens the lens <br class="db">on the people and ideas that make <span class="nobr">Salt Lake City interesting</span>.</p>
 
-    <div class="signup reveal d4">
-      <div class="row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email address" />
-        <button id="submit" class="go" type="button">
-          <span>Keep in touch</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
+    <div class="triggers reveal d4">
+      <button id="triggerStory" class="go" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l4-1 10-10-3-3-10 10-1 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M13 6l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Share a story</span>
+      </button>
+      <button id="triggerCover" class="go" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 7l1.5-2h5L16 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Capture a cover</span>
+      </button>
     </div>
   </div>
 </main>
@@ -154,40 +232,389 @@ button.go[disabled]{opacity:.55;cursor:default;}
   </div>
 </footer>
 
+<div class="egg-overlay" id="eggOverlay">
+  <div class="egg-backdrop" id="eggBackdrop"></div>
+  <div class="egg-card" id="eggCard">
+    <button class="egg-close" id="eggClose" aria-label="Close" type="button">
+      <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+
+    <!-- fig 2: share a story -->
+    <section class="screen" id="screen-egg-story">
+      <div class="egg-screen-pad">
+        <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin"></div>
+        <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story"></textarea>
+        <div class="egg-story-submit">
+          <button class="egg-link" id="eggStorySubmit" type="button">Share with Cousin</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- fig 3: allow camera -->
+    <section class="screen" id="screen-egg-allow">
+      <div class="egg-screen-pad">
+        <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin" style="position:absolute;top:26px;left:26px;"></div>
+        <svg class="egg-cam-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7l1.5-2h5L16 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <button class="egg-link" id="eggAllowBtn" type="button">Allow camera access</button>
+        <p class="egg-allow-error" id="eggAllowError" role="status" aria-live="polite"></p>
+        <p class="egg-privacy">Privacy policy: Your cover image will only be stored if you choose to share it with us.</p>
+      </div>
+    </section>
+
+    <!-- fig 4/5: camera booth -->
+    <section class="screen" id="screen-egg-booth">
+      <video class="egg-booth-video" id="eggBoothVideo" autoplay muted playsinline aria-hidden="true"></video>
+      <div class="egg-booth-scrim" aria-hidden="true"></div>
+      <div class="egg-booth-overlay">
+        <div class="egg-booth-logo wm-mask" role="img" aria-label="Cousin"></div>
+        <div class="egg-booth-meta">
+          <span class="l1">Salt Lake City</span>
+          <span class="l2">Issue no. 1</span>
+        </div>
+      </div>
+      <p class="egg-booth-headline">A new independent<br>print magazine for<br>Salt Lake City</p>
+      <div class="egg-booth-barcode" aria-hidden="true">
+        <div class="bars"></div>
+        <div class="digits">0 51000 01251 7</div>
+      </div>
+      <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
+      <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
+      <div class="egg-booth-tray">
+        <button id="eggBoothBack" aria-label="Back" type="button">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <button id="eggBoothShutter" class="shutter" aria-label="Take photo" type="button">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="6.2" fill="currentColor"/></svg>
+        </button>
+        <button id="eggBoothFlip" aria-label="Flip camera" type="button">
+          <svg viewBox="0 0 24 24"><path d="M12 4 L20 20 L4 20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- fig 6: review -->
+    <section class="screen" id="screen-egg-review">
+      <div class="egg-screen-pad">
+        <img class="egg-review-photo" id="eggReviewPhoto" alt="Your Cousin cover photo" />
+        <div class="egg-review-actions">
+          <button class="egg-link" id="eggReviewShare" type="button">Share with Cousin</button>
+          <button class="egg-link" id="eggReviewSave" type="button">Save to camera roll</button>
+          <button class="egg-link" id="eggReviewRetake" type="button">Retake</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- fig 7: add name -->
+    <section class="screen" id="screen-egg-addname">
+      <div class="egg-screen-pad">
+        <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin" style="position:absolute;top:26px;left:26px;"></div>
+        <form id="eggAddNameForm">
+          <input class="egg-field" id="eggName" type="text" placeholder="Name" autocomplete="name" required />
+          <input class="egg-field" id="eggPhone" type="tel" placeholder="(801) 223-3344" autocomplete="tel" />
+          <input class="egg-field" id="eggEmail" type="email" placeholder="you@email.com" autocomplete="email" />
+          <p class="egg-consent" id="eggConsent">Our magazine team may use covers submitted to us in promotional materials.</p>
+          <div class="egg-submit-row">
+            <button class="egg-link" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>
+
 <script>
-/* ===== EMAIL CAPTURE -> GOOGLE SHEET ================================
-   Each signup is POSTed to a Google Apps Script web app that appends
-   it to the Cousin subscribers sheet. no-cors = fire-and-forget (Apps
-   Script returns no CORS headers), so success is shown optimistically.
+/* ===== EASTER EGG OVERLAY ===========================================
+   Nothing here is uploaded anywhere — the camera stream, captured
+   photo, and story text all stay local to this page unless the user
+   explicitly taps "Share with Cousin", and even that is a front-end
+   stub tonight (no backend wired up yet).
    ==================================================================== */
-const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbzo-qjKdZSil_DFNnh4zW4Vd_sxBXxjzegzHNzWmarqRa53xlz3su-DtBiSChmcuJREHw/exec";
+const eggOverlay=document.getElementById("eggOverlay");
+const eggCard=document.getElementById("eggCard");
+let eggCurrentScreen=null;
 
-const emailEl=document.getElementById("email");
-const btn=document.getElementById("submit");
-const statusEl=document.getElementById("status");
-const valid=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-const setStatus=m=>{statusEl.textContent=m;};
-
-async function subscribe(){
-  const email=emailEl.value.trim();
-  if(!valid(email)){setStatus("That email doesn’t look right — give it another go.");emailEl.focus();return;}
-  btn.disabled=true;
-  try{
-    await fetch(SHEET_ENDPOINT,{
-      method:"POST",
-      mode:"no-cors",
-      body:new URLSearchParams({email:email})
-    });
-    setStatus("You’re on the list.");
-    emailEl.value="";
-  }catch(e){
-    setStatus("Something broke on our end. Try again in a moment?");
-  }finally{
-    btn.disabled=false;
+function eggSetScreen(name){
+  if(name===eggCurrentScreen)return;
+  if(eggCurrentScreen==="egg-booth"){eggStopStream();eggBoothVideo.classList.remove("is-live");}
+  document.querySelectorAll(".egg-card .screen").forEach(s=>s.classList.remove("is-active"));
+  document.getElementById("screen-"+name).classList.add("is-active");
+  eggCurrentScreen=name;
+  if(name==="egg-booth"&&!eggBoothVideo.classList.contains("is-live")){
+    eggEnsureStream(eggFacingMode).catch(()=>eggSetScreen("egg-allow"));
+  }else if(name==="egg-story"){
+    requestAnimationFrame(()=>eggStoryTextarea.focus());
   }
 }
-btn.addEventListener("click",subscribe);
-emailEl.addEventListener("keydown",e=>{if(e.key==="Enter")subscribe();});
+function eggOpen(name){
+  eggOverlay.classList.add("is-open");
+  eggSetScreen(name);
+}
+function eggClose(){
+  if(eggCurrentScreen==="egg-booth"){eggStopStream();eggBoothVideo.classList.remove("is-live");}
+  eggOverlay.classList.remove("is-open");
+  eggCurrentScreen=null;
+  eggStoryTextarea.value="";
+  eggStoryTextarea.style.height="auto";
+  eggAddNameForm.reset();
+  eggCapturedPhotoDataUrl=null;
+}
+document.getElementById("eggClose").addEventListener("click",eggClose);
+document.getElementById("eggBackdrop").addEventListener("click",eggClose);
+window.addEventListener("keydown",e=>{if(e.key==="Escape"&&eggOverlay.classList.contains("is-open"))eggClose();});
+
+/* ===== HOMEPAGE TRIGGERS ============================================ */
+document.getElementById("triggerStory").addEventListener("click",()=>eggOpen("egg-story"));
+document.getElementById("triggerCover").addEventListener("click",()=>{
+  eggOpen(eggCameraGranted?"egg-booth":"egg-allow");
+});
+
+/* ===== CAMERA STATE ================================================= */
+const eggBoothVideo=document.getElementById("eggBoothVideo");
+let eggStream=null;
+let eggFacingMode="user";
+let eggCameraGranted=false;
+
+function eggStopStream(){
+  if(eggStream){eggStream.getTracks().forEach(t=>t.stop());eggStream=null;}
+}
+async function eggEnsureStream(facingMode){
+  eggStopStream();
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode},audio:false});
+  eggStream=stream;
+  eggFacingMode=facingMode;
+  eggBoothVideo.srcObject=stream;
+  await eggBoothVideo.play();
+  eggBoothVideo.classList.toggle("mirrored",facingMode==="user");
+  eggBoothVideo.classList.add("is-live");
+  eggCameraGranted=true;
+}
+
+const eggAllowError=document.getElementById("eggAllowError");
+document.getElementById("eggAllowBtn").addEventListener("click",async()=>{
+  eggAllowError.textContent="";
+  try{
+    if(!navigator.mediaDevices?.getUserMedia)throw new Error("unsupported");
+    await eggEnsureStream("user");
+    eggSetScreen("egg-booth");
+  }catch(err){
+    eggAllowError.textContent="Camera access denied or unavailable — try again.";
+  }
+});
+document.getElementById("eggBoothBack").addEventListener("click",eggClose);
+document.getElementById("eggBoothFlip").addEventListener("click",async()=>{
+  const next=eggFacingMode==="user"?"environment":"user";
+  try{await eggEnsureStream(next);}catch(err){/* camera unavailable in that mode; stay as-is */}
+});
+
+/* ===== COVER PHOTO CAPTURE =========================================== */
+const eggBoothCountdown=document.getElementById("eggBoothCountdown");
+const eggBoothFlash=document.getElementById("eggBoothFlash");
+const eggBoothLogo=document.querySelector(".egg-booth-logo");
+const eggBoothMetaLines=document.querySelectorAll(".egg-booth-meta span");
+const eggBoothHeadline=document.querySelector(".egg-booth-headline");
+const eggBoothHeadlineLines=["A new independent","print magazine for","Salt Lake City"];
+const eggBoothBars=document.querySelector(".egg-booth-barcode .bars");
+const eggBoothDigits=document.querySelector(".egg-booth-barcode .digits");
+const eggBoothScreen=document.getElementById("screen-egg-booth");
+const eggReviewPhoto=document.getElementById("eggReviewPhoto");
+
+let eggIsCapturing=false;
+let eggCapturedPhotoDataUrl=null;
+let eggSubmissionType=null;
+
+function eggCoverCropRect(sw,sh,tw,th){
+  const sRatio=sw/sh,tRatio=tw/th;
+  if(sRatio>tRatio){const ch=sh,cw=sh*tRatio;return{cx:(sw-cw)/2,cy:0,cw,ch};}
+  const cw=sw,ch=sw/tRatio;return{cx:0,cy:(sh-ch)/2,cw,ch};
+}
+function eggToCanvasRect(el,containerRect,scale){
+  const r=el.getBoundingClientRect();
+  return{x:(r.left-containerRect.left)*scale,y:(r.top-containerRect.top)*scale,w:r.width*scale,h:r.height*scale};
+}
+function eggCssFont(el,scale){
+  const cs=getComputedStyle(el);
+  return cs.fontWeight+" "+(parseFloat(cs.fontSize)*scale)+"px "+cs.fontFamily;
+}
+function eggLoadImage(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=reject;
+    img.src=src;
+  });
+}
+function eggGetMaskUrl(el){
+  const cs=getComputedStyle(el);
+  const val=cs.maskImage&&cs.maskImage!=="none"?cs.maskImage:cs.webkitMaskImage;
+  const match=/url\((['"]?)(.*?)\1\)/.exec(val||"");
+  return match?match[2]:null;
+}
+function eggDrawTintedImage(ctx,img,r,color){
+  const off=document.createElement("canvas");
+  off.width=Math.max(1,Math.round(r.w));off.height=Math.max(1,Math.round(r.h));
+  const octx=off.getContext("2d");
+  octx.drawImage(img,0,0,off.width,off.height);
+  octx.globalCompositeOperation="source-in";
+  octx.fillStyle=color;
+  octx.fillRect(0,0,off.width,off.height);
+  ctx.drawImage(off,r.x,r.y,r.w,r.h);
+}
+function eggDrawBarcode(ctx,r){
+  ctx.fillStyle="#fff";
+  const unit=r.w/130;
+  const pattern=[[0,2],[4,1],[9,3],[13,4],[19,1]];
+  for(let c=0;c*24*unit<r.w;c++){
+    pattern.forEach(([start,w])=>{
+      const x=r.x+(c*24+start)*unit;
+      if(x<r.x+r.w)ctx.fillRect(x,r.y,Math.min(w*unit,r.x+r.w-x),r.h);
+    });
+  }
+}
+
+async function eggComposeCoverPhoto(){
+  if(document.fonts?.ready)await document.fonts.ready;
+  const rect=eggBoothScreen.getBoundingClientRect();
+  const scale=Math.min(window.devicePixelRatio||1,2);
+  const W=Math.round(rect.width*scale),H=Math.round(rect.height*scale);
+  const canvas=document.createElement("canvas");
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext("2d");
+
+  const{cx,cy,cw,ch}=eggCoverCropRect(eggBoothVideo.videoWidth,eggBoothVideo.videoHeight,W,H);
+  if(eggFacingMode==="user"){
+    ctx.save();ctx.translate(W,0);ctx.scale(-1,1);
+    ctx.drawImage(eggBoothVideo,cx,cy,cw,ch,0,0,W,H);
+    ctx.restore();
+  }else{
+    ctx.drawImage(eggBoothVideo,cx,cy,cw,ch,0,0,W,H);
+  }
+
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,"rgba(0,0,0,.6)");
+  grad.addColorStop(.26,"rgba(0,0,0,0)");
+  grad.addColorStop(.6,"rgba(0,0,0,0)");
+  grad.addColorStop(1,"rgba(0,0,0,.75)");
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+  const logoSrc=eggGetMaskUrl(eggBoothLogo);
+  if(logoSrc){
+    const logoImg=await eggLoadImage(logoSrc);
+    const lr=eggToCanvasRect(eggBoothLogo,rect,scale);
+    eggDrawTintedImage(ctx,logoImg,lr,"#ffffff");
+  }
+
+  ctx.textBaseline="top";
+  ctx.fillStyle="#fff";
+  ctx.textAlign="right";
+  eggBoothMetaLines.forEach(span=>{
+    const r=eggToCanvasRect(span,rect,scale);
+    ctx.font=eggCssFont(span,scale);
+    ctx.fillText(span.textContent,r.x+r.w,r.y);
+  });
+
+  {
+    const r=eggToCanvasRect(eggBoothHeadline,rect,scale);
+    ctx.font=eggCssFont(eggBoothHeadline,scale);
+    ctx.textAlign="left";
+    const lineHeight=parseFloat(getComputedStyle(eggBoothHeadline).lineHeight)*scale||r.h/3;
+    eggBoothHeadlineLines.forEach((line,i)=>ctx.fillText(line.toUpperCase(),r.x,r.y+i*lineHeight));
+  }
+
+  {
+    const barsR=eggToCanvasRect(eggBoothBars,rect,scale);
+    eggDrawBarcode(ctx,barsR);
+    const digitsR=eggToCanvasRect(eggBoothDigits,rect,scale);
+    ctx.font=eggCssFont(eggBoothDigits,scale);
+    ctx.textAlign="right";
+    ctx.fillStyle="#fff";
+    ctx.fillText(eggBoothDigits.textContent,digitsR.x+digitsR.w,digitsR.y);
+  }
+
+  return canvas.toDataURL("image/png");
+}
+
+function eggRunCountdown(){
+  return new Promise(resolve=>{
+    const seq=["3","2","1"];
+    let i=0;
+    eggBoothCountdown.classList.add("is-active");
+    function tick(){
+      eggBoothCountdown.innerHTML="";
+      const span=document.createElement("span");
+      span.textContent=seq[i];
+      eggBoothCountdown.appendChild(span);
+      i++;
+      if(i<seq.length){setTimeout(tick,900);}
+      else{
+        setTimeout(()=>{
+          eggBoothCountdown.classList.remove("is-active");
+          eggBoothCountdown.innerHTML="";
+          eggBoothFlash.classList.add("is-flash");
+          setTimeout(()=>eggBoothFlash.classList.remove("is-flash"),400);
+          resolve();
+        },900);
+      }
+    }
+    tick();
+  });
+}
+
+document.getElementById("eggBoothShutter").addEventListener("click",async()=>{
+  if(eggIsCapturing)return;
+  eggIsCapturing=true;
+  await eggRunCountdown();
+  try{
+    const dataUrl=await eggComposeCoverPhoto();
+    eggCapturedPhotoDataUrl=dataUrl;
+    eggReviewPhoto.src=dataUrl;
+    eggSetScreen("egg-review");
+  }catch(err){/* capture failed silently; user can just try again */}
+  eggIsCapturing=false;
+});
+
+document.getElementById("eggReviewRetake").addEventListener("click",()=>eggSetScreen("egg-booth"));
+document.getElementById("eggReviewShare").addEventListener("click",()=>{
+  eggSubmissionType="photo";
+  eggConsent.style.display="";
+  eggSetScreen("egg-addname");
+});
+document.getElementById("eggReviewSave").addEventListener("click",async()=>{
+  if(!eggCapturedPhotoDataUrl)return;
+  const blob=await(await fetch(eggCapturedPhotoDataUrl)).blob();
+  const file=new File([blob],"cousin-cover.png",{type:"image/png"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file],title:"My Cousin cover"});return;}
+    catch(err){/* share cancelled/failed — fall back to download */}
+  }
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="cousin-cover.png";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+});
+
+/* ===== STORY WRITER ================================================== */
+const eggStoryTextarea=document.getElementById("eggStoryTextarea");
+eggStoryTextarea.addEventListener("input",()=>{
+  eggStoryTextarea.style.height="auto";
+  eggStoryTextarea.style.height=eggStoryTextarea.scrollHeight+"px";
+});
+document.getElementById("eggStorySubmit").addEventListener("click",()=>{
+  eggSubmissionType="story";
+  eggConsent.style.display="none";
+  eggSetScreen("egg-addname");
+});
+
+/* ===== ADD NAME (fig 7) — stubbed tonight, no backend ================ */
+const eggConsent=document.getElementById("eggConsent");
+const eggAddNameForm=document.getElementById("eggAddNameForm");
+eggAddNameForm.addEventListener("submit",e=>{
+  e.preventDefault();
+  eggSubmissionType=null;
+  eggClose();
+});
 </script>
 </body>
 </html>
