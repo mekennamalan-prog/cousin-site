@@ -15,9 +15,10 @@
  * submissions (empty for photo submissions — the cover photo itself
  * isn't sent here, only the reviewer sees it in-browser unless saved).
  * updates is "yes"/"no" for the print-releases-and-parties opt-in
- * checkbox — when "yes", index.html ALSO posts to a separate,
- * dedicated opt-in sheet (see updates.gs), so this column is just a
- * record of what was checked at submission time.
+ * checkbox — when "yes", index.html ALSO posts to the existing
+ * subscribers sheet/script (SHEET_ENDPOINT, same one the footer email
+ * signup uses), so this column is just a record of what was checked
+ * at submission time.
  *
  * DEPLOY / REDEPLOY (same as subscribers.gs):
  *   Deploy -> New deployment -> type: Web app

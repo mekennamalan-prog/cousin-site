@@ -675,18 +675,15 @@ document.getElementById("eggStorySubmit").addEventListener("click",()=>{
 });
 
 /* ===== ADD NAME -> GOOGLE SHEETS =====================================
-   Every submission posts name/email/phone/opt-in/story to the main
+   Every submission posts name/email/phone/opt-in/story to the
    submissions sheet via SUBMISSIONS_ENDPOINT (see
    apps-script/submissions.gs). If the "update me" box is checked, a
-   second, separate post goes to UPDATES_ENDPOINT (see
-   apps-script/updates.gs) — its own dedicated opt-in sheet, so it
-   stays a clean mailing list. Both are the same fire-and-forget
-   no-cors pattern as the email signup above. UPDATES_ENDPOINT needs
-   its own script deployed and its /exec URL pasted in below before
-   the opt-in checkbox actually writes anywhere.
+   second post ALSO goes to SHEET_ENDPOINT — the same subscribers
+   sheet/script the footer email signup already uses above — so opted-
+   in contacts land on the same mailing list as everyone else, no
+   separate sheet/script needed.
    ==================================================================== */
 const SUBMISSIONS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxMiIAD3ytlesrajTzybgIIWuZh8tBLCNy1SoOGxSYuYtfieLZ5jA4xsXdfwlvmlTXiRA/exec";
-const UPDATES_ENDPOINT = "PASTE_YOUR_UPDATES_APPS_SCRIPT_URL_HERE";
 
 const eggConsent=document.getElementById("eggConsent");
 const eggAddNameForm=document.getElementById("eggAddNameForm");
@@ -703,10 +700,10 @@ eggAddNameForm.addEventListener("submit",e=>{
     body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates,story})
   }).catch(()=>{/* fire-and-forget — no user-visible error */});
   if(updates==="yes"){
-    fetch(UPDATES_ENDPOINT,{
+    fetch(SHEET_ENDPOINT,{
       method:"POST",
       mode:"no-cors",
-      body:new URLSearchParams({name,email,phone})
+      body:new URLSearchParams({email})
     }).catch(()=>{/* fire-and-forget — no user-visible error */});
   }
   eggSubmissionType=null;
