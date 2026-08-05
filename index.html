@@ -213,7 +213,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-checkbox-row input{width:18px;height:18px;margin-top:3px;flex:0 0 auto;accent-color:#000;}
 .egg-checkbox-row label{font-family:var(--sans);font-weight:600;font-size:.85rem;letter-spacing:.08em;
   text-transform:uppercase;color:#000;line-height:1.4;}
-.egg-submit-row{margin-top:6px;}
+.egg-submit-row{margin-top:6px;display:flex;gap:24px;flex-wrap:wrap;}
 </style>
 </head>
 <body>
@@ -355,6 +355,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
             <label for="eggUpdateOptIn">Update me on Cousin Magazine print releases and parties</label>
           </div>
           <div class="egg-submit-row">
+            <button class="egg-link" id="eggAddNameBack" type="button">Back</button>
             <button class="egg-link" type="submit">Submit</button>
           </div>
         </form>
@@ -644,9 +645,12 @@ document.getElementById("eggBoothShutter").addEventListener("click",async()=>{
   eggIsCapturing=false;
 });
 
+let eggAddNamePrevScreen="egg-review";
+
 document.getElementById("eggReviewRetake").addEventListener("click",()=>eggSetScreen("egg-booth"));
 document.getElementById("eggReviewShare").addEventListener("click",()=>{
   eggSubmissionType="photo";
+  eggAddNamePrevScreen="egg-review";
   eggSetScreen("egg-addname");
 });
 document.getElementById("eggReviewSave").addEventListener("click",async()=>{
@@ -674,8 +678,10 @@ eggStoryTextarea.addEventListener("input",()=>{
 });
 document.getElementById("eggStorySubmit").addEventListener("click",()=>{
   eggSubmissionType="story";
+  eggAddNamePrevScreen="egg-story";
   eggSetScreen("egg-addname");
 });
+document.getElementById("eggAddNameBack").addEventListener("click",()=>eggSetScreen(eggAddNamePrevScreen));
 
 /* ===== ADD NAME -> GOOGLE SHEETS =====================================
    Every submission posts name/email/phone/opt-in/story to the
