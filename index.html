@@ -695,6 +695,7 @@ document.getElementById("eggAddNameBack").addEventListener("click",()=>eggSetScr
    separate sheet/script needed.
    ==================================================================== */
 const SUBMISSIONS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzqocX2CYcDjd2l1Qbfu2eOfoUIlfkqWTWHOgdfNKow69nyosuPF6PkuEtbYmws1b8/exec";
+const COVER_ENDPOINT = "PASTE_YOUR_COVER_SUBMISSIONS_APPS_SCRIPT_URL_HERE";
 
 const eggConsent=document.getElementById("eggConsent");
 const eggAddNameForm=document.getElementById("eggAddNameForm");
@@ -704,13 +705,22 @@ eggAddNameForm.addEventListener("submit",e=>{
   const email=document.getElementById("eggEmail").value.trim();
   const phone=document.getElementById("eggPhone").value.trim();
   const updates=document.getElementById("eggUpdateOptIn").checked?"yes":"no";
-  const story=eggSubmissionType==="story"?eggStoryTextarea.value.trim():"";
-  const photo=eggSubmissionType==="photo"?(eggCapturedPhotoDataUrl||""):"";
-  fetch(SUBMISSIONS_ENDPOINT,{
-    method:"POST",
-    mode:"no-cors",
-    body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates,story,photo})
-  }).catch(()=>{/* fire-and-forget — no user-visible error */});
+  // Story and cover submissions go to two entirely separate Apps
+  // Script deployments, so redeploying/changing one can never break
+  // the other.
+  if(eggSubmissionType==="photo"){
+    fetch(COVER_ENDPOINT,{
+      method:"POST",
+      mode:"no-cors",
+      body:new URLSearchParams({type:"photo",name,email,phone,updates,photo:eggCapturedPhotoDataUrl||""})
+    }).catch(()=>{/* fire-and-forget — no user-visible error */});
+  }else{
+    fetch(SUBMISSIONS_ENDPOINT,{
+      method:"POST",
+      mode:"no-cors",
+      body:new URLSearchParams({type:"story",name,email,phone,updates,story:eggStoryTextarea.value.trim()})
+    }).catch(()=>{/* fire-and-forget — no user-visible error */});
+  }
   if(updates==="yes"){
     fetch(SHEET_ENDPOINT,{
       method:"POST",

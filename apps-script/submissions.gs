@@ -1,27 +1,23 @@
 /**
- * Cousin — story/cover submission capture endpoint (Google Apps Script)
+ * Cousin — story submission capture endpoint (Google Apps Script)
  * -----------------------------------------------------------------
- * This is a STANDALONE script (not bound to any sheet). Deployed as a
- * Web App, its /exec URL is pasted into index.html as
- * SUBMISSIONS_ENDPOINT.
+ * Deployed as a standalone Web App; its /exec URL is pasted into
+ * index.html as SUBMISSIONS_ENDPOINT.
  *
- * The "add name" step of the easter-egg story/cover flow posts
- * { type, name, email, phone, updates, story, photo }
- * (application/x-www-form-urlencoded, mode:"no-cors") to this
- * endpoint. Every submission is emailed via MailApp, sent from
- * whichever account this script is deployed under, straight to
+ * The story-writer flow posts { type, name, email, phone, updates,
+ * story } (application/x-www-form-urlencoded, mode:"no-cors") to
+ * this endpoint. Emails the pitch via MailApp, sent from whichever
+ * account this script is deployed under, straight to
  * mekenna.malan@gmail.com — NOT hello@cousinmag.com. hello@ forwards
  * to that same personal inbox, so sending "from you to you" through
  * that forward gets silently deduped/hidden by Gmail; sending
- * directly to the personal inbox skips that loop. Reply-to is set to
- * the submitter's email so hitting "reply" goes straight to them.
+ * directly to the personal inbox skips that loop and lands in the
+ * same place you already read mail. Reply-to is set to the
+ * submitter's email so hitting "reply" goes straight to them.
  *
- *   - "story" submissions: the pitch text is in the email body
- *     (story field).
- *   - "photo" submissions: the composited cover image (a data: URL
- *     from canvas.toDataURL) is decoded and attached to the email as
- *     a PNG. Nothing is logged to a sheet for either type — the email
- *     itself is the only record.
+ * Cover-photo submissions do NOT use this endpoint — see
+ * apps-script/cover-submissions.gs, a deliberately separate script
+ * and deployment, so redeploying that one can never affect this one.
  *
  * updates is "yes"/"no" for the print-releases-and-parties opt-in
  * checkbox — when "yes", index.html ALSO posts to the existing
@@ -47,38 +43,19 @@ function doPost(e) {
     var p = (e && e.parameter) ? e.parameter : {};
     var name = (p.name || '').trim();
     var email = (p.email || '').trim();
-    var type = p.type || '';
-    if (!name || !email) {
-      return ContentService.createTextOutput('ok');
+
+    if (name && email) {
+      MailApp.sendEmail({
+        to: 'mekenna.malan@gmail.com',
+        replyTo: email,
+        subject: 'New story pitch from ' + name + ' (cousinmag.com)',
+        body: 'Name: ' + name + '\n' +
+              'Email: ' + email + '\n' +
+              'Phone: ' + (p.phone || '(not provided)') + '\n' +
+              'Wants updates: ' + (p.updates || 'no') + '\n\n' +
+              'Story:\n' + (p.story || '')
+      });
     }
-
-    var body = 'Name: ' + name + '\n' +
-               'Email: ' + email + '\n' +
-               'Phone: ' + (p.phone || '(not provided)') + '\n' +
-               'Wants updates: ' + (p.updates || 'no') + '\n\n';
-
-    var message = {
-      to: 'mekenna.malan@gmail.com',
-      replyTo: email,
-      subject: 'New ' + (type || 'submission') + ' from ' + name + ' (cousinmag.com)',
-    };
-
-    if (type === 'photo' && p.photo) {
-      var match = /^data:(image\/[a-zA-Z0-9.+-]+);base64,(.*)$/.exec(p.photo);
-      if (match) {
-        var blob = Utilities.newBlob(Utilities.base64Decode(match[2]), match[1], 'cousin-cover.png');
-        message.attachments = [blob];
-        body += 'Cover photo attached.';
-      } else {
-        body += "Cover photo couldn't be read — no attachment.";
-      }
-    } else {
-      body += 'Story:\n' + (p.story || '');
-    }
-
-    message.body = body;
-    MailApp.sendEmail(message);
-
     return ContentService.createTextOutput('ok');
   } catch (err) {
     return ContentService.createTextOutput('error');
