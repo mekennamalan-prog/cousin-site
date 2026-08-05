@@ -40,8 +40,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 
 /* ---- HERO (centered) ---- */
 .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  padding:clamp(80px,12vh,140px) var(--gut) clamp(64px,10vh,96px);}
-.inner{width:100%;max-width:var(--maxw);margin:0 auto;}
+  padding:clamp(80px,12vh,140px) var(--gut) clamp(64px,10vh,96px);
+  position:relative;background-size:cover;background-position:center;}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .3s ease;
+  background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 32%,rgba(0,0,0,.16) 55%,rgba(0,0,0,.58) 100%);}
+.inner{position:relative;z-index:1;width:100%;max-width:var(--maxw);margin:0 auto;}
+/* full-bleed hero photo test — pick via ?bg=gazebo or ?bg=gallery */
+body[data-bg]{transition:background .3s ease;}
+body[data-bg="gazebo"] .hero{background-image:url("assets/bg-test-gazebo.jpg");}
+body[data-bg="gallery"] .hero{background-image:url("assets/bg-test-gallery.jpg");}
+body[data-bg] .hero::before{opacity:1;}
+body[data-bg] .kicker,body[data-bg] .tagline{color:#fff;opacity:.95;}
+body[data-bg] .wordmark{background-color:#fff;}
 
 .kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
   opacity:.82;margin-bottom:clamp(24px,4vh,40px);}
@@ -264,6 +274,11 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </style>
 </head>
 <body>
+<script>
+// design-lab test only: ?bg=gazebo or ?bg=gallery swaps the hero photo
+(function(){var bg=new URLSearchParams(location.search).get("bg");
+  if(bg==="gazebo"||bg==="gallery")document.body.setAttribute("data-bg",bg);})();
+</script>
 <div class="grain" aria-hidden="true"></div>
 
 <main class="hero">
