@@ -67,9 +67,9 @@ button.go:active{transform:translateY(1px);}
 button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
-/* torn-paper hero triggers, taped down */
-.triggers{margin-top:clamp(46px,7vh,64px);}
-.triggers button.go{position:relative;height:auto;min-height:84px;padding:26px 36px;color:var(--ink);
+/* torn-paper hero triggers, taped down — fig 1: plain paper, fig 2: notebook paper */
+.triggers{margin-top:clamp(50px,7vh,70px);}
+.triggers button.go{position:relative;height:auto;min-height:84px;padding:26px 36px 22px;color:var(--ink);
   background-color:#FFFEF8;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
   background-blend-mode:multiply;
@@ -79,17 +79,35 @@ button.go[disabled]{opacity:.55;cursor:default;}
   filter:drop-shadow(0 2px 3px rgba(23,20,13,.2)) drop-shadow(0 9px 14px rgba(23,20,13,.25));
   transform:rotate(-1.5deg);
   transition:transform .2s ease,filter .2s ease;}
-.triggers button.go:nth-of-type(2){transform:rotate(1.2deg);}
-.triggers button.go::after{content:"";position:absolute;top:-13px;left:50%;width:68px;height:28px;margin-left:-34px;
-  background-color:rgba(255,255,253,.68);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
-  background-blend-mode:multiply;
-  box-shadow:0 1px 3px rgba(23,20,13,.25);transform:rotate(-4deg);pointer-events:none;}
-.triggers button.go:nth-of-type(2)::after{transform:rotate(3deg);}
 .triggers button.go:hover{opacity:1;transform:rotate(0deg) translateY(-1px);
   filter:drop-shadow(0 3px 4px rgba(23,20,13,.25)) drop-shadow(0 11px 16px rgba(23,20,13,.3));}
 .triggers button.go:active{transform:rotate(0deg) translateY(1px) scale(.99);
   filter:drop-shadow(0 1px 2px rgba(23,20,13,.25));}
+
+/* fig 1: share a story — plain paper, tape corner top-left */
+.triggers button.go:nth-of-type(1){transform:rotate(-1.5deg);}
+.triggers button.go:nth-of-type(1)::after{content:"";position:absolute;top:-10px;left:14px;width:52px;height:26px;
+  background-color:rgba(255,255,253,.7);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  background-blend-mode:multiply;
+  box-shadow:0 1px 3px rgba(23,20,13,.25);transform:rotate(-38deg);pointer-events:none;}
+
+/* fig 2: capture a cover — ruled notebook paper, punch holes, tape on the side */
+.triggers button.go:nth-of-type(2){transform:rotate(1.3deg);padding-left:44px;
+  background-color:#F8F4E7;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='40'%3E%3Ccircle cx='14' cy='11' r='4.2' fill='%23F8F4E7'/%3E%3Ccircle cx='14' cy='11' r='4.2' fill='none' stroke='%23C9BD98' stroke-width='1.1'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(to bottom,transparent 0 17px,rgba(120,140,175,.32) 17px 18px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  background-repeat:repeat-y,repeat,repeat;
+  background-position:left center,left top,left top;
+  background-size:28px 40px,auto,160px 160px;
+  background-blend-mode:normal,normal,multiply;}
+.triggers button.go:nth-of-type(2)::after{content:"";position:absolute;top:22px;left:-11px;width:24px;height:46px;
+  background-color:rgba(255,255,253,.72);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  background-blend-mode:multiply;
+  box-shadow:0 1px 3px rgba(23,20,13,.25);transform:rotate(8deg);pointer-events:none;}
 
 /* ---- FOOTER (ink band, centered) ---- */
 .foot{background:var(--ink);color:var(--cream);
