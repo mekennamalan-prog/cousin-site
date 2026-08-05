@@ -429,11 +429,23 @@ function eggSetScreen(name){
     requestAnimationFrame(()=>eggStoryTextarea.focus());
   }
 }
+// A phone's swipe-back gesture only has something to act on if we've
+// pushed a history entry for the open overlay — otherwise it does
+// nothing (or leaves the site). So opening the overlay pushes one
+// entry, and every close path (X, backdrop, Escape, a completed
+// submission) goes through history.back() instead of closing the DOM
+// directly, so a swipe-back and an on-screen close button behave the
+// same way and stay in sync with the browser's history stack.
+let eggHistoryPushed=false;
 function eggOpen(name){
   eggOverlay.classList.add("is-open");
   eggSetScreen(name);
+  if(!eggHistoryPushed){
+    history.pushState({eggOpen:true},"","");
+    eggHistoryPushed=true;
+  }
 }
-function eggClose(){
+function eggCloseUI(){
   if(eggCurrentScreen==="egg-booth"){eggStopStream();eggBoothVideo.classList.remove("is-live");}
   eggOverlay.classList.remove("is-open");
   eggCurrentScreen=null;
@@ -442,6 +454,20 @@ function eggClose(){
   eggAddNameForm.reset();
   eggCapturedPhotoDataUrl=null;
 }
+function eggClose(){
+  if(eggHistoryPushed){
+    eggHistoryPushed=false;
+    history.back();
+  }else{
+    eggCloseUI();
+  }
+}
+window.addEventListener("popstate",()=>{
+  if(eggOverlay.classList.contains("is-open")){
+    eggHistoryPushed=false;
+    eggCloseUI();
+  }
+});
 document.getElementById("eggClose").addEventListener("click",eggClose);
 document.getElementById("eggBackdrop").addEventListener("click",eggClose);
 window.addEventListener("keydown",e=>{if(e.key==="Escape"&&eggOverlay.classList.contains("is-open"))eggClose();});
