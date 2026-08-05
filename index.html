@@ -198,12 +198,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-booth-flash.is-flash{animation:eggFlashPop .4s ease;}
 .egg-booth-flash.is-fill{opacity:1;transition:none;}
 @keyframes eggFlashPop{0%{opacity:.85;}100%{opacity:0;}}
-.egg-booth-flash-toggle{position:absolute;top:18px;left:18px;z-index:3;width:40px;height:40px;border-radius:50%;
-  background:rgba(0,0,0,.55);border:1.5px solid rgba(255,255,255,.9);color:#fff;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s,border-color .15s;
-  box-shadow:0 1px 6px rgba(0,0,0,.4);}
-.egg-booth-flash-toggle svg{width:20px;height:20px;}
-.egg-booth-flash-toggle[aria-pressed="true"]{background:#ffd23f;color:var(--ink);border-color:#ffd23f;}
+.egg-booth-flash-toggle[aria-pressed="true"]{color:#ffd23f;}
 
 /* ---- fig 6: review ---- */
 #screen-egg-review .egg-screen-pad{align-items:center;padding-top:56px;gap:40px;}
@@ -326,12 +321,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
       </div>
       <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
       <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
-      <button id="eggBoothFlashToggle" class="egg-booth-flash-toggle" aria-pressed="false" aria-label="Toggle flash" type="button">
-        <svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg>
-      </button>
       <div class="egg-booth-tray">
-        <button id="eggBoothBack" aria-label="Close" type="button">
-          <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <button id="eggBoothFlashToggle" class="egg-booth-flash-toggle" aria-pressed="false" aria-label="Toggle flash" type="button">
+          <svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg>
         </button>
         <button id="eggBoothShutter" class="shutter" aria-label="Take photo" type="button">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>
@@ -492,7 +484,6 @@ document.getElementById("eggAllowBtn").addEventListener("click",async()=>{
     eggAllowError.textContent="Camera access denied or unavailable — try again.";
   }
 });
-document.getElementById("eggBoothBack").addEventListener("click",eggClose);
 document.getElementById("eggBoothFlip").addEventListener("click",async()=>{
   const next=eggFacingMode==="user"?"environment":"user";
   try{await eggEnsureStream(next);}catch(err){/* camera unavailable in that mode; stay as-is */}
