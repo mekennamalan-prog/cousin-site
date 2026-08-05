@@ -705,10 +705,11 @@ eggAddNameForm.addEventListener("submit",e=>{
   const phone=document.getElementById("eggPhone").value.trim();
   const updates=document.getElementById("eggUpdateOptIn").checked?"yes":"no";
   const story=eggSubmissionType==="story"?eggStoryTextarea.value.trim():"";
+  const photo=eggSubmissionType==="photo"?(eggCapturedPhotoDataUrl||""):"";
   fetch(SUBMISSIONS_ENDPOINT,{
     method:"POST",
     mode:"no-cors",
-    body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates,story})
+    body:new URLSearchParams({type:eggSubmissionType||"",name,email,phone,updates,story,photo})
   }).catch(()=>{/* fire-and-forget — no user-visible error */});
   if(updates==="yes"){
     fetch(SHEET_ENDPOINT,{
