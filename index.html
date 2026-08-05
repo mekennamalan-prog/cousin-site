@@ -48,11 +48,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 
 .wordmark{width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;transition:background-color .35s ease;}
 
-.tagline-img{width:min(84vw,800px);aspect-ratio:3673/689;margin:clamp(14px,2vh,24px) auto 0;
-  background-color:#000;
-  -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
-  mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
-@media(max-width:639px){.tagline-img{width:97vw;}}
+.tagline{font-family:var(--serif);font-weight:400;font-size:clamp(1.04rem,1.8vw,1.3rem);line-height:1.5;
+  max-width:44ch;margin:clamp(30px,4.5vh,46px) auto 0;opacity:.9;}
+.tagline .nobr{white-space:nowrap;}
+.tagline .db{display:none;}
+@media(min-width:820px){.tagline{max-width:44em;}.tagline .db{display:inline;}}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
 .triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:12px;justify-content:center;}
@@ -225,7 +225,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
 
-    <div class="tagline-img reveal d3" role="img" aria-label="An independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting."></div>
+    <p class="tagline reveal d3">COUSIN is an independent print magazine that widens the lens <br class="db">on the people and ideas that make <span class="nobr">Salt Lake City interesting</span>.</p>
 
     <div class="triggers reveal d4">
       <button id="triggerStory" class="go" type="button">
