@@ -154,10 +154,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 /* ---- fig 2: story ---- */
 #screen-egg-story .egg-screen-pad{padding-top:64px;}
-#screen-egg-story .egg-topleft-logo{width:190px;margin-bottom:22px;}
-.egg-story-prompt{font-family:var(--serif);font-size:1.02rem;line-height:1.5;color:#000;margin:0 0 20px;max-width:32ch;}
+#screen-egg-story .egg-topleft-logo{width:190px;margin-bottom:28px;}
 .egg-story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
   font-family:var(--serif);font-size:1.3rem;line-height:1.5;color:#000;overflow:hidden;min-height:120px;}
+.egg-story-textarea::placeholder{color:rgba(0,0,0,.4);}
 .egg-story-submit{margin-top:14px;}
 
 /* ---- fig 3: allow camera ---- */
@@ -292,8 +292,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <section class="screen" id="screen-egg-story">
       <div class="egg-screen-pad">
         <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin"></div>
-        <p class="egg-story-prompt">Tell us about a person, a place, a moment that stuck with you...</p>
-        <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story"></textarea>
+        <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story" placeholder="Tell us about a person, a place, a moment that stuck with you..."></textarea>
         <div class="egg-story-submit">
           <button class="egg-link" id="eggStorySubmit" type="button">Share with Us</button>
         </div>
