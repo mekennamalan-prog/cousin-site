@@ -72,6 +72,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
   padding:22px var(--gut);}
 .foot .inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;text-align:left;}
 .foot-left{display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+.foot-top{display:flex;align-items:center;gap:16px;}
 .foot-wm{width:100px;background-color:var(--cream);}
 .foot-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
 .foot .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:16px;}
@@ -192,9 +193,15 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-booth-countdown.is-active{display:flex;}
 .egg-booth-countdown span{font-family:var(--serif);font-weight:500;color:#fff;font-size:6.5rem;animation:eggCountPulse .9s ease;}
 @keyframes eggCountPulse{0%{opacity:0;transform:scale(1.35);}35%{opacity:1;transform:scale(1);}100%{opacity:1;transform:scale(1);}}
-.egg-booth-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;}
+.egg-booth-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s ease;}
 .egg-booth-flash.is-flash{animation:eggFlashPop .4s ease;}
+.egg-booth-flash.is-fill{opacity:1;transition:none;}
 @keyframes eggFlashPop{0%{opacity:.85;}100%{opacity:0;}}
+.egg-booth-flash-toggle{position:absolute;top:18px;left:18px;z-index:3;width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,.35);border:none;color:#fff;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s;}
+.egg-booth-flash-toggle svg{width:18px;height:18px;}
+.egg-booth-flash-toggle[aria-pressed="true"]{background:#fff;color:var(--ink);}
 
 /* ---- fig 6: review ---- */
 #screen-egg-review .egg-screen-pad{align-items:center;padding-top:56px;gap:40px;}
@@ -242,18 +249,20 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <footer class="foot">
   <div class="inner">
     <div class="foot-left">
-      <div class="foot-wm wm-mask" role="img" aria-label="Cousin"></div>
+      <div class="foot-top">
+        <div class="foot-wm wm-mask" role="img" aria-label="Cousin"></div>
+        <div class="signoff">
+          <a class="email-icon" href="mailto:hello@cousinmag.com" aria-label="Email Cousin">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6.5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="ig" href="https://instagram.com/cousin.mag" aria-label="Cousin on Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
       <div class="foot-meta">
         <p class="copyright">© 2026 Cousin Magazine</p>
         <a class="privacy-link" href="privacy.html">Privacy Policy</a>
-      </div>
-      <div class="signoff">
-        <a class="email-icon" href="mailto:hello@cousinmag.com" aria-label="Email Cousin">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6.5L20 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a class="ig" href="https://instagram.com/cousin.mag" aria-label="Cousin on Instagram" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg>
-        </a>
       </div>
     </div>
 
@@ -315,6 +324,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
       </div>
       <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
       <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
+      <button id="eggBoothFlashToggle" class="egg-booth-flash-toggle" aria-pressed="false" aria-label="Toggle flash" type="button">
+        <svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg>
+      </button>
       <div class="egg-booth-tray">
         <button id="eggBoothBack" aria-label="Close" type="button">
           <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -457,7 +469,7 @@ function eggStopStream(){
 }
 async function eggEnsureStream(facingMode){
   eggStopStream();
-  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode},audio:false});
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode,width:{ideal:1920},height:{ideal:1920}},audio:false});
   eggStream=stream;
   eggFacingMode=facingMode;
   eggBoothVideo.srcObject=stream;
@@ -482,6 +494,13 @@ document.getElementById("eggBoothBack").addEventListener("click",eggClose);
 document.getElementById("eggBoothFlip").addEventListener("click",async()=>{
   const next=eggFacingMode==="user"?"environment":"user";
   try{await eggEnsureStream(next);}catch(err){/* camera unavailable in that mode; stay as-is */}
+});
+
+let eggFlashEnabled=false;
+const eggFlashToggleBtn=document.getElementById("eggBoothFlashToggle");
+eggFlashToggleBtn.addEventListener("click",()=>{
+  eggFlashEnabled=!eggFlashEnabled;
+  eggFlashToggleBtn.setAttribute("aria-pressed",eggFlashEnabled?"true":"false");
 });
 
 /* ===== COVER PHOTO CAPTURE =========================================== */
@@ -550,7 +569,7 @@ function eggDrawBarcode(ctx,r){
 async function eggComposeCoverPhoto(){
   if(document.fonts?.ready)await document.fonts.ready;
   const rect=eggBoothScreen.getBoundingClientRect();
-  const scale=Math.min(window.devicePixelRatio||1,2);
+  const scale=Math.min(window.devicePixelRatio||1,3);
   const W=Math.round(rect.width*scale),H=Math.round(rect.height*scale);
   const canvas=document.createElement("canvas");
   canvas.width=W;canvas.height=H;
@@ -608,7 +627,7 @@ async function eggComposeCoverPhoto(){
   return canvas.toDataURL("image/png");
 }
 
-function eggRunCountdown(){
+function eggRunCountdown(skipFlashCue){
   return new Promise(resolve=>{
     const seq=["3","2","1"];
     let i=0;
@@ -624,8 +643,10 @@ function eggRunCountdown(){
         setTimeout(()=>{
           eggBoothCountdown.classList.remove("is-active");
           eggBoothCountdown.innerHTML="";
-          eggBoothFlash.classList.add("is-flash");
-          setTimeout(()=>eggBoothFlash.classList.remove("is-flash"),400);
+          if(!skipFlashCue){
+            eggBoothFlash.classList.add("is-flash");
+            setTimeout(()=>eggBoothFlash.classList.remove("is-flash"),400);
+          }
           resolve();
         },900);
       }
@@ -637,9 +658,21 @@ function eggRunCountdown(){
 document.getElementById("eggBoothShutter").addEventListener("click",async()=>{
   if(eggIsCapturing)return;
   eggIsCapturing=true;
-  await eggRunCountdown();
+  await eggRunCountdown(eggFlashEnabled);
   try{
-    const dataUrl=await eggComposeCoverPhoto();
+    let dataUrl;
+    if(eggFlashEnabled){
+      // Screen-flash fill light: snap the screen to full white so it
+      // lights the user's face (this is the front camera's only real
+      // light source), hold briefly for exposure to catch up, capture,
+      // then fade it back out.
+      eggBoothFlash.classList.add("is-fill");
+      await new Promise(r=>setTimeout(r,350));
+      dataUrl=await eggComposeCoverPhoto();
+      eggBoothFlash.classList.remove("is-fill");
+    }else{
+      dataUrl=await eggComposeCoverPhoto();
+    }
     eggCapturedPhotoDataUrl=dataUrl;
     eggReviewPhoto.src=dataUrl;
     eggSetScreen("egg-review");
