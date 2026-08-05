@@ -225,7 +225,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
 
-    <p class="tagline reveal d3">COUSIN is an independent print magazine that widens the lens <br class="db">on the people and ideas that make <span class="nobr">Salt Lake City interesting</span>.</p>
+    <p class="tagline reveal d3">An independent print magazine that widens the lens <br class="db">on the people and ideas that make <span class="nobr">Salt Lake City interesting</span>.</p>
 
     <div class="triggers reveal d4">
       <button id="triggerStory" class="go" type="button">
@@ -309,7 +309,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
       </div>
       <div class="egg-booth-barcode" aria-hidden="true">
         <div class="bars"></div>
-        <div class="digits">00000000001</div>
+        <div class="digits">0000000000000001</div>
       </div>
       <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
       <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
@@ -330,9 +330,12 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <section class="screen" id="screen-egg-review">
       <div class="egg-screen-pad">
         <img class="egg-review-photo" id="eggReviewPhoto" alt="Your Cousin cover photo" />
+        <button class="go" id="eggReviewSave" type="button">
+          <span>Save to camera roll</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
         <div class="egg-review-actions">
           <button class="egg-link" id="eggReviewShare" type="button">Share with Us</button>
-          <button class="egg-link" id="eggReviewSave" type="button">Save to camera roll</button>
           <button class="egg-link" id="eggReviewRetake" type="button">Retake</button>
         </div>
       </div>
@@ -579,7 +582,7 @@ async function eggComposeCoverPhoto(){
   eggBoothMetaLines.forEach(span=>{
     const r=eggToCanvasRect(span,rect,scale);
     ctx.font=eggCssFont(span,scale);
-    ctx.fillText(span.textContent,r.x+r.w,r.y);
+    ctx.fillText(span.textContent.toUpperCase(),r.x+r.w,r.y);
   });
 
   {
