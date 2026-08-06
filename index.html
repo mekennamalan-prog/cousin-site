@@ -63,14 +63,15 @@ body[data-bg] .tagline-handwritten{background-color:#fff;}
 body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-color:var(--ink);}
 body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
 
-.tagline-handwritten{width:min(86vw,800px);aspect-ratio:3673/689;margin:clamp(20px,3.5vh,32px) auto 0;
+.tagline-handwritten{position:relative;width:min(86vw,800px);aspect-ratio:3673/689;
+  margin:clamp(-72px,-8vh,-42px) auto 0;transform:translateX(3%);
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:.75;}
-.btn-handwritten{display:block;--btn-h:clamp(48px,7vw,88px);height:var(--btn-h);background-color:var(--ink);transition:background-color .35s ease;}
+.btn-handwritten{display:block;--btn-h:clamp(34px,4.2vw,52px);height:var(--btn-h);background-color:var(--ink);transition:background-color .35s ease;}
 #triggerStory .btn-handwritten{width:calc(var(--btn-h) * 1250 / 310);
   -webkit-mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;
   mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;}
@@ -81,39 +82,31 @@ body[data-bg] .btn-handwritten{background-color:#fff;}
 body[data-bg="gallery"] .btn-handwritten,body[data-bg="pole"] .btn-handwritten{background-color:var(--ink);}
 
 /* floating photo collage, moodboard-style — only shown when no single ?bg=NAME photo is picked.
-   All photos are square crops; missionaries+truck and hotdog+crowd are
-   stacked pairs (later in DOM order = drawn on top of its partner). */
+   Clustered toward the center/wordmark rather than the corners, and
+   axis-aligned (no rotation) -- only the wordmark itself tilts. */
 .float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 body[data-bg] .float-collage{display:none;}
-.float-photo{position:absolute;object-fit:cover;aspect-ratio:1/1;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
-/* stack A: missionaries behind, truck in front, top-left */
-.float-1{top:3%;left:1%;width:min(25vw,280px);transform:rotate(-7deg);}
-.float-2{top:14%;left:10%;width:min(17vw,195px);transform:rotate(6deg);}
-/* solo, top-right */
-.float-7{top:2%;right:2%;width:min(20vw,225px);transform:rotate(5deg);}
-/* tucked behind/around the wordmark band */
-.float-3{top:30%;left:0%;width:min(19vw,210px);transform:rotate(6deg);z-index:0;}
-.float-4{top:34%;right:1%;width:min(20vw,220px);transform:rotate(-5deg);z-index:0;}
-.float-6{top:1%;left:39%;width:min(11vw,125px);transform:rotate(-3deg);z-index:0;}
-/* stack B: hotdog behind, crowd in front, bottom-left */
-.float-5{bottom:6%;left:1%;width:min(17vw,190px);transform:rotate(7deg);}
-.float-8{bottom:-2%;left:8%;width:min(13vw,145px);transform:rotate(-6deg);}
+.float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
+.float-1{top:5%;left:20%;width:min(13vw,150px);aspect-ratio:1715/2400;} /* portrait */
+.float-7{top:2%;right:16%;width:min(19vw,215px);aspect-ratio:2400/1600;} /* landscape */
+.float-3{top:36%;left:9%;width:min(19vw,215px);aspect-ratio:2400/1600;} /* landscape */
+.float-4{top:38%;right:10%;width:min(13vw,150px);aspect-ratio:1714/2400;} /* portrait */
+.float-6{top:1%;left:41%;width:min(10vw,115px);aspect-ratio:2400/1600;} /* landscape */
 @media(max-width:900px){
   .float-collage{opacity:.9;}
-  .float-1{width:38vw;top:1%;left:0;}
-  .float-2{width:26vw;top:16%;left:13%;}
-  .float-7{width:32vw;top:1%;right:1%;}
-  .float-3{width:26vw;top:38%;left:0;}
-  .float-4{width:28vw;top:42%;right:0;}
+  .float-1{width:30vw;top:2%;left:10%;}
+  .float-7{width:30vw;top:2%;right:10%;}
+  .float-3{width:26vw;top:38%;left:2%;}
+  .float-4{width:26vw;top:42%;right:2%;}
   .float-6{display:none;}
-  .float-5{width:28vw;bottom:15%;left:4%;}
-  .float-8{width:20vw;bottom:4%;left:16%;}
+  .tagline-handwritten{margin-top:clamp(-16px,-2vh,-6px);transform:translateX(1%);}
 }
 
 .kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
   opacity:.82;margin-bottom:clamp(24px,4vh,40px);}
 
-.wordmark{width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;transition:background-color .35s ease;}
+.wordmark{position:relative;width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;
+  transform:rotate(-3deg);transition:background-color .35s ease;}
 
 .tagline{font-family:var(--serif);font-weight:400;font-size:clamp(1.04rem,1.8vw,1.3rem);line-height:1.5;
   max-width:44ch;margin:clamp(30px,4.5vh,46px) auto 0;opacity:.9;}
@@ -302,13 +295,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <main class="hero">
   <div class="float-collage" aria-hidden="true">
     <img class="float-photo float-1" src="assets/bg-test-missionaries.jpg" alt="">
-    <img class="float-photo float-2" src="assets/bg-test-truck.jpg" alt="">
     <img class="float-photo float-3" src="assets/bg-test-cairns.jpg" alt="">
     <img class="float-photo float-4" src="assets/bg-test-pole.jpg" alt="">
-    <img class="float-photo float-5" src="assets/bg-test-hotdog.jpg" alt="">
     <img class="float-photo float-6" src="assets/bg-test-gazebo.jpg" alt="">
     <img class="float-photo float-7" src="assets/bg-test-gallery.jpg" alt="">
-    <img class="float-photo float-8" src="assets/bg-test-crowd.jpg" alt="">
   </div>
   <div class="inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
