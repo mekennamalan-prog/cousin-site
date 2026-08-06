@@ -81,24 +81,24 @@ body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handw
 body[data-bg] .btn-handwritten{background-color:#fff;}
 body[data-bg="gallery"] .btn-handwritten,body[data-bg="pole"] .btn-handwritten{background-color:var(--ink);}
 
-/* floating photo collage, moodboard-style — only shown when no single ?bg=NAME photo is picked.
-   Clustered toward the center/wordmark rather than the corners, and
-   axis-aligned (no rotation) -- only the wordmark itself tilts. */
+/* floating photo collage, matching the moodboard reference exactly:
+   one solo photo in the clear space above the wordmark, one solo
+   below it, and one STACKED PAIR in a single right-hand column that
+   directly crosses the wordmark's right side. Axis-aligned (no
+   rotation) -- only the wordmark itself tilts. */
 .float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 body[data-bg] .float-collage{display:none;}
 .float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
-.float-1{top:5%;left:20%;width:min(13vw,150px);aspect-ratio:1715/2400;} /* portrait */
-.float-7{top:2%;right:16%;width:min(19vw,215px);aspect-ratio:2400/1600;} /* landscape */
-.float-3{top:36%;left:9%;width:min(19vw,215px);aspect-ratio:2400/1600;} /* landscape */
-.float-4{top:38%;right:10%;width:min(13vw,150px);aspect-ratio:1714/2400;} /* portrait */
-.float-6{top:1%;left:41%;width:min(10vw,115px);aspect-ratio:2400/1600;} /* landscape */
+.float-7{top:4%;left:5%;width:min(24vw,270px);aspect-ratio:2400/1600;} /* landscape, solo above word */
+.float-1{top:12%;right:8%;width:min(18vw,205px);aspect-ratio:2400/1830;} /* landscape (crowd), stack top */
+.float-4{top:33%;right:9%;width:min(14vw,160px);aspect-ratio:1714/2400;} /* portrait (pole), stack bottom */
+.float-3{top:78%;left:22%;width:min(24vw,270px);aspect-ratio:2400/1600;} /* landscape, solo below word */
 @media(max-width:900px){
   .float-collage{opacity:.9;}
-  .float-1{width:30vw;top:2%;left:10%;}
-  .float-7{width:30vw;top:2%;right:10%;}
-  .float-3{width:26vw;top:38%;left:2%;}
-  .float-4{width:26vw;top:42%;right:2%;}
-  .float-6{display:none;}
+  .float-7{width:32vw;top:2%;left:4%;}
+  .float-1{width:24vw;top:11%;right:6%;}
+  .float-4{width:24vw;top:40%;right:6%;}
+  .float-3{width:32vw;top:73%;left:16%;}
   .tagline-handwritten{margin-top:clamp(-16px,-2vh,-6px);transform:translateX(1%);}
 }
 
@@ -294,10 +294,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 <main class="hero">
   <div class="float-collage" aria-hidden="true">
-    <img class="float-photo float-1" src="assets/bg-test-missionaries.jpg" alt="">
+    <img class="float-photo float-1" src="assets/bg-test-crowd.jpg" alt="">
     <img class="float-photo float-3" src="assets/bg-test-cairns.jpg" alt="">
     <img class="float-photo float-4" src="assets/bg-test-pole.jpg" alt="">
-    <img class="float-photo float-6" src="assets/bg-test-gazebo.jpg" alt="">
     <img class="float-photo float-7" src="assets/bg-test-gallery.jpg" alt="">
   </div>
   <div class="inner">
