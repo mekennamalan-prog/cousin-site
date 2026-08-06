@@ -57,14 +57,11 @@ body[data-bg="cairns"] .hero{background-image:url("assets/bg-test-cairns.jpg");}
 body[data-bg="hotdog"] .hero{background-image:url("assets/bg-test-hotdog.jpg");}
 body[data-bg] .hero::before{opacity:1;}
 body[data-bg] .kicker{color:#fff;opacity:.95;}
-body[data-bg] .wordmark-outline{color:#fff;}
+body[data-bg] .wordmark{background-color:#fff;}
 body[data-bg] .tagline-handwritten{background-color:#fff;}
 /* gallery + pole are pale photos — dark ink reads better there than white */
-body[data-bg="gallery"] .wordmark-outline,body[data-bg="pole"] .wordmark-outline{color:var(--ink);}
+body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-color:var(--ink);}
 body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
-
-.wordmark-outline{width:min(92vw,920px);margin:0 auto;color:var(--wordmark);transition:color .35s ease;}
-.wordmark-outline svg{display:block;width:100%;height:auto;overflow:visible;}
 
 .tagline-handwritten{width:min(80vw,520px);aspect-ratio:3673/689;margin:clamp(20px,3.5vh,32px) auto 0;
   background-color:var(--ink);transition:background-color .35s ease;
@@ -87,18 +84,25 @@ body[data-bg="gallery"] .btn-handwritten,body[data-bg="pole"] .btn-handwritten{b
 .float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 body[data-bg] .float-collage{display:none;}
 .float-photo{position:absolute;object-fit:cover;box-shadow:0 14px 28px rgba(23,20,13,.28);background:#000;}
-.float-1{top:6%;left:3%;width:min(19vw,220px);aspect-ratio:4/5;transform:rotate(-7deg);}
-.float-2{top:4%;right:4%;width:min(15vw,180px);aspect-ratio:1/1;transform:rotate(5deg);}
-.float-3{top:46%;left:1.5%;width:min(13vw,150px);aspect-ratio:3/4;transform:rotate(6deg);}
-.float-4{bottom:8%;right:3%;width:min(20vw,230px);aspect-ratio:5/4;transform:rotate(-4deg);}
-.float-5{bottom:4%;left:12%;width:min(12vw,140px);aspect-ratio:1/1;transform:rotate(8deg);}
+/* corners */
+.float-1{top:5%;left:2%;width:min(19vw,220px);aspect-ratio:4/5;transform:rotate(-7deg);}
+.float-2{top:3%;right:3%;width:min(15vw,180px);aspect-ratio:1/1;transform:rotate(5deg);}
+.float-5{bottom:4%;left:10%;width:min(12vw,140px);aspect-ratio:1/1;transform:rotate(8deg);}
+/* tucked behind/around the wordmark band */
+.float-3{top:34%;left:0%;width:min(15vw,170px);aspect-ratio:3/4;transform:rotate(6deg);z-index:0;}
+.float-4{top:38%;right:1%;width:min(17vw,195px);aspect-ratio:5/4;transform:rotate(-5deg);z-index:0;}
+.float-6{top:1%;left:38%;width:min(10vw,115px);aspect-ratio:4/5;transform:rotate(-3deg);z-index:0;}
+.float-7{top:26%;right:16%;width:min(12vw,135px);aspect-ratio:1/1;transform:rotate(4deg);z-index:0;}
+.float-8{top:52%;left:7%;width:min(13vw,145px);aspect-ratio:4/3;transform:rotate(5deg);z-index:0;}
 @media(max-width:900px){
   .float-collage{opacity:.9;}
   .float-1{width:30vw;top:3%;left:2%;}
   .float-2{width:26vw;top:3%;right:2%;}
-  .float-3{display:none;}
-  .float-4{width:32vw;bottom:20%;right:2%;}
-  .float-5{width:24vw;bottom:4%;left:4%;}
+  .float-3{width:22vw;top:40%;left:0;}
+  .float-4{width:24vw;top:44%;right:0;}
+  .float-6{display:none;}
+  .float-7{display:none;}
+  .float-8{width:20vw;top:57%;left:3%;}
 }
 
 .kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
@@ -297,31 +301,14 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <img class="float-photo float-3" src="assets/bg-test-cairns.jpg" alt="">
     <img class="float-photo float-4" src="assets/bg-test-pole.jpg" alt="">
     <img class="float-photo float-5" src="assets/bg-test-hotdog.jpg" alt="">
+    <img class="float-photo float-6" src="assets/bg-test-gazebo.jpg" alt="">
+    <img class="float-photo float-7" src="assets/bg-test-gallery.jpg" alt="">
+    <img class="float-photo float-8" src="assets/bg-test-crowd.jpg" alt="">
   </div>
   <div class="inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
 
-    <div class="wordmark-outline reveal d2" role="img" aria-label="Cousin">
-      <svg viewBox="0 0 274.42 66.84" aria-hidden="true">
-        <defs>
-          <filter id="cousinRough" x="-10%" y="-10%" width="120%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.028 0.09" numOctaves="2" seed="7" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5.5" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-        </defs>
-        <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" filter="url(#cousinRough)">
-          <path d="M269.47.53c-.76-.35-1.54-.53-2.31-.53-3.51,0-6.03,3.77-6.19,7.29-.25,5.52.24,11.04.72,16.37.37,4.16.75,8.47.77,12.71.02,2.86-.2,4.2-2.37,5.07-.42.17-.88.26-1.34.26-.96,0-1.92-.37-2.68-1.02-2-4.66-4.61-9.03-7.97-13.36-1.19-1.53-2.01-3.01-2.88-4.59-.75-1.35-1.53-2.76-2.6-4.3l-.42-.61c-2.42-3.58-5.28-7.4-8.44-7.4-1.53,0-2.83.89-3.86,2.64-2.57,4.36-4.01,9.89-5.4,15.24-.6,2.29-1.16,4.46-1.8,6.5-1.43,4.57-1.94,8.25-1.64,11.93.29,3.56,3.04,6.15,6.56,6.15.5,0,1-.05,1.5-.16,3.58-.74,3.05-4.35,2.82-5.89-.17-1.12-.47-2.13-.76-3.11-.4-1.32-.77-2.57-.73-3.92.04-1.31.53-2.27,1.14-3.47.26-.51.53-1.04.79-1.64.2-.46.38-.95.56-1.44.62-1.71,1.16-3.19,2.72-3.77.92-.34,1.79-.52,2.58-.52,2.37,0,4.3,1.58,6.07,4.99,1.11,2.15,2.32,3.63,3.49,5.07,1.14,1.39,2.21,2.71,3.24,4.63.62,1.16,1.21,2.55,1.83,4.01,2.29,5.37,5.13,12.05,11.97,12.05h.37c1.38-.06,2.42-.5,3.11-1.34,1.3-1.58.9-4.03.55-6.19-.15-.91-.29-1.77-.28-2.42.02-1.64.31-3.31.62-5.09.23-1.34.48-2.73.59-4.12.14-1.58.1-3.16.07-4.7-.04-1.96-.09-3.98.23-5.93.4-2.41,1.13-4.58,1.9-6.87.9-2.67,1.83-5.43,2.22-8.63.31-2.59.9-11.24-4.76-13.86Z"/>
-          <path d="M231.46,58.57c-3.83-4.3-10.25-.57-15.06-3.07-14.28-8.55-2.83-28.18,2.57-38.68,1.45-3.86,4.92-5.23,7.11-8.01,2.57-5.8-1.62-3.58-5.07-2.72-3.71.78-7.58.36-11.24,1.41-4.96,1.43-7.95,5.06-11.16,8.7-1.45,1.8-2.89,3.95-2.96,6.31-.11,2.16,1.32,4.35,3.54,3.49,1.57-.58,2.99-1.82,4.79-.69,3.65,2.61,2.26,7.8,1.54,11.51-.21,3.89-1.72,8.08-3.68,11.27-2.15,3.07-5.03,5.88-8.39,7.73-.6.37-1.12.84-1.48,1.45-1.72,3.23.09,6.36,3.62,7.2,4.6,1.31,8.73-.6,13.39-.77,3.1-.53,26.34,1.08,22.7-4.81l-.24-.32Z"/>
-          <path d="M48.49,46.74l-.28-.32c-1.95-2.24-4.07-2.71-5.5-2.71-2.38,0-4.87,1.24-6.94,3.42-1.56,1.35-2.65,2.9-3.7,4.39-.88,1.25-1.71,2.44-2.8,3.52-1.96,1.89-4.97,3.22-7.89,3.47-.42.04-.85.06-1.27.06-3.81,0-7.41-1.6-9.86-4.39-2.58-2.94-3.47-6.69-2.5-10.57,1.4-5.78,5.2-10.29,9.23-15.07.68-.8,1.35-1.61,2.02-2.42,3.73-4.57,7.31-6.88,10.63-6.88,2.17,0,4.35,1,6.6,3.06,1.05.72,2.25,1.11,3.46,1.11,2.27,0,4.45-1.33,5.56-3.4,1.18-2.19.87-4.67-.74-6.54-2.37-3.51-6.7-5.68-11.29-5.68-2.88,0-5.59.85-7.79,2.44-1.54,1.05-2.81,2.31-4.05,3.54-1.18,1.17-2.29,2.27-3.56,3.16C8.96,22.6,1.52,28.07.22,37.71c-1.02,6.99,1.63,15.3,6.57,20.7,3.54,3.86,8,6.02,12.9,6.25h.04s.04,0,.04,0c3.38-.08,6.35-1.65,9.22-3.17,1.11-.59,2.26-1.19,3.42-1.7,3.43-1.6,7.04-2.77,11.68-3.77,2.93-.55,5.04-1.92,5.79-3.75.49-1.18.64-3.1-1.39-5.54Z"/>
-          <path d="M144.75,52.61c-1.51-5.6-7.53-6.71-10.22-11.37-4.4-7.63,1.39-12.65,8.57-15.35,3.27-1.23,3.55-4.92,3.25-8.1-.1-1.09-.25-2.41-1.16-3.21-2.37-2.08-5.72-.87-8.04.69-5.31,3.56-9.03,8.43-11.77,13.94-2.24,4.51-2.56,9.36-4.47,13.76-1.64,3.8-4.41,6.87-8.91,6.26-6.21-.83-8.02-7.73-7.95-13.45.06-5.15,2.53-9.67,5-14.12,2.47-4.45,5.52-8.73,5.17-13.95-.16-2.44-2.23-4.05-4.64-4.26-5.67-.48-10.26,2.9-10.98,8.73-.53,4.28,1.02,8.32.31,12.68-1.48,9.11-5.11,17.64-1.6,26.75,1.11,2.87,3.45,5.11,6.46,6.07,3.96,1.27,7.88-.02,11.51-1.86,4.09-2.08,6.86-8.68,12.12-7.3,5.26,1.37,7.76,9.66,13.47,10.11,3.35.26,4-3.28,3.94-5.77,0-.06-.06-.18-.08-.24Z"/>
-          <path d="M69.4,8.7h-.5"/>
-          <path d="M69.4,7.2h-.5c-.21,0-.4.04-.58.13-.19.06-.35.16-.48.31-.15.14-.25.3-.31.48-.09.18-.14.37-.13.58l.05.4c.07.25.2.47.39.66l.3.23c.23.14.49.2.76.2h.5c.21,0,.4-.04.58-.13.19-.06.35-.16.48-.31.15-.14.25-.3.31-.48.09-.18.14-.37.13-.58l-.05-.4c-.07-.25-.2-.47-.39-.66l-.3-.23c-.23-.14-.49-.2-.76-.2h0Z"/>
-          <path d="M91.15,17.83c-2.72-3.04-6.07-5.31-9.47-7.5-2.25-1.45-4.63-2.58-7.31-2.73-6.29-.35-12.03.81-17.17,4.49-2.12,2.97-.66,6.3-2.08,9.5-1.77,4-4.5,7.1-4.51,11.83,0,2.74.94,5.3,2.55,7.58,1.25,1.78,3.15,3.34,3.74,5.43,1.95,6.92-.14,14.51,8.98,16.2,7.12,1.32,15.02-2.76,19.53-8.65,3.69-4.82,2.53-11.28,4.36-16.95,2.1-6.51,5.25-12.35,1.54-18.98-.03-.06-.1-.17-.15-.22ZM83.83,41.76c-1.97,3.17-4.73,6.25-6.42,9.5-1.3,2.48-1.93,6.23-4.64,7.12-6.96,2.28-6.85-4.21-7.4-9.35-.45-4.26-3.46-7.13-5.37-10.77-2.5-4.77-1.71-9.86,0-14.46,3.86-10.41,7.08-9.4,14.29-1.97,2.52,2.6,5.92,5.73,8.92,8.22,3.92,3.24,2.73,7.38.74,11.49-.03.06-.08.16-.11.22Z"/>
-          <path d="M152.47,66.84c-2.3,0-3.92-.46-4.67-1.34-.46-.53-.62-1.22-.5-2.1.31-2.14,5.05-9.89,6.86-11.87,1.96-2.13,7.53-6.05,10.73-6.05.35,0,.67.05.94.14.99.34,1.81,1.61,2.68,2.95,1.19,1.83,2.42,3.73,4.37,3.73,1.2,0,2.49-.74,3.95-2.25.32-.33,1.17-1.32,1.31-1.95.48-2.21.16-10.29-1.52-12.23-.6-.69-1.4-1.04-2.4-1.04-1.78,0-3.83,1.09-5.65,2.04-.75.39-1.45.76-2.01.99-4.2,1.68-10.31,3.67-15.62,3.67-1.53,0-2.93-.17-4.17-.5-1.44-.39-2.35-.98-2.76-1.81-.65-1.3-.07-3.17.66-4.99,1.17-2.94,10.72-14.34,13.59-15.81,1.19-.61,2.34-.74,3.55-.89.93-.11,1.89-.22,2.86-.57.95-.34,1.87-.89,2.85-1.46,1.14-.67,2.31-1.37,3.61-1.78,2.56-.82,7.2-1.7,10.25-1.7.45,0,.88.02,1.26.06,2.39.27,5.49,1.53,6.78,3.41.61.89.78,1.87.5,2.9-.12.45-2.29,4.71-2.67,5.31-.95,1.49-2.76,3-4.67,3-.91,0-1.72-.35-2.42-1.05-.78-.78-1.75-2.19-2.68-3.56-1.2-1.75-2.33-3.41-3.29-4.13-1.03-.78-2.28-1.19-3.6-1.19-3.76,0-7.4,3.1-7.95,6.77-.39,2.62.03,4.66,1.25,6.09,1.51,1.75,4.14,2.57,8.28,2.57.97,0,2.04-.04,3.37-.13,1.87-.13,3.46-.63,4.99-1.11,1.72-.54,3.35-1.05,5.32-1.05.61,0,1.24.05,1.87.15,3.57.57,5.57,2.28,5.92,5.08.69,5.39-4.99,13.23-9.89,15.38-1.41.62-2.55.69-3.66.76-1.95.12-3.79.24-6.41,3.25-1.1,1.26-1.97,2.44-2.74,3.47-2.2,2.96-3.79,5.1-8.56,7-1.87.75-6.32,1.85-9.92,1.85Z"/>
-          <path d="M161.24,18.7c.61.1,1.23.06,1.81-.15.12-.05.23-.11.3-.23.06-.11.09-.27.05-.39-.08-.24-.35-.45-.62-.35-.21.08-.43.13-.65.16l.13-.02c-.27.04-.54.04-.81,0l.13.02s-.06,0-.08-.01c-.14-.02-.26-.02-.39.05-.1.06-.2.18-.23.3-.03.13-.02.27.05.39.07.1.17.21.3.23h0Z"/>
-        </g>
-      </svg>
-    </div>
+    <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
 
     <div class="tagline-handwritten reveal d3" role="img" aria-label="An independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting."></div>
 
