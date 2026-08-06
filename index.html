@@ -63,46 +63,51 @@ body[data-bg] .tagline-handwritten{background-color:#fff;}
 body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-color:var(--ink);}
 body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
 
-.tagline-handwritten{width:min(80vw,520px);aspect-ratio:3673/689;margin:clamp(20px,3.5vh,32px) auto 0;
+.tagline-handwritten{width:min(86vw,800px);aspect-ratio:3673/689;margin:clamp(20px,3.5vh,32px) auto 0;
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:.75;}
-.btn-handwritten{display:block;height:50px;background-color:var(--ink);transition:background-color .35s ease;}
-#triggerStory .btn-handwritten{width:calc(50px * 1250 / 310);
+.btn-handwritten{display:block;--btn-h:clamp(48px,7vw,88px);height:var(--btn-h);background-color:var(--ink);transition:background-color .35s ease;}
+#triggerStory .btn-handwritten{width:calc(var(--btn-h) * 1250 / 310);
   -webkit-mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;
   mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;}
-#triggerCover .btn-handwritten{width:calc(50px * 1762 / 330);
+#triggerCover .btn-handwritten{width:calc(var(--btn-h) * 1762 / 330);
   -webkit-mask:url("assets/btn-handwritten-capture.png") center/contain no-repeat;
   mask:url("assets/btn-handwritten-capture.png") center/contain no-repeat;}
 body[data-bg] .btn-handwritten{background-color:#fff;}
 body[data-bg="gallery"] .btn-handwritten,body[data-bg="pole"] .btn-handwritten{background-color:var(--ink);}
 
-/* floating photo collage, moodboard-style — only shown when no single ?bg=NAME photo is picked */
+/* floating photo collage, moodboard-style — only shown when no single ?bg=NAME photo is picked.
+   All photos are square crops; missionaries+truck and hotdog+crowd are
+   stacked pairs (later in DOM order = drawn on top of its partner). */
 .float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 body[data-bg] .float-collage{display:none;}
-.float-photo{position:absolute;object-fit:cover;box-shadow:0 14px 28px rgba(23,20,13,.28);background:#000;}
-/* corners */
-.float-1{top:5%;left:2%;width:min(19vw,220px);aspect-ratio:4/5;transform:rotate(-7deg);}
-.float-2{top:3%;right:3%;width:min(15vw,180px);aspect-ratio:1/1;transform:rotate(5deg);}
-.float-5{bottom:4%;left:10%;width:min(12vw,140px);aspect-ratio:1/1;transform:rotate(8deg);}
+.float-photo{position:absolute;object-fit:cover;aspect-ratio:1/1;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
+/* stack A: missionaries behind, truck in front, top-left */
+.float-1{top:3%;left:1%;width:min(25vw,280px);transform:rotate(-7deg);}
+.float-2{top:14%;left:10%;width:min(17vw,195px);transform:rotate(6deg);}
+/* solo, top-right */
+.float-7{top:2%;right:2%;width:min(20vw,225px);transform:rotate(5deg);}
 /* tucked behind/around the wordmark band */
-.float-3{top:34%;left:0%;width:min(15vw,170px);aspect-ratio:3/4;transform:rotate(6deg);z-index:0;}
-.float-4{top:38%;right:1%;width:min(17vw,195px);aspect-ratio:5/4;transform:rotate(-5deg);z-index:0;}
-.float-6{top:1%;left:38%;width:min(10vw,115px);aspect-ratio:4/5;transform:rotate(-3deg);z-index:0;}
-.float-7{top:26%;right:16%;width:min(12vw,135px);aspect-ratio:1/1;transform:rotate(4deg);z-index:0;}
-.float-8{top:52%;left:7%;width:min(13vw,145px);aspect-ratio:4/3;transform:rotate(5deg);z-index:0;}
+.float-3{top:30%;left:0%;width:min(19vw,210px);transform:rotate(6deg);z-index:0;}
+.float-4{top:34%;right:1%;width:min(20vw,220px);transform:rotate(-5deg);z-index:0;}
+.float-6{top:1%;left:39%;width:min(11vw,125px);transform:rotate(-3deg);z-index:0;}
+/* stack B: hotdog behind, crowd in front, bottom-left */
+.float-5{bottom:6%;left:1%;width:min(17vw,190px);transform:rotate(7deg);}
+.float-8{bottom:-2%;left:8%;width:min(13vw,145px);transform:rotate(-6deg);}
 @media(max-width:900px){
   .float-collage{opacity:.9;}
-  .float-1{width:30vw;top:3%;left:2%;}
-  .float-2{width:26vw;top:3%;right:2%;}
-  .float-3{width:22vw;top:40%;left:0;}
-  .float-4{width:24vw;top:44%;right:0;}
+  .float-1{width:38vw;top:1%;left:0;}
+  .float-2{width:26vw;top:16%;left:13%;}
+  .float-7{width:32vw;top:1%;right:1%;}
+  .float-3{width:26vw;top:38%;left:0;}
+  .float-4{width:28vw;top:42%;right:0;}
   .float-6{display:none;}
-  .float-7{display:none;}
-  .float-8{width:20vw;top:57%;left:3%;}
+  .float-5{width:28vw;bottom:15%;left:4%;}
+  .float-8{width:20vw;bottom:4%;left:16%;}
 }
 
 .kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
