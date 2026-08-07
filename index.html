@@ -88,9 +88,9 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
 body[data-bg] .float-collage{display:none;}
 .float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
 .float-above{top:2%;left:2%;width:min(30vw,340px);aspect-ratio:2400/1600;} /* gallery, solo above word (desktop only) */
-.float-stack-a{top:26%;left:55%;width:min(26vw,295px);aspect-ratio:2400/1600;} /* gazebo, stays put but bigger */
-.float-stack-b{top:70%;left:78%;width:min(15vw,175px);aspect-ratio:1714/2400;} /* pole, moved to bottom-right, bigger */
-.float-below{top:69%;left:2%;width:min(22vw,250px);aspect-ratio:2400/1600;} /* cairns, moved beside the buttons, bigger */
+.float-stack-a{top:3%;right:5%;width:min(26vw,300px);aspect-ratio:2400/1600;} /* gazebo, moved to top-right, much bigger, right-anchored + margin so it clears the wordmark at any viewport height */
+.float-stack-b{top:68%;right:5%;width:min(22vw,260px);aspect-ratio:1714/2400;} /* pole, bigger, right-anchored so it can't overflow the viewport edge */
+.float-below{top:70%;left:2%;width:min(20vw,240px);aspect-ratio:2400/1600;} /* cairns, bigger */
 @media(max-width:900px){
   .float-collage{opacity:.9;}
   .float-above{display:none;} /* removed on mobile -- gazebo expands to fill this space instead */
