@@ -71,6 +71,8 @@ body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handw
 
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:.75;}
+#triggerStory:hover{transform:rotate(-6deg);}
+#triggerCover:hover{transform:rotate(5deg);}
 .btn-handwritten{display:block;--btn-h:clamp(34px,4.2vw,52px);height:var(--btn-h);background-color:var(--ink);transition:background-color .35s ease;}
 #triggerStory .btn-handwritten{width:calc(var(--btn-h) * 1250 / 310);
   -webkit-mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;
@@ -81,24 +83,29 @@ body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handw
 body[data-bg] .btn-handwritten{background-color:#fff;}
 body[data-bg="gallery"] .btn-handwritten,body[data-bg="pole"] .btn-handwritten{background-color:var(--ink);}
 
-/* floating photo collage, matching the moodboard reference exactly:
-   one solo photo in the clear space above the wordmark, one solo
-   below it, and one STACKED PAIR in a single right-hand column that
-   directly crosses the wordmark's right side. Axis-aligned (no
-   rotation) -- only the wordmark itself tilts. */
+/* floating photo collage, moodboard-style: solo photos in the clear
+   space above/below the wordmark, plus a stacked pair on EACH side
+   that crosses directly through the wordmark. Axis-aligned at rest
+   (only the wordmark tilts) but each photo goes askew on hover. */
 .float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 body[data-bg] .float-collage{display:none;}
-.float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
-.float-7{top:4%;left:5%;width:min(24vw,270px);aspect-ratio:2400/1600;} /* landscape, solo above word */
-.float-1{top:12%;right:8%;width:min(18vw,205px);aspect-ratio:2400/1830;} /* landscape (crowd), stack top */
-.float-4{top:33%;right:9%;width:min(14vw,160px);aspect-ratio:1714/2400;} /* portrait (pole), stack bottom */
-.float-3{top:78%;left:22%;width:min(24vw,270px);aspect-ratio:2400/1600;} /* landscape, solo below word */
+.float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;
+  pointer-events:auto;transition:transform .25s ease;}
+.float-photo:hover{transform:rotate(-5deg) scale(1.04);z-index:2;}
+.float-above{top:3%;left:3%;width:min(19vw,215px);aspect-ratio:2400/1600;} /* gallery, solo above word */
+.float-below{top:78%;left:22%;width:min(22vw,250px);aspect-ratio:2400/1600;} /* cairns, solo below word */
+.float-right-a{top:10%;right:8%;width:min(13vw,150px);aspect-ratio:1714/2400;} /* pole, right stack top */
+.float-right-b{top:32%;right:9%;width:min(17vw,195px);aspect-ratio:2400/1600;} /* gazebo, right stack bottom */
+.float-left-a{top:6%;left:27%;width:min(15vw,170px);aspect-ratio:2400/1605;} /* sky, left stack top */
+.float-left-b{top:20%;left:28%;width:min(15vw,170px);aspect-ratio:2400/1600;} /* hotdog, left stack bottom */
 @media(max-width:900px){
   .float-collage{opacity:.9;}
-  .float-7{width:32vw;top:2%;left:4%;}
-  .float-1{width:24vw;top:11%;right:6%;}
-  .float-4{width:24vw;top:40%;right:6%;}
-  .float-3{width:32vw;top:73%;left:16%;}
+  .float-above{width:30vw;top:2%;left:4%;}
+  .float-below{width:30vw;top:73%;left:16%;}
+  .float-right-a{width:20vw;top:10%;right:5%;}
+  .float-right-b{width:26vw;top:24%;right:6%;}
+  .float-left-a{display:none;}
+  .float-left-b{display:none;}
   .tagline-handwritten{margin-top:clamp(-16px,-2vh,-6px);transform:translateX(1%);}
 }
 
@@ -115,8 +122,12 @@ body[data-bg] .float-collage{display:none;}
 @media(min-width:820px){.tagline{max-width:44em;}.tagline .db{display:inline;}}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:12px;justify-content:center;}
-@media(max-width:639px){.triggers{flex-direction:column;align-items:stretch;}}
+.triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:clamp(28px,5vw,64px);justify-content:center;}
+@media(max-width:639px){
+  .triggers{flex-direction:column;align-items:flex-start;gap:2px;}
+  #triggerStory{margin-left:calc((100% - min(88vw,880px)) / 2);}
+  #triggerCover{margin-left:44%;}
+}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
@@ -294,10 +305,12 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
 <main class="hero">
   <div class="float-collage" aria-hidden="true">
-    <img class="float-photo float-1" src="assets/bg-test-crowd.jpg" alt="">
-    <img class="float-photo float-3" src="assets/bg-test-cairns.jpg" alt="">
-    <img class="float-photo float-4" src="assets/bg-test-pole.jpg" alt="">
-    <img class="float-photo float-7" src="assets/bg-test-gallery.jpg" alt="">
+    <img class="float-photo float-above" src="assets/bg-test-gallery.jpg" alt="">
+    <img class="float-photo float-below" src="assets/bg-test-cairns.jpg" alt="">
+    <img class="float-photo float-right-a" src="assets/bg-test-pole.jpg" alt="">
+    <img class="float-photo float-right-b" src="assets/bg-test-gazebo.jpg" alt="">
+    <img class="float-photo float-left-a" src="assets/bg-test-sky.jpg" alt="">
+    <img class="float-photo float-left-b" src="assets/bg-test-hotdog.jpg" alt="">
   </div>
   <div class="inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
