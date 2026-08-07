@@ -59,54 +59,48 @@ body[data-bg] .hero::before{opacity:1;}
 body[data-bg] .kicker{color:#fff;opacity:.95;}
 body[data-bg] .wordmark{background-color:#fff;}
 body[data-bg] .tagline-handwritten{background-color:#fff;}
+body[data-bg] .btn-caption{color:#fff;}
 /* gallery + pole are pale photos — dark ink reads better there than white */
 body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-color:var(--ink);}
 body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
+body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var(--ink);}
 
 .tagline-handwritten{position:relative;width:min(86vw,800px);aspect-ratio:3673/689;
-  margin:clamp(-72px,-8vh,-42px) auto 0;transform:translateX(3%);
+  margin:clamp(-40px,-4vh,-18px) auto 0;transform:translateX(3%);
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 .triggers button.go{background:none;padding:6px;}
-.triggers button.go:hover{opacity:.75;}
+.triggers button.go:hover{opacity:1;}
 #triggerStory:hover{transform:rotate(-6deg);}
 #triggerCover:hover{transform:rotate(5deg);}
-.btn-handwritten{display:block;--btn-h:clamp(34px,4.2vw,52px);height:var(--btn-h);background-color:var(--ink);transition:background-color .35s ease;}
-#triggerStory .btn-handwritten{width:calc(var(--btn-h) * 1250 / 310);
-  -webkit-mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;
-  mask:url("assets/btn-handwritten-share.png") center/contain no-repeat;}
-#triggerCover .btn-handwritten{width:calc(var(--btn-h) * 1762 / 330);
-  -webkit-mask:url("assets/btn-handwritten-capture.png") center/contain no-repeat;
-  mask:url("assets/btn-handwritten-capture.png") center/contain no-repeat;}
-body[data-bg] .btn-handwritten{background-color:#fff;}
-body[data-bg="gallery"] .btn-handwritten,body[data-bg="pole"] .btn-handwritten{background-color:var(--ink);}
+.btn-caption{color:var(--ink);font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;
+  text-transform:uppercase;opacity:.82;transition:color .2s ease;}
+.triggers button.go:hover .btn-caption{color:var(--wordmark);opacity:1;}
 
-/* floating photo collage, moodboard-style: solo photos in the clear
-   space above/below the wordmark, plus a stacked pair on EACH side
-   that crosses directly through the wordmark. Axis-aligned at rest
+/* floating photo collage: photos never overlap EACH OTHER -- only the
+   wordmark/text -- except one deliberate stacked pair (pole+gazebo,
+   corner-offset like a physical pile of photos). Axis-aligned at rest
    (only the wordmark tilts) but each photo goes askew on hover. */
 .float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
 body[data-bg] .float-collage{display:none;}
 .float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;
   pointer-events:auto;transition:transform .25s ease;}
-.float-photo:hover{transform:rotate(-5deg) scale(1.04);z-index:2;}
-.float-above{top:3%;left:3%;width:min(19vw,215px);aspect-ratio:2400/1600;} /* gallery, solo above word */
-.float-below{top:78%;left:22%;width:min(22vw,250px);aspect-ratio:2400/1600;} /* cairns, solo below word */
-.float-right-a{top:10%;right:8%;width:min(13vw,150px);aspect-ratio:1714/2400;} /* pole, right stack top */
-.float-right-b{top:32%;right:9%;width:min(17vw,195px);aspect-ratio:2400/1600;} /* gazebo, right stack bottom */
-.float-left-a{top:6%;left:27%;width:min(15vw,170px);aspect-ratio:2400/1605;} /* sky, left stack top */
-.float-left-b{top:20%;left:28%;width:min(15vw,170px);aspect-ratio:2400/1600;} /* hotdog, left stack bottom */
+.float-photo:hover{transform:rotate(-5deg) scale(1.04);z-index:3;}
+.float-above{top:2%;left:2%;width:min(26vw,300px);aspect-ratio:2400/1600;} /* gallery, solo above word */
+.float-side{top:2%;right:2%;width:min(24vw,275px);aspect-ratio:5309/3539;} /* hotdog, solo, crosses word's upper-right */
+.float-stack-a{top:28%;left:54%;width:min(20vw,230px);aspect-ratio:2400/1600;z-index:1;} /* gazebo, stack back */
+.float-stack-b{top:34%;left:64%;width:min(13vw,150px);aspect-ratio:1714/2400;z-index:2;} /* pole, stack front, offset down-right */
+.float-below{top:81%;left:5%;width:min(24vw,270px);aspect-ratio:2400/1600;} /* cairns, solo below word */
 @media(max-width:900px){
   .float-collage{opacity:.9;}
-  .float-above{width:30vw;top:2%;left:4%;}
-  .float-below{width:30vw;top:73%;left:16%;}
-  .float-right-a{width:20vw;top:10%;right:5%;}
-  .float-right-b{width:26vw;top:24%;right:6%;}
-  .float-left-a{display:none;}
-  .float-left-b{display:none;}
-  .tagline-handwritten{margin-top:clamp(-16px,-2vh,-6px);transform:translateX(1%);}
+  .float-above{width:36vw;top:1%;left:2%;}
+  .float-side{width:32vw;top:1%;right:2%;}
+  .float-stack-a{width:24vw;top:14%;left:46%;}
+  .float-stack-b{width:16vw;top:19%;left:58%;}
+  .float-below{width:34vw;top:68%;left:14%;}
+  .tagline-handwritten{margin-top:clamp(-8px,-1vh,-3px);transform:translateX(1%);}
 }
 
 .kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
@@ -306,11 +300,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <main class="hero">
   <div class="float-collage" aria-hidden="true">
     <img class="float-photo float-above" src="assets/bg-test-gallery.jpg" alt="">
+    <img class="float-photo float-side" src="assets/bg-test-hotdog.jpg" alt="">
+    <img class="float-photo float-stack-a" src="assets/bg-test-gazebo.jpg" alt="">
+    <img class="float-photo float-stack-b" src="assets/bg-test-pole.jpg" alt="">
     <img class="float-photo float-below" src="assets/bg-test-cairns.jpg" alt="">
-    <img class="float-photo float-right-a" src="assets/bg-test-pole.jpg" alt="">
-    <img class="float-photo float-right-b" src="assets/bg-test-gazebo.jpg" alt="">
-    <img class="float-photo float-left-a" src="assets/bg-test-sky.jpg" alt="">
-    <img class="float-photo float-left-b" src="assets/bg-test-hotdog.jpg" alt="">
   </div>
   <div class="inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
@@ -321,10 +314,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <div class="triggers reveal d4">
       <button id="triggerStory" class="go" type="button">
-        <span class="btn-handwritten" role="img" aria-label="Share a story"></span>
+        <span class="btn-caption">Share a story</span>
       </button>
       <button id="triggerCover" class="go" type="button">
-        <span class="btn-handwritten" role="img" aria-label="Capture a cover"></span>
+        <span class="btn-caption">Capture a cover</span>
       </button>
     </div>
   </div>
