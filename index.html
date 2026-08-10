@@ -80,23 +80,24 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
   border-bottom:2px solid var(--wordmark);padding-bottom:5px;transition:color .2s ease;}
 .triggers button.go:hover .btn-caption{color:var(--wordmark);opacity:1;}
 
-/* floating photo collage: photos never overlap EACH OTHER -- only the
-   wordmark/text -- except one deliberate stacked pair (pole+gazebo,
-   corner-offset like a physical pile of photos). Axis-aligned at rest
-   (only the wordmark tilts) but each photo goes askew on hover. */
-.float-collage{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
-body[data-bg] .float-collage{display:none;}
-.float-photo{position:absolute;display:block;box-shadow:0 16px 32px rgba(23,20,13,.3);background:#000;}
-.float-above{top:2%;left:2%;width:min(30vw,340px);aspect-ratio:2400/1600;} /* gallery, solo above word (desktop only) */
-.float-stack-a{top:3%;right:5%;width:min(26vw,300px);aspect-ratio:2400/1600;} /* gazebo, moved to top-right, much bigger, right-anchored + margin so it clears the wordmark at any viewport height */
-.float-stack-b{top:68%;right:5%;width:min(22vw,260px);aspect-ratio:1714/2400;} /* pole, bigger, right-anchored so it can't overflow the viewport edge */
-.float-below{top:70%;left:2%;width:min(20vw,240px);aspect-ratio:2400/1600;} /* cairns, bigger */
+/* single moving photo strip, right side of the hero -- the ONLY motion
+   on the page. Sits ~7/8 of the way across, overlapping behind the
+   wordmark's final "N" and the tagline's last word, with a clear
+   margin of page background to its right. All 6 photos, cropped to a
+   uniform frame (like real filmstrip frames), scrolling continuously
+   upward and looping seamlessly (the track holds two copies of the
+   set back to back; animating exactly -50% brings the second copy
+   into the position the first started in). */
+.photo-strip{position:absolute;top:0;right:9%;width:min(15vw,180px);height:100%;z-index:1;
+  overflow:hidden;pointer-events:none;}
+body[data-bg] .photo-strip{display:none;}
+.photo-strip-track{display:flex;flex-direction:column;animation:filmstripScroll 48s linear infinite;}
+.photo-strip-track img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;flex:0 0 auto;
+  margin-bottom:4%;box-shadow:0 10px 24px rgba(23,20,13,.3);}
+@keyframes filmstripScroll{from{transform:translateY(0);}to{transform:translateY(-50%);}}
+@media(prefers-reduced-motion:reduce){.photo-strip-track{animation:none;}}
 @media(max-width:900px){
-  .float-collage{opacity:.9;}
-  .float-above{display:none;} /* removed on mobile -- gazebo expands to fill this space instead */
-  .float-stack-a{width:52vw;top:2%;left:6%;} /* gazebo: bigger, top extends above pole's top */
-  .float-stack-b{width:26vw;top:15%;right:8%;left:auto;} /* pole: unchanged */
-  .float-below{width:50vw;top:72%;left:40%;} /* cairns: moved right, bigger */
+  .photo-strip{width:min(24vw,120px);right:5%;height:58%;} /* stops above the buttons -- mobile is too narrow for the strip to clear them horizontally */
   .tagline-handwritten{width:calc(100% + 2 * var(--gut));margin:clamp(-8px,-1vh,-3px) calc(-1 * var(--gut)) 0;transform:none;}
 }
 
@@ -293,11 +294,21 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <div class="grain" aria-hidden="true"></div>
 
 <main class="hero">
-  <div class="float-collage" aria-hidden="true">
-    <img class="float-photo float-above" src="assets/bg-test-gallery.jpg" alt="">
-    <img class="float-photo float-stack-a" src="assets/bg-test-gazebo.jpg" alt="">
-    <img class="float-photo float-stack-b" src="assets/bg-test-pole.jpg" alt="">
-    <img class="float-photo float-below" src="assets/bg-test-cairns.jpg" alt="">
+  <div class="photo-strip" aria-hidden="true">
+    <div class="photo-strip-track">
+      <img src="assets/bg-test-gallery.jpg" alt="">
+      <img src="assets/bg-test-gazebo.jpg" alt="">
+      <img src="assets/bg-test-pole.jpg" alt="">
+      <img src="assets/bg-test-cairns.jpg" alt="">
+      <img src="assets/bg-test-hotdog.jpg" alt="">
+      <img src="assets/bg-test-crowd.jpg" alt="">
+      <img src="assets/bg-test-gallery.jpg" alt="">
+      <img src="assets/bg-test-gazebo.jpg" alt="">
+      <img src="assets/bg-test-pole.jpg" alt="">
+      <img src="assets/bg-test-cairns.jpg" alt="">
+      <img src="assets/bg-test-hotdog.jpg" alt="">
+      <img src="assets/bg-test-crowd.jpg" alt="">
+    </div>
   </div>
   <div class="inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
