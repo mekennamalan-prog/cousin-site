@@ -13,10 +13,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --cream:#F2ECDD;
+  --cream:#f5f4f0;
   --ink:#17140D;
   /* themeable trio — cream + blue (current default) */
-  --bg:#F2ECDD;
+  --bg:#f5f4f0;
   --wordmark:#2A6AF2;
   --text:#17140D;
   --maxw:1100px;
@@ -38,13 +38,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   aspect-ratio:274.42 / 66.84;
 }
 
-/* ---- HERO (centered) ---- */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  padding:clamp(80px,12vh,140px) var(--gut) clamp(64px,10vh,96px);
-  position:relative;background-size:cover;background-position:center;}
+/* ---- HERO (collage layout, matching the annotated mockup exactly) ---- */
+.hero{min-height:100svh;position:relative;background-size:cover;background-position:center;overflow:hidden;}
 .hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .3s ease;
   background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 32%,rgba(0,0,0,.16) 55%,rgba(0,0,0,.58) 100%);}
-.inner{position:relative;z-index:1;width:100%;max-width:var(--maxw);margin:0 auto;}
+.hero-inner{position:absolute;inset:0;z-index:1;}
 /* full-bleed hero photo test — pick via ?bg=NAME (see BG_NAMES in the script below) */
 body[data-bg]{transition:background .3s ease;}
 body[data-bg="gazebo"] .hero{background-image:url("assets/bg-test-gazebo.jpg");}
@@ -65,12 +63,6 @@ body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-colo
 body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
 body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var(--ink);}
 
-.tagline-handwritten{position:relative;width:min(86vw,800px);aspect-ratio:3673/689;
-  margin:clamp(-40px,-4vh,-18px) auto 0;transform:translateX(3%);
-  background-color:var(--ink);transition:background-color .35s ease;
-  -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
-  mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
-
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:1;}
 #triggerStory:hover{transform:rotate(-2.5deg);}
@@ -80,44 +72,31 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
   border-bottom:2px solid var(--wordmark);padding-bottom:5px;transition:color .2s ease;}
 .triggers button.go:hover .btn-caption{color:var(--wordmark);opacity:1;}
 
-/* single moving photo strip, right side of the hero -- the ONLY motion
-   on the page. Sits ~7/8 of the way across, overlapping behind the
-   wordmark's final "N" and the tagline's last word, with a clear
-   margin of page background to its right. All 6 photos, cropped to a
-   uniform frame (like real filmstrip frames), scrolling continuously
-   upward and looping seamlessly (the track holds two copies of the
-   set back to back; animating exactly -50% brings the second copy
-   into the position the first started in). */
-.photo-strip{position:absolute;top:0;right:9%;width:min(15vw,180px);height:100%;z-index:1;
-  overflow:hidden;pointer-events:none;}
-body[data-bg] .photo-strip{display:none;}
-.photo-strip-track{display:flex;flex-direction:column;animation:filmstripScroll 48s linear infinite;}
-.photo-strip-track img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;flex:0 0 auto;
-  margin-bottom:4%;box-shadow:0 10px 24px rgba(23,20,13,.3);}
-@keyframes filmstripScroll{from{transform:translateY(0);}to{transform:translateY(-50%);}}
-@media(prefers-reduced-motion:reduce){.photo-strip-track{animation:none;}}
-@media(max-width:900px){
-  .photo-strip{width:min(24vw,120px);right:5%;height:58%;} /* stops above the buttons -- mobile is too narrow for the strip to clear them horizontally */
-  .tagline-handwritten{width:calc(100% + 2 * var(--gut));margin:clamp(-8px,-1vh,-3px) calc(-1 * var(--gut)) 0;transform:none;}
-}
+/* collage, positioned to match the annotated desktop mockup exactly.
+   No motion, no hover effects -- static, matching the reference. */
+.collage-photo{position:absolute;display:block;object-fit:cover;box-shadow:0 10px 22px rgba(23,20,13,.28);background:#000;}
+body[data-bg] .collage-photo{display:none;}
+.ph-crowd{top:3.3%;left:2.8%;width:21.1%;aspect-ratio:307/218;}
+.ph-pole{top:8.1%;left:28.5%;width:17.1%;aspect-ratio:249/332;}
+.ph-leaves{top:6.2%;left:52%;width:20.8%;aspect-ratio:303/200;}
+.ph-gazebo{top:12.4%;left:61.8%;width:28.7%;aspect-ratio:418/231;}
+.ph-gallery{top:41.6%;left:6.2%;width:33.8%;aspect-ratio:492/319;}
+.ph-cairns{top:76.4%;left:17.7%;width:27.3%;aspect-ratio:397/172;}
 
-.kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
-  opacity:.82;margin-bottom:clamp(24px,4vh,40px);}
+.kicker{position:absolute;top:33.6%;left:4%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+  letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
-.wordmark{position:relative;width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;
+.wordmark{position:absolute;top:37%;left:17%;width:58%;background-color:var(--wordmark);
   transform:rotate(-3deg);transition:background-color .35s ease;}
 
-.tagline{font-family:var(--serif);font-weight:400;font-size:clamp(1.04rem,1.8vw,1.3rem);line-height:1.5;
-  max-width:44ch;margin:clamp(30px,4.5vh,46px) auto 0;opacity:.9;}
-.tagline .nobr{white-space:nowrap;}
-.tagline .db{display:none;}
-@media(min-width:820px){.tagline{max-width:44em;}.tagline .db{display:inline;}}
+.tagline-handwritten{position:absolute;top:64%;right:4%;left:auto;width:48%;aspect-ratio:3673/689;
+  margin:0;transform:none;
+  background-color:var(--ink);transition:background-color .35s ease;
+  -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
+  mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:clamp(60px,10vw,140px);justify-content:center;}
-@media(max-width:639px){
-  .triggers{gap:clamp(28px,8vw,48px);}
-}
+.triggers{position:absolute;top:79.5%;right:6%;display:flex;gap:clamp(40px,6vw,80px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
@@ -127,6 +106,25 @@ button.go:hover{opacity:.88;}
 button.go:active{transform:translateY(1px);}
 button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
+
+@media(max-width:900px){
+  /* rebuilt for portrait phones rather than scaling the desktop
+     percentages down -- same visual language (photos crossing the
+     wordmark, right-aligned tagline+buttons) but re-composed for a
+     tall narrow screen. Pole dropped -- its portrait shape didn't
+     leave room for anything else at this width. */
+  .ph-pole{display:none;}
+  .ph-crowd{top:1%;right:5%;left:auto;width:30%;}
+  .ph-leaves{top:19%;right:5%;left:auto;width:26%;}
+  .ph-gazebo{top:29%;right:3%;left:auto;width:34%;}
+  .ph-gallery{top:40%;left:5%;width:55%;}
+  .ph-cairns{top:88%;left:20%;width:60%;}
+
+  .kicker{top:2.5%;left:6%;}
+  .wordmark{top:9%;left:6%;width:88%;}
+  .tagline-handwritten{top:64%;left:5%;right:auto;width:90%;}
+  .triggers{top:76%;left:5%;right:auto;gap:clamp(24px,6vw,40px);}
+}
 
 /* ---- FOOTER (ink band, centered) ---- */
 .foot{background:var(--ink);color:var(--cream);
@@ -294,23 +292,13 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <div class="grain" aria-hidden="true"></div>
 
 <main class="hero">
-  <div class="photo-strip" aria-hidden="true">
-    <div class="photo-strip-track">
-      <img src="assets/bg-test-gallery.jpg" alt="">
-      <img src="assets/bg-test-gazebo.jpg" alt="">
-      <img src="assets/bg-test-pole.jpg" alt="">
-      <img src="assets/bg-test-cairns.jpg" alt="">
-      <img src="assets/bg-test-hotdog.jpg" alt="">
-      <img src="assets/bg-test-crowd.jpg" alt="">
-      <img src="assets/bg-test-gallery.jpg" alt="">
-      <img src="assets/bg-test-gazebo.jpg" alt="">
-      <img src="assets/bg-test-pole.jpg" alt="">
-      <img src="assets/bg-test-cairns.jpg" alt="">
-      <img src="assets/bg-test-hotdog.jpg" alt="">
-      <img src="assets/bg-test-crowd.jpg" alt="">
-    </div>
-  </div>
-  <div class="inner">
+  <img class="collage-photo ph-crowd" src="assets/bg-test-crowd.jpg" alt="">
+  <img class="collage-photo ph-pole" src="assets/bg-test-pole.jpg" alt="">
+  <img class="collage-photo ph-leaves" src="assets/bg-test-leaves.jpg" alt="">
+  <img class="collage-photo ph-gazebo" src="assets/bg-test-gazebo.jpg" alt="">
+  <img class="collage-photo ph-gallery" src="assets/bg-test-gallery.jpg" alt="">
+  <img class="collage-photo ph-cairns" src="assets/bg-test-cairns.jpg" alt="">
+  <div class="hero-inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
 
     <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
