@@ -13,10 +13,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --cream:#F2ECDD;
+  --cream:#f5f4f0;
   --ink:#17140D;
   /* themeable trio — cream + blue (current default) */
-  --bg:#F2ECDD;
+  --bg:#f5f4f0;
   --wordmark:#2A6AF2;
   --text:#17140D;
   --maxw:1100px;
@@ -65,8 +65,6 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
 
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:1;}
-#triggerStory:hover{transform:rotate(-2.5deg);}
-#triggerCover:hover{transform:rotate(2deg);}
 .btn-caption{display:inline-block;color:var(--ink);font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;
   border-bottom:2px solid var(--wordmark);padding-bottom:5px;transition:color .2s ease;}
@@ -89,14 +87,14 @@ body[data-bg] .collage-photo{display:none;}
 .wordmark{position:absolute;top:37%;left:17%;width:58%;background-color:var(--ink);
   transform:rotate(-3deg);transition:background-color .35s ease;}
 
-.tagline-handwritten{position:absolute;top:64%;right:6%;left:auto;width:58%;aspect-ratio:3673/689;
+.tagline-handwritten{position:absolute;top:60%;right:6%;left:auto;width:52%;aspect-ratio:3673/689;
   margin:0;transform:none;
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:79.5%;left:36%;width:58%;right:auto;
+.triggers{position:absolute;top:78%;left:50%;width:44%;right:auto;
   display:flex;justify-content:center;gap:clamp(40px,6vw,80px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
@@ -121,10 +119,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
   .kicker{top:15%;left:4%;}
   .wordmark{top:18%;left:4%;width:92%;}
-  .tagline-handwritten{top:46%;left:5%;right:auto;width:88%;}
-  .triggers{position:absolute;top:55%;left:0;width:100%;height:90px;display:block;}
-  #triggerStory{position:absolute;top:0;left:16%;}
-  #triggerCover{position:absolute;top:40px;left:53%;}
+  .tagline-handwritten{top:50%;left:5%;right:auto;width:88%;}
+  .triggers{position:absolute;top:62%;left:5%;width:90%;right:auto;
+    display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
+  #triggerStory,#triggerCover{position:static;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
