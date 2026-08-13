@@ -74,20 +74,20 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
    No motion, no hover effects -- static, matching the reference. */
 .collage-photo{position:absolute;display:block;object-fit:cover;box-shadow:0 10px 22px rgba(23,20,13,.28);background:#000;}
 body[data-bg] .collage-photo{display:none;}
-.ph-crowd{top:3.3%;left:2.8%;width:21.1%;aspect-ratio:4/3;}
-.ph-pole{top:8.1%;left:28.5%;width:17.1%;aspect-ratio:249/332;}
-.ph-leaves{top:6.2%;left:52%;width:20.8%;aspect-ratio:303/200;}
-.ph-gazebo{top:12.4%;left:61.8%;width:28.7%;aspect-ratio:5/3;}
-.ph-gallery{top:41.6%;left:6.2%;width:33.8%;aspect-ratio:492/319;}
-.ph-cairns{bottom:6%;top:auto;left:24%;width:26%;aspect-ratio:3/2;}
+.ph-crowd{top:3.3%;left:2.8%;width:min(21.1%,307px);aspect-ratio:4/3;}
+.ph-pole{top:8.1%;left:28.5%;width:min(17.1%,249px);aspect-ratio:249/332;}
+.ph-leaves{top:6.2%;left:52%;width:min(20.8%,303px);aspect-ratio:303/200;}
+.ph-gazebo{top:12.4%;left:61.8%;width:min(28.7%,418px);aspect-ratio:5/3;}
+.ph-gallery{top:41.6%;left:6.2%;width:min(33.8%,492px);aspect-ratio:492/319;}
+.ph-cairns{top:72%;left:24%;width:min(19%,277px);aspect-ratio:3/2;}
 
-.kicker{position:absolute;top:33.6%;left:4%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+.kicker{position:absolute;top:36%;left:4%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
-.wordmark{position:absolute;top:37%;left:17%;width:58%;background-color:var(--ink);
+.wordmark{position:absolute;top:37%;left:17%;width:min(58%,844px);background-color:var(--ink);
   transform:rotate(-3deg);transition:background-color .35s ease;}
 
-.tagline-handwritten{position:absolute;top:60%;right:6%;left:auto;width:52%;aspect-ratio:3673/689;
+.tagline-handwritten{position:absolute;top:60%;right:6%;left:auto;width:min(52%,757px);aspect-ratio:3673/689;
   margin:0;transform:none;
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
