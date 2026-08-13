@@ -13,10 +13,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --cream:#f5f4f0;
+  --cream:#F2ECDD;
   --ink:#17140D;
   /* themeable trio — cream + blue (current default) */
-  --bg:#f5f4f0;
+  --bg:#F2ECDD;
   --wordmark:#2A6AF2;
   --text:#17140D;
   --maxw:1100px;
@@ -76,27 +76,28 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
    No motion, no hover effects -- static, matching the reference. */
 .collage-photo{position:absolute;display:block;object-fit:cover;box-shadow:0 10px 22px rgba(23,20,13,.28);background:#000;}
 body[data-bg] .collage-photo{display:none;}
-.ph-crowd{top:3.3%;left:2.8%;width:21.1%;aspect-ratio:307/218;}
+.ph-crowd{top:3.3%;left:2.8%;width:21.1%;aspect-ratio:4/3;}
 .ph-pole{top:8.1%;left:28.5%;width:17.1%;aspect-ratio:249/332;}
 .ph-leaves{top:6.2%;left:52%;width:20.8%;aspect-ratio:303/200;}
-.ph-gazebo{top:12.4%;left:61.8%;width:28.7%;aspect-ratio:418/231;}
+.ph-gazebo{top:12.4%;left:61.8%;width:28.7%;aspect-ratio:5/3;}
 .ph-gallery{top:41.6%;left:6.2%;width:33.8%;aspect-ratio:492/319;}
-.ph-cairns{top:76.4%;left:17.7%;width:27.3%;aspect-ratio:397/172;}
+.ph-cairns{top:68%;left:24%;width:26%;aspect-ratio:3/2;}
 
 .kicker{position:absolute;top:33.6%;left:4%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
-.wordmark{position:absolute;top:37%;left:17%;width:58%;background-color:var(--wordmark);
+.wordmark{position:absolute;top:37%;left:17%;width:58%;background-color:var(--ink);
   transform:rotate(-3deg);transition:background-color .35s ease;}
 
-.tagline-handwritten{position:absolute;top:64%;right:4%;left:auto;width:48%;aspect-ratio:3673/689;
+.tagline-handwritten{position:absolute;top:64%;right:6%;left:auto;width:58%;aspect-ratio:3673/689;
   margin:0;transform:none;
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:79.5%;right:6%;display:flex;gap:clamp(40px,6vw,80px);}
+.triggers{position:absolute;top:79.5%;left:36%;width:58%;right:auto;
+  display:flex;justify-content:center;gap:clamp(40px,6vw,80px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
@@ -108,22 +109,22 @@ button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
 @media(max-width:900px){
-  /* rebuilt for portrait phones rather than scaling the desktop
-     percentages down -- same visual language (photos crossing the
-     wordmark, right-aligned tagline+buttons) but re-composed for a
-     tall narrow screen. Pole dropped -- its portrait shape didn't
-     leave room for anything else at this width. */
-  .ph-pole{display:none;}
-  .ph-crowd{top:1%;right:5%;left:auto;width:30%;}
-  .ph-leaves{top:19%;right:5%;left:auto;width:26%;}
-  .ph-gazebo{top:29%;right:3%;left:auto;width:34%;}
-  .ph-gallery{top:40%;left:5%;width:55%;}
-  .ph-cairns{top:88%;left:20%;width:60%;}
+  /* matches the mobile mockup exactly: gallery dropped (pole kept
+     this time -- the opposite tradeoff from the first pass), buttons
+     staggered diagonally instead of sitting in a row. */
+  .ph-gallery{display:none;}
+  .ph-crowd{top:0%;right:5%;left:auto;width:30%;}
+  .ph-pole{top:28%;left:15%;width:26%;}
+  .ph-gazebo{top:33%;right:8%;left:auto;width:34%;}
+  .ph-leaves{top:70%;right:7%;left:auto;width:46%;}
+  .ph-cairns{top:78%;left:5%;width:40%;}
 
-  .kicker{top:2.5%;left:6%;}
-  .wordmark{top:9%;left:6%;width:88%;}
-  .tagline-handwritten{top:64%;left:5%;right:auto;width:90%;}
-  .triggers{top:76%;left:5%;right:auto;gap:clamp(24px,6vw,40px);}
+  .kicker{top:15%;left:4%;}
+  .wordmark{top:18%;left:4%;width:92%;}
+  .tagline-handwritten{top:46%;left:5%;right:auto;width:88%;}
+  .triggers{position:absolute;top:55%;left:0;width:100%;height:90px;display:block;}
+  #triggerStory{position:absolute;top:0;left:16%;}
+  #triggerCover{position:absolute;top:40px;left:53%;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
