@@ -13,10 +13,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --cream:#F2ECDD;
+  --cream:#f5f4f0;
   --ink:#17140D;
   /* themeable trio — cream + blue (current default) */
-  --bg:#F2ECDD;
+  --bg:#f5f4f0;
   --wordmark:#2A6AF2;
   --text:#17140D;
   --maxw:1100px;
@@ -38,34 +38,92 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   aspect-ratio:274.42 / 66.84;
 }
 
-/* ---- HERO (centered) ---- */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  padding:clamp(80px,12vh,140px) var(--gut) clamp(64px,10vh,96px);}
-.inner{width:100%;max-width:var(--maxw);margin:0 auto;}
+/* ---- HERO (collage layout, matching the annotated mockup exactly) ---- */
+.hero{min-height:100svh;position:relative;background-size:cover;background-position:center;overflow:hidden;}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .3s ease;
+  background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 32%,rgba(0,0,0,.16) 55%,rgba(0,0,0,.58) 100%);}
+.hero-inner{position:absolute;inset:0;z-index:1;}
+/* full-bleed hero photo test — pick via ?bg=NAME (see BG_NAMES in the script below) */
+body[data-bg]{transition:background .3s ease;}
+body[data-bg="gazebo"] .hero{background-image:url("assets/bg-test-gazebo.jpg");}
+body[data-bg="gallery"] .hero{background-image:url("assets/bg-test-gallery.jpg");}
+body[data-bg="missionaries"] .hero{background-image:url("assets/bg-test-missionaries.jpg");}
+body[data-bg="crowd"] .hero{background-image:url("assets/bg-test-crowd.jpg");}
+body[data-bg="truck"] .hero{background-image:url("assets/bg-test-truck.jpg");}
+body[data-bg="pole"] .hero{background-image:url("assets/bg-test-pole.jpg");}
+body[data-bg="cairns"] .hero{background-image:url("assets/bg-test-cairns.jpg");}
+body[data-bg="hotdog"] .hero{background-image:url("assets/bg-test-hotdog.jpg");}
+body[data-bg] .hero::before{opacity:1;}
+body[data-bg] .kicker{color:#fff;opacity:.95;}
+body[data-bg] .wordmark{background-color:#fff;}
+body[data-bg] .tagline-handwritten{background-color:#fff;}
+body[data-bg] .btn-caption{color:#fff;}
+/* gallery + pole are pale photos — dark ink reads better there than white */
+body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-color:var(--ink);}
+body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
+body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var(--ink);}
 
-.kicker{font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);letter-spacing:.24em;text-transform:uppercase;
-  opacity:.82;margin-bottom:clamp(24px,4vh,40px);}
+.triggers button.go{background:none;padding:6px;}
+.triggers button.go:hover{opacity:1;}
+.btn-caption{display:inline-block;color:var(--ink);font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
+  letter-spacing:.24em;text-transform:uppercase;opacity:.82;
+  border-bottom:2px solid var(--wordmark);padding-bottom:5px;transition:color .2s ease;}
+.triggers button.go:hover .btn-caption{color:var(--wordmark);opacity:1;}
 
-.wordmark{width:min(88vw,880px);background-color:var(--wordmark);margin:0 auto;transition:background-color .35s ease;}
+/* collage, positioned to match the annotated desktop mockup exactly.
+   No motion, no hover effects -- static, matching the reference. */
+.collage-photo{position:absolute;display:block;object-fit:cover;box-shadow:0 10px 22px rgba(23,20,13,.28);background:#000;}
+body[data-bg] .collage-photo{display:none;}
+.ph-crowd{top:3.3%;left:2.8%;width:min(21.1%,307px);aspect-ratio:4/3;}
+.ph-pole{top:8.1%;left:28.5%;width:min(17.1%,249px);aspect-ratio:249/332;}
+.ph-leaves{top:6.2%;left:52%;width:min(20.8%,303px);aspect-ratio:303/200;}
+.ph-gazebo{top:12.4%;left:61.8%;width:min(28.7%,418px);aspect-ratio:5/3;}
+.ph-gallery{top:41.6%;left:6.2%;width:min(33.8%,492px);aspect-ratio:492/319;}
+.ph-cairns{top:72%;left:24%;width:min(19%,277px);aspect-ratio:3/2;}
 
-.tagline{font-family:var(--serif);font-weight:400;font-size:clamp(1.04rem,1.8vw,1.3rem);line-height:1.5;
-  max-width:44ch;margin:clamp(30px,4.5vh,46px) auto 0;opacity:.9;}
-.tagline .nobr{white-space:nowrap;}
-.tagline .db{display:none;}
-@media(min-width:820px){.tagline{max-width:44em;}.tagline .db{display:inline;}}
+.kicker{position:absolute;top:36%;left:4%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+  letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
+
+.wordmark{position:absolute;top:37%;left:17%;width:min(58%,844px);background-color:var(--ink);
+  transform:rotate(-3deg);transition:background-color .35s ease;}
+
+.tagline-handwritten{position:absolute;top:60%;right:6%;left:auto;width:min(52%,757px);aspect-ratio:3673/689;
+  margin:0;transform:none;
+  background-color:var(--ink);transition:background-color .35s ease;
+  -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
+  mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{margin:clamp(30px,4.5vh,46px) auto 0;display:flex;gap:12px;justify-content:center;}
-@media(max-width:639px){.triggers{flex-direction:column;align-items:stretch;}}
+.triggers{position:absolute;top:78%;left:50%;width:44%;right:auto;
+  display:flex;justify-content:center;gap:clamp(40px,6vw,80px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--bg);background:var(--wordmark);border:none;border-radius:0;
+  color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
   transition:transform .15s ease,opacity .15s ease,background .35s ease;}
 button.go svg{width:18px;height:18px;flex:0 0 auto;}
 button.go:hover{opacity:.88;}
 button.go:active{transform:translateY(1px);}
 button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
+
+@media(max-width:900px){
+  /* matches the mobile mockup exactly: gallery dropped (pole kept
+     this time -- the opposite tradeoff from the first pass), buttons
+     staggered diagonally instead of sitting in a row. */
+  .ph-gallery{display:none;}
+  .ph-crowd{top:0%;right:5%;left:auto;width:30%;}
+  .ph-pole{top:28%;left:15%;width:26%;}
+  .ph-gazebo{top:33%;right:8%;left:auto;width:34%;}
+  .ph-leaves{top:74%;right:7%;left:auto;width:44%;}
+  .ph-cairns{bottom:5%;top:auto;left:5%;width:40%;}
+
+  .kicker{top:15%;left:4%;}
+  .wordmark{top:18%;left:4%;width:92%;}
+  .tagline-handwritten{top:50%;left:5%;right:auto;width:88%;}
+  .triggers{position:absolute;top:60%;left:5%;width:90%;right:auto;
+    display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
+  #triggerStory,#triggerCover{position:static;}
+}
 
 /* ---- FOOTER (ink band, centered) ---- */
 .foot{background:var(--ink);color:var(--cream);
@@ -222,22 +280,36 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </style>
 </head>
 <body>
+<script>
+// design-lab test only: ?bg=NAME swaps the hero photo
+(function(){
+  var BG_NAMES=["gazebo","gallery","missionaries","crowd","truck","pole","cairns","hotdog"];
+  var bg=new URLSearchParams(location.search).get("bg");
+  if(BG_NAMES.indexOf(bg)!==-1)document.body.setAttribute("data-bg",bg);
+})();
+</script>
 <div class="grain" aria-hidden="true"></div>
 
 <main class="hero">
-  <div class="inner">
+  <img class="collage-photo ph-crowd" src="assets/bg-test-smokestack.jpg" alt="">
+  <img class="collage-photo ph-pole" src="assets/bg-test-pole.jpg" alt="">
+  <img class="collage-photo ph-leaves" src="assets/bg-test-leaves.jpg" alt="">
+  <img class="collage-photo ph-gazebo" src="assets/bg-test-gazebo.jpg" alt="">
+  <img class="collage-photo ph-gallery" src="assets/bg-test-gallery.jpg" alt="">
+  <img class="collage-photo ph-cairns" src="assets/bg-test-cairns.jpg" alt="">
+  <div class="hero-inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
 
     <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
 
-    <p class="tagline reveal d3">An independent print magazine that widens the lens <br class="db">on the people and ideas that make <span class="nobr">Salt Lake City interesting</span>.</p>
+    <div class="tagline-handwritten reveal d3" role="img" aria-label="An independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting."></div>
 
     <div class="triggers reveal d4">
       <button id="triggerStory" class="go" type="button">
-        <span>Share a story</span>
+        <span class="btn-caption">Share a story</span>
       </button>
       <button id="triggerCover" class="go" type="button">
-        <span>Capture a cover</span>
+        <span class="btn-caption">Capture a cover</span>
       </button>
     </div>
   </div>
