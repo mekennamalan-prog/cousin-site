@@ -38,37 +38,50 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   aspect-ratio:274.42 / 66.84;
 }
 
-/* ---- HERO (collage layout, matching the annotated mockup exactly) ---- */
-.hero{min-height:100svh;position:relative;background-size:cover;background-position:center;overflow:hidden;}
-.hero::before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .3s ease;
-  background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.12) 32%,rgba(0,0,0,.16) 55%,rgba(0,0,0,.58) 100%);}
-.hero-inner{position:absolute;inset:0;z-index:1;}
-/* full-bleed hero photo test — pick via ?bg=NAME (see BG_NAMES in the script below) */
-body[data-bg]{transition:background .3s ease;}
-body[data-bg="gazebo"] .hero{background-image:url("assets/bg-test-gazebo.jpg");}
-body[data-bg="gallery"] .hero{background-image:url("assets/bg-test-gallery.jpg");}
-body[data-bg="missionaries"] .hero{background-image:url("assets/bg-test-missionaries.jpg");}
-body[data-bg="crowd"] .hero{background-image:url("assets/bg-test-crowd.jpg");}
-body[data-bg="truck"] .hero{background-image:url("assets/bg-test-truck.jpg");}
-body[data-bg="pole"] .hero{background-image:url("assets/bg-test-pole.jpg");}
-body[data-bg="cairns"] .hero{background-image:url("assets/bg-test-cairns.jpg");}
-body[data-bg="hotdog"] .hero{background-image:url("assets/bg-test-hotdog.jpg");}
-body[data-bg] .hero::before{opacity:1;}
-body[data-bg] .kicker{color:#fff;opacity:.95;}
-body[data-bg] .wordmark{background-color:#fff;}
-body[data-bg] .tagline-handwritten{background-color:#fff;}
-body[data-bg] .btn-caption{color:#fff;}
-/* gallery + pole are pale photos — dark ink reads better there than white */
-body[data-bg="gallery"] .wordmark,body[data-bg="pole"] .wordmark{background-color:var(--ink);}
-body[data-bg="gallery"] .tagline-handwritten,body[data-bg="pole"] .tagline-handwritten{background-color:var(--ink);}
-body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var(--ink);}
+/* ---- HERO (full-bleed swipeable photo gallery) ---- */
+.hero{min-height:100svh;position:relative;overflow:hidden;touch-action:pan-y;background:#111;}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.14) 32%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.6) 100%);}
+.hero-inner{position:absolute;inset:0;z-index:2;pointer-events:none;}
+.hero-inner .triggers{pointer-events:auto;}
+
+/* the swipeable background gallery -- one full-bleed photo at a time.
+   each .bg-slide is positioned via inline transform (see script below)
+   relative to the active index; only the active slide plus its
+   immediate neighbors are ever on/near screen. */
+.bg-gallery{position:absolute;inset:0;z-index:0;cursor:grab;}
+.bg-gallery.is-dragging{cursor:grabbing;}
+.bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;
+  transform:translateX(100%);}
+
+/* one-time onboarding cue: the next photo in line peeks in from the
+   right edge and settles back, hinting that the gallery swipes. */
+@keyframes bgPeekHint{
+  0%{transform:translateX(100%);}
+  32%{transform:translateX(84%);}
+  48%{transform:translateX(88.5%);}
+  64%{transform:translateX(86%);}
+  100%{transform:translateX(100%);}
+}
+.bg-slide.peek-hint{animation:bgPeekHint 1.1s cubic-bezier(.3,.7,.4,1) both;}
+@media(prefers-reduced-motion:reduce){
+  .bg-slide.peek-hint{animation:none;}
+}
+
+/* text/button assets are always white here -- there's always a photo
+   underneath, never the plain cream background. */
+.kicker{color:#fff;opacity:.95;}
+.wordmark{background-color:#fff;}
+.tagline-handwritten{background-color:#fff;}
+.btn-caption{color:#fff;}
+.triggers button.go:hover .btn-caption{color:#fff;opacity:1;}
+.btn-caption::after{background-color:#fff;}
 
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:1;}
-.btn-caption{position:relative;display:inline-block;color:var(--ink);font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
+.btn-caption{position:relative;display:inline-block;font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;padding-bottom:16px;transition:color .2s ease;}
-.triggers button.go:hover .btn-caption{color:var(--wordmark);opacity:1;}
-.btn-caption::after{content:"";position:absolute;left:0;bottom:2px;width:100%;background-color:var(--wordmark);}
+.btn-caption::after{content:"";position:absolute;left:0;bottom:2px;width:100%;}
 #triggerStory .btn-caption::after{aspect-ratio:873/89;transform-origin:left bottom;transform:rotate(4deg);
   -webkit-mask:url("assets/btn-line-share.png") center/contain no-repeat;
   mask:url("assets/btn-line-share.png") center/contain no-repeat;}
@@ -76,26 +89,14 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
   -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
   mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
-/* collage, positioned to match the annotated desktop mockup exactly.
-   No motion, no hover effects -- static, matching the reference. */
-.collage-photo{position:absolute;display:block;object-fit:cover;box-shadow:0 10px 22px rgba(23,20,13,.28);background:#000;}
-body[data-bg] .collage-photo{display:none;}
-.ph-crowd{top:3.3%;left:5.4%;width:min(21.1%,307px);aspect-ratio:4/3;}
-.ph-pole{top:8.1%;left:31.1%;width:min(17.1%,249px);aspect-ratio:249/332;}
-.ph-leaves{top:6.2%;left:54.6%;width:min(20.8%,303px);aspect-ratio:303/200;}
-.ph-gazebo{top:12.4%;left:64.4%;width:min(28.7%,418px);aspect-ratio:5/3;}
-.ph-gallery{top:41.6%;left:8.8%;width:min(33.8%,492px);aspect-ratio:492/319;}
-.ph-cairns{top:72%;left:26.6%;width:min(19%,277px);aspect-ratio:3/2;}
-
 .kicker{position:absolute;top:36%;left:6.6%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
-.wordmark{position:absolute;top:37%;left:19.6%;width:min(58%,844px);background-color:var(--ink);
-  transform:rotate(-3deg);transition:background-color .35s ease;}
+.wordmark{position:absolute;top:37%;left:19.6%;width:min(58%,844px);
+  transform:rotate(-3deg);}
 
 .tagline-handwritten{position:absolute;top:62%;left:46.6%;right:auto;width:min(48%,700px);aspect-ratio:3660/1239;
   margin:0;transform:none;
-  background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
@@ -113,16 +114,6 @@ button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
 @media(max-width:900px){
-  /* matches the mobile mockup exactly: gallery dropped (pole kept
-     this time -- the opposite tradeoff from the first pass), buttons
-     staggered diagonally instead of sitting in a row. */
-  .ph-gallery{display:none;}
-  .ph-crowd{top:0%;right:5%;left:auto;width:30%;}
-  .ph-pole{top:28%;left:15%;width:26%;}
-  .ph-gazebo{top:33%;right:8%;left:auto;width:34%;}
-  .ph-leaves{top:83.5%;right:7%;left:auto;width:38%;}
-  .ph-cairns{bottom:5%;top:auto;left:5%;width:28%;}
-
   .kicker{top:15%;left:4%;}
   .wordmark{top:18%;left:4%;width:92%;}
   .tagline-handwritten{top:50%;left:0;right:auto;width:100%;}
@@ -292,23 +283,15 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </style>
 </head>
 <body>
-<script>
-// design-lab test only: ?bg=NAME swaps the hero photo
-(function(){
-  var BG_NAMES=["gazebo","gallery","missionaries","crowd","truck","pole","cairns","hotdog"];
-  var bg=new URLSearchParams(location.search).get("bg");
-  if(BG_NAMES.indexOf(bg)!==-1)document.body.setAttribute("data-bg",bg);
-})();
-</script>
 <div class="grain" aria-hidden="true"></div>
 
 <main class="hero">
-  <img class="collage-photo ph-crowd" src="assets/bg-test-smokestack.jpg" alt="">
-  <img class="collage-photo ph-pole" src="assets/bg-test-pole.jpg" alt="">
-  <img class="collage-photo ph-leaves" src="assets/bg-test-leaves.jpg" alt="">
-  <img class="collage-photo ph-gazebo" src="assets/bg-test-gazebo.jpg" alt="">
-  <img class="collage-photo ph-gallery" src="assets/bg-test-gallery.jpg" alt="">
-  <img class="collage-photo ph-cairns" src="assets/bg-test-cairns.jpg" alt="">
+  <div class="bg-gallery" id="bgGallery" aria-hidden="true">
+    <div class="bg-slide" style="background-image:url('assets/bg-fb-1-smokestack.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg-fb-2-quilt.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg-fb-3-mirror.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg-fb-4-pinkcar.jpg')"></div>
+  </div>
   <div class="hero-inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
 
@@ -460,6 +443,101 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </div>
 
 <script>
+/* ===== HERO BACKGROUND GALLERY (swipe to change photo) ==============
+   Masthead/tagline/buttons live in .hero-inner, a separate layer that
+   never moves. Only the photo layer (.bg-slide elements) responds to
+   the drag. Each slide is positioned via transform, relative to the
+   active index, so only the active photo plus its immediate left/
+   right neighbors are ever on or near screen -- the rest sit parked
+   at +/-100%+ and don't need to be touched until they're next up.
+   ==================================================================== */
+(function(){
+  const gallery=document.getElementById("bgGallery");
+  if(!gallery)return;
+  const slides=Array.from(gallery.querySelectorAll(".bg-slide"));
+  const N=slides.length;
+  if(!N)return;
+
+  let active=0;
+  let dragging=false;
+  let hasInteracted=false;
+  let axis=null; // 'x' | 'y' | null, decided a few px into the gesture
+  let startX=0,startY=0,dragX=0;
+  let pointerId=null;
+
+  function relIndex(i){
+    let r=i-active;
+    const half=N/2;
+    if(r>half)r-=N;
+    if(r<=-half)r+=N;
+    return r;
+  }
+  // drag distance is tracked in px but slides are positioned in % of
+  // gallery width, so convert before combining the two into one transform.
+  function place(withTransition){
+    const w=gallery.clientWidth||1;
+    const dragPct=dragging?(dragX/w*100):0;
+    slides.forEach((el,i)=>{
+      el.style.transition=withTransition?"transform .45s cubic-bezier(.22,.61,.36,1)":"none";
+      el.style.transform=`translateX(${relIndex(i)*100+dragPct}%)`;
+    });
+  }
+
+  function onDown(e){
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    dragging=true;axis=null;dragX=0;pointerId=e.pointerId;
+    hasInteracted=true;
+    startX=e.clientX;startY=e.clientY;
+    gallery.classList.add("is-dragging");
+    slides.forEach(el=>el.classList.remove("peek-hint"));
+    gallery.setPointerCapture(pointerId);
+  }
+  function onMove(e){
+    if(!dragging||e.pointerId!==pointerId)return;
+    const dx=e.clientX-startX,dy=e.clientY-startY;
+    if(axis===null){
+      if(Math.abs(dx)<6&&Math.abs(dy)<6)return;
+      axis=Math.abs(dx)>Math.abs(dy)?"x":"y";
+    }
+    if(axis!=="x")return;
+    e.preventDefault();
+    dragX=dx;
+    place(false);
+  }
+  function onUp(e){
+    if(!dragging||e.pointerId!==pointerId)return;
+    dragging=false;
+    gallery.classList.remove("is-dragging");
+    if(axis==="x"){
+      const w=gallery.clientWidth||1;
+      const threshold=Math.max(44,w*0.14);
+      if(dragX<=-threshold)active=(active+1)%N;
+      else if(dragX>=threshold)active=(active-1+N)%N;
+    }
+    dragX=0;axis=null;
+    place(true);
+  }
+
+  gallery.addEventListener("pointerdown",onDown);
+  gallery.addEventListener("pointermove",onMove);
+  gallery.addEventListener("pointerup",onUp);
+  gallery.addEventListener("pointercancel",onUp);
+
+  place(false);
+
+  // onboarding cue: once, shortly after load, peek the next photo in
+  // from the right edge and let it settle back -- a wordless "swipe
+  // here" hint. Skipped if the user has already started interacting.
+  window.addEventListener("load",()=>{
+    setTimeout(()=>{
+      if(hasInteracted)return;
+      const next=slides[(active+1)%N];
+      next.addEventListener("animationend",()=>next.classList.remove("peek-hint"),{once:true});
+      next.classList.add("peek-hint");
+    },1200);
+  });
+})();
+
 /* ===== EMAIL CAPTURE -> GOOGLE SHEET ================================
    Each signup is POSTed to a Google Apps Script web app that appends
    it to the Cousin subscribers sheet. no-cors = fire-and-forget (Apps
