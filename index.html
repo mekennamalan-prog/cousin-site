@@ -65,10 +65,16 @@ body[data-bg="gallery"] .btn-caption,body[data-bg="pole"] .btn-caption{color:var
 
 .triggers button.go{background:none;padding:6px;}
 .triggers button.go:hover{opacity:1;}
-.btn-caption{display:inline-block;color:var(--ink);font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
-  letter-spacing:.24em;text-transform:uppercase;opacity:.82;
-  border-bottom:2px solid var(--wordmark);padding-bottom:5px;transition:color .2s ease;}
+.btn-caption{position:relative;display:inline-block;color:var(--ink);font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
+  letter-spacing:.24em;text-transform:uppercase;opacity:.82;padding-bottom:12px;transition:color .2s ease;}
 .triggers button.go:hover .btn-caption{color:var(--wordmark);opacity:1;}
+.btn-caption::after{content:"";position:absolute;left:0;bottom:0;width:100%;background-color:var(--wordmark);}
+#triggerStory .btn-caption::after{aspect-ratio:873/89;
+  -webkit-mask:url("assets/btn-line-share.png") center/contain no-repeat;
+  mask:url("assets/btn-line-share.png") center/contain no-repeat;}
+#triggerCover .btn-caption::after{aspect-ratio:965/164;
+  -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
+  mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
 /* collage, positioned to match the annotated desktop mockup exactly.
    No motion, no hover effects -- static, matching the reference. */
@@ -87,14 +93,14 @@ body[data-bg] .collage-photo{display:none;}
 .wordmark{position:absolute;top:37%;left:17%;width:min(58%,844px);background-color:var(--ink);
   transform:rotate(-3deg);transition:background-color .35s ease;}
 
-.tagline-handwritten{position:absolute;top:60%;right:6%;left:auto;width:min(52%,757px);aspect-ratio:3673/689;
+.tagline-handwritten{position:absolute;top:60%;right:6%;left:auto;width:min(31%,460px);aspect-ratio:3660/1239;
   margin:0;transform:none;
   background-color:var(--ink);transition:background-color .35s ease;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:78%;left:50%;width:44%;right:auto;
+.triggers{position:absolute;top:80%;left:50%;width:44%;right:auto;
   display:flex;justify-content:center;gap:clamp(40px,6vw,80px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
@@ -114,13 +120,13 @@ button.go[disabled]{opacity:.55;cursor:default;}
   .ph-crowd{top:0%;right:5%;left:auto;width:30%;}
   .ph-pole{top:28%;left:15%;width:26%;}
   .ph-gazebo{top:33%;right:8%;left:auto;width:34%;}
-  .ph-leaves{top:74%;right:7%;left:auto;width:44%;}
-  .ph-cairns{bottom:5%;top:auto;left:5%;width:40%;}
+  .ph-leaves{top:83%;right:7%;left:auto;width:44%;}
+  .ph-cairns{bottom:5%;top:auto;left:5%;width:34%;}
 
   .kicker{top:15%;left:4%;}
   .wordmark{top:18%;left:4%;width:92%;}
-  .tagline-handwritten{top:50%;left:5%;right:auto;width:88%;}
-  .triggers{position:absolute;top:60%;left:5%;width:90%;right:auto;
+  .tagline-handwritten{top:50%;left:0;right:auto;width:100%;}
+  .triggers{position:absolute;top:70%;left:5%;width:90%;right:auto;
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
   #triggerStory,#triggerCover{position:static;}
 }
@@ -213,9 +219,15 @@ button.go[disabled]{opacity:.55;cursor:default;}
 /* ---- fig 2: story ---- */
 #screen-egg-story .egg-screen-pad{padding-top:64px;}
 #screen-egg-story .egg-topleft-logo{width:190px;margin-bottom:28px;}
+.egg-story-textarea-wrap{position:relative;flex:1;display:flex;min-height:120px;}
 .egg-story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
   font-family:var(--serif);font-size:1.3rem;line-height:1.5;color:#000;overflow:hidden;min-height:120px;}
-.egg-story-textarea::placeholder{color:rgba(0,0,0,.4);}
+.egg-story-textarea::placeholder{color:transparent;}
+.egg-story-placeholder-img{position:absolute;top:6px;left:2px;width:92%;max-width:520px;
+  aspect-ratio:3329/927;background-color:rgba(0,0,0,.4);pointer-events:none;
+  -webkit-mask:url("assets/story-prompt-handwritten.png") left top/contain no-repeat;
+  mask:url("assets/story-prompt-handwritten.png") left top/contain no-repeat;}
+.egg-story-textarea-wrap.has-text .egg-story-placeholder-img{display:none;}
 .egg-story-submit{margin-top:14px;}
 
 /* ---- fig 3: allow camera ---- */
@@ -359,7 +371,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <section class="screen" id="screen-egg-story">
       <div class="egg-screen-pad">
         <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin"></div>
-        <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story" placeholder="Tell us about a person, a place, or a moment in Salt Lake City that stuck with you..."></textarea>
+        <div class="egg-story-textarea-wrap" id="eggStoryTextareaWrap">
+          <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story" placeholder="Tell us about a person, a place, or a moment in Salt Lake City that stuck with you..."></textarea>
+          <div class="egg-story-placeholder-img" aria-hidden="true"></div>
+        </div>
         <div class="egg-story-submit">
           <button class="egg-link" id="eggStorySubmit" type="button">Share with Us</button>
         </div>
@@ -523,6 +538,7 @@ function eggCloseUI(){
   eggCurrentScreen=null;
   eggStoryTextarea.value="";
   eggStoryTextarea.style.height="auto";
+  eggStoryTextareaWrap.classList.remove("has-text");
   eggAddNameForm.reset();
   eggCapturedPhotoDataUrl=null;
 }
@@ -798,9 +814,11 @@ document.getElementById("eggReviewSave").addEventListener("click",async()=>{
 
 /* ===== STORY WRITER ================================================== */
 const eggStoryTextarea=document.getElementById("eggStoryTextarea");
+const eggStoryTextareaWrap=document.getElementById("eggStoryTextareaWrap");
 eggStoryTextarea.addEventListener("input",()=>{
   eggStoryTextarea.style.height="auto";
   eggStoryTextarea.style.height=eggStoryTextarea.scrollHeight+"px";
+  eggStoryTextareaWrap.classList.toggle("has-text",eggStoryTextarea.value.length>0);
 });
 document.getElementById("eggStorySubmit").addEventListener("click",()=>{
   eggSubmissionType="story";
