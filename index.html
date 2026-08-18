@@ -54,6 +54,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
    only its photos ever get fetched (see the script's lazy-load). */
 .bg-gallery{position:absolute;inset:0;z-index:0;cursor:grab;}
 .bg-gallery.is-dragging{cursor:grabbing;}
+.bg-gallery.in-click-zone{cursor:pointer;}
 .bg-gallery[data-gallery="mobile"]{display:none;}
 @media(max-width:900px){
   .bg-gallery[data-gallery="desktop"]{display:none;}
@@ -80,16 +81,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
    right side of the hero. the outer element only ever centers it
    vertically; the inner track is what bounces, so the two transforms
    never fight each other. */
-/* desktop: parked in the clear band above the kicker/wordmark.
-   mobile gets its own placement below -- the layouts don't share a
-   vertical band that's clear of text on both, so each is positioned
-   independently rather than forcing one shared rule to fit both. */
-.swipe-hint{position:absolute;top:8%;right:4%;z-index:2;pointer-events:none;}
-.swipe-hint-track{display:flex;flex-direction:column;align-items:center;gap:12px;opacity:.85;}
-.swipe-hint-arrow{width:26px;aspect-ratio:329/415;background-color:#fff;
+/* desktop: far right edge, vertically centered on the wordmark (which
+   lands within a few points of true 50% across real desktop sizes --
+   see the reference measurements this was checked against).
+   mobile gets its own placement + smaller size below -- the layouts
+   don't share a vertical band clear of text on both, so each is
+   positioned independently rather than forcing one shared rule. */
+.swipe-hint{position:absolute;top:50%;right:5%;transform:translateY(-50%);z-index:2;pointer-events:none;}
+.swipe-hint-track{display:flex;flex-direction:column;align-items:center;gap:20px;opacity:.85;}
+.swipe-hint-arrow{width:52px;aspect-ratio:329/415;background-color:#fff;
   -webkit-mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;
   mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;}
-.swipe-hint-star{width:15px;aspect-ratio:383/383;background-color:#fff;
+.swipe-hint-star{width:30px;aspect-ratio:383/383;background-color:#fff;
   -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
   mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
 @keyframes swipeHintBounce{
@@ -157,9 +160,13 @@ button.go[disabled]{opacity:.55;cursor:default;}
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
   #triggerStory,#triggerCover{position:static;}
 
-  /* the clear band above the kicker is too short on a phone screen --
-     use the open space below the buttons instead. */
-  .swipe-hint{top:auto;bottom:8%;right:6%;}
+  /* vertically centering on the wordmark works on desktop but there's
+     no clear space there on a phone screen -- use the open area below
+     the buttons instead, and keep the icons at their original size. */
+  .swipe-hint{top:auto;bottom:8%;right:6%;transform:none;}
+  .swipe-hint-track{gap:12px;}
+  .swipe-hint-arrow{width:26px;}
+  .swipe-hint-star{width:15px;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
@@ -522,7 +529,8 @@ button.go[disabled]{opacity:.55;cursor:default;}
    right neighbors are ever on or near screen -- the rest sit parked
    at +/-100%+ and don't need to be touched until they're next up.
    ==================================================================== */
-function initBgGallery(gallery){
+function initBgGallery(gallery,opts){
+  opts=opts||{};
   if(!gallery)return;
   const slides=Array.from(gallery.querySelectorAll(".bg-slide"));
   const N=slides.length;
@@ -569,6 +577,7 @@ function initBgGallery(gallery){
     hasInteracted=true;
     startX=e.clientX;startY=e.clientY;
     gallery.classList.add("is-dragging");
+    gallery.classList.remove("in-click-zone");
     slides.forEach(el=>el.classList.remove("peek-hint"));
     cancelHintBounce();
     gallery.setPointerCapture(pointerId);
@@ -585,6 +594,18 @@ function initBgGallery(gallery){
     dragX=dx;
     place(false);
   }
+  function goTo(i){
+    active=((i%N)+N)%N;
+    ensureLoaded(active+1);
+    ensureLoaded(active-1);
+  }
+  // is a given x (viewport coords) inside the click-to-advance zone --
+  // the right-hand strip near the swipe-hint icons.
+  function inClickZone(clientX){
+    if(!opts.clickZone)return false;
+    const r=gallery.getBoundingClientRect();
+    return (clientX-r.left)>=r.width*(1-opts.clickZone);
+  }
   function onUp(e){
     if(!dragging||e.pointerId!==pointerId)return;
     dragging=false;
@@ -592,10 +613,12 @@ function initBgGallery(gallery){
     if(axis==="x"){
       const w=gallery.clientWidth||1;
       const threshold=Math.max(44,w*0.14);
-      if(dragX<=-threshold)active=(active+1)%N;
-      else if(dragX>=threshold)active=(active-1+N)%N;
-      ensureLoaded(active+1);
-      ensureLoaded(active-1);
+      if(dragX<=-threshold)goTo(active+1);
+      else if(dragX>=threshold)goTo(active-1);
+    }else if(axis===null&&inClickZone(startX)){
+      // a plain click/tap (no drag) landing in the right-side zone --
+      // advance one photo, same direction a swipe-left would.
+      goTo(active+1);
     }
     dragX=0;axis=null;
     place(true);
@@ -605,6 +628,14 @@ function initBgGallery(gallery){
   gallery.addEventListener("pointermove",onMove);
   gallery.addEventListener("pointerup",onUp);
   gallery.addEventListener("pointercancel",onUp);
+
+  if(opts.clickZone){
+    gallery.addEventListener("pointermove",e=>{
+      if(dragging)return;
+      gallery.classList.toggle("in-click-zone",inClickZone(e.clientX));
+    });
+    gallery.addEventListener("pointerleave",()=>gallery.classList.remove("in-click-zone"));
+  }
 
   // only eager-load the active photo + neighbors if this gallery is
   // actually the one on screen -- no reason to fetch mobile's photos
@@ -652,7 +683,7 @@ function cancelHintBounce(){
   if(hintTrack)hintTrack.classList.remove("hint-bounce");
 }
 
-const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"));
+const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"),{clickZone:0.22});
 const mobileGallery=initBgGallery(document.getElementById("bgGalleryMobile"));
 // crossing the 900px breakpoint (a resized desktop browser window,
 // not a real device) can swap which gallery is visible without a
