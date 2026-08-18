@@ -48,9 +48,17 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 /* the swipeable background gallery -- one full-bleed photo at a time.
    each .bg-slide is positioned via inline transform (see script below)
    relative to the active index; only the active slide plus its
-   immediate neighbors are ever on/near screen. */
+   immediate neighbors are ever on/near screen. Two separate galleries
+   (naturally landscape photos for desktop, portrait for mobile) --
+   only one is in the DOM's visible flow at a given breakpoint, so
+   only its photos ever get fetched (see the script's lazy-load). */
 .bg-gallery{position:absolute;inset:0;z-index:0;cursor:grab;}
 .bg-gallery.is-dragging{cursor:grabbing;}
+.bg-gallery[data-gallery="mobile"]{display:none;}
+@media(max-width:900px){
+  .bg-gallery[data-gallery="desktop"]{display:none;}
+  .bg-gallery[data-gallery="mobile"]{display:block;}
+}
 .bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;
   transform:translateX(100%);}
 
@@ -318,11 +326,35 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <div class="grain" aria-hidden="true"></div>
 
 <main class="hero">
-  <div class="bg-gallery" id="bgGallery" aria-hidden="true">
-    <div class="bg-slide" style="background-image:url('assets/bg-fb-1-smokestack.jpg')"></div>
-    <div class="bg-slide" style="background-image:url('assets/bg-fb-2-quilt.jpg')"></div>
-    <div class="bg-slide" style="background-image:url('assets/bg-fb-3-mirror.jpg')"></div>
-    <div class="bg-slide" style="background-image:url('assets/bg-fb-4-pinkcar.jpg')"></div>
+  <div class="bg-gallery" id="bgGalleryDesktop" data-gallery="desktop" aria-hidden="true">
+    <div class="bg-slide" data-bg="assets/bg-desktop-01.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-02.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-03.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-04.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-05.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-06.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-07.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-08.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-09.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-10.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-desktop-11.jpg"></div>
+  </div>
+  <div class="bg-gallery" id="bgGalleryMobile" data-gallery="mobile" aria-hidden="true">
+    <div class="bg-slide" data-bg="assets/bg-mobile-01.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-02.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-03.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-04.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-05.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-06.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-07.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-08.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-09.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-10.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-11.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-12.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-13.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-14.jpg"></div>
+    <div class="bg-slide" data-bg="assets/bg-mobile-15.jpg"></div>
   </div>
   <div class="hero-inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
@@ -490,8 +522,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
    right neighbors are ever on or near screen -- the rest sit parked
    at +/-100%+ and don't need to be touched until they're next up.
    ==================================================================== */
-(function(){
-  const gallery=document.getElementById("bgGallery");
+function initBgGallery(gallery){
   if(!gallery)return;
   const slides=Array.from(gallery.querySelectorAll(".bg-slide"));
   const N=slides.length;
@@ -511,6 +542,16 @@ button.go[disabled]{opacity:.55;cursor:default;}
     if(r<=-half)r+=N;
     return r;
   }
+  // each slide's real photo only gets fetched once it's within one
+  // swipe of becoming visible -- with up to 15 photos in a gallery,
+  // loading all of them upfront on page load would be a lot of
+  // wasted data for photos most visitors will never swipe to.
+  function ensureLoaded(i){
+    const el=slides[(i+N)%N];
+    if(!el.style.backgroundImage&&el.dataset.bg){
+      el.style.backgroundImage=`url("${el.dataset.bg}")`;
+    }
+  }
   // drag distance is tracked in px but slides are positioned in % of
   // gallery width, so convert before combining the two into one transform.
   function place(withTransition){
@@ -529,7 +570,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
     startX=e.clientX;startY=e.clientY;
     gallery.classList.add("is-dragging");
     slides.forEach(el=>el.classList.remove("peek-hint"));
-    if(hintTrack)hintTrack.classList.remove("hint-bounce");
+    cancelHintBounce();
     gallery.setPointerCapture(pointerId);
   }
   function onMove(e){
@@ -553,6 +594,8 @@ button.go[disabled]{opacity:.55;cursor:default;}
       const threshold=Math.max(44,w*0.14);
       if(dragX<=-threshold)active=(active+1)%N;
       else if(dragX>=threshold)active=(active-1+N)%N;
+      ensureLoaded(active+1);
+      ensureLoaded(active-1);
     }
     dragX=0;axis=null;
     place(true);
@@ -563,26 +606,63 @@ button.go[disabled]{opacity:.55;cursor:default;}
   gallery.addEventListener("pointerup",onUp);
   gallery.addEventListener("pointercancel",onUp);
 
+  // only eager-load the active photo + neighbors if this gallery is
+  // actually the one on screen -- no reason to fetch mobile's photos
+  // on desktop or vice versa. loadIfVisible also runs again whenever
+  // the breakpoint crosses over (see the matchMedia listener below),
+  // so resizing across it doesn't leave the newly-shown gallery blank.
+  function loadIfVisible(){
+    if(getComputedStyle(gallery).display==="none")return;
+    ensureLoaded(active);
+    ensureLoaded(active+1);
+    ensureLoaded(active-1);
+  }
+  loadIfVisible();
   place(false);
 
   // onboarding cue: once, shortly after load, peek the next photo in
   // from the right edge and let it settle back -- a wordless "swipe
-  // here" hint. Skipped if the user has already started interacting.
+  // here" hint. Skipped if the user has already started interacting,
+  // or if this gallery isn't the one visible at the current breakpoint
+  // (both galleries schedule this, but only one is ever on screen).
   // The swipe-hint icons (arrow + star) bounce in step with it.
-  const hintTrack=document.getElementById("swipeHintTrack");
   window.addEventListener("load",()=>{
     setTimeout(()=>{
       if(hasInteracted)return;
+      if(getComputedStyle(gallery).display==="none")return;
       const next=slides[(active+1)%N];
       next.addEventListener("animationend",()=>next.classList.remove("peek-hint"),{once:true});
       next.classList.add("peek-hint");
-      if(hintTrack){
-        hintTrack.addEventListener("animationend",()=>hintTrack.classList.remove("hint-bounce"),{once:true});
-        hintTrack.classList.add("hint-bounce");
-      }
+      triggerHintBounce();
     },1200);
   });
-})();
+
+  return {loadIfVisible};
+}
+
+// swipe-hint icons (arrow + star) are shared UI, not per-gallery --
+// whichever gallery is visible drives the same bounce.
+const hintTrack=document.getElementById("swipeHintTrack");
+function triggerHintBounce(){
+  if(!hintTrack)return;
+  hintTrack.addEventListener("animationend",()=>hintTrack.classList.remove("hint-bounce"),{once:true});
+  hintTrack.classList.add("hint-bounce");
+}
+function cancelHintBounce(){
+  if(hintTrack)hintTrack.classList.remove("hint-bounce");
+}
+
+const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"));
+const mobileGallery=initBgGallery(document.getElementById("bgGalleryMobile"));
+// crossing the 900px breakpoint (a resized desktop browser window,
+// not a real device) can swap which gallery is visible without a
+// page reload -- backfill whichever one just appeared.
+if(window.matchMedia){
+  window.matchMedia("(max-width:900px)").addEventListener("change",()=>{
+    desktopGallery?.loadIfVisible();
+    mobileGallery?.loadIfVisible();
+  });
+}
 
 /* ===== EMAIL CAPTURE -> GOOGLE SHEET ================================
    Each signup is POSTed to a Google Apps Script web app that appends
