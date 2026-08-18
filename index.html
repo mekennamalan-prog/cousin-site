@@ -68,6 +68,34 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   .bg-slide.peek-hint{animation:none;}
 }
 
+/* persistent "you can swipe" indicator -- hand-drawn chevron + star,
+   right side of the hero. the outer element only ever centers it
+   vertically; the inner track is what bounces, so the two transforms
+   never fight each other. */
+/* desktop: parked in the clear band above the kicker/wordmark.
+   mobile gets its own placement below -- the layouts don't share a
+   vertical band that's clear of text on both, so each is positioned
+   independently rather than forcing one shared rule to fit both. */
+.swipe-hint{position:absolute;top:8%;right:4%;z-index:2;pointer-events:none;}
+.swipe-hint-track{display:flex;flex-direction:column;align-items:center;gap:12px;opacity:.85;}
+.swipe-hint-arrow{width:26px;aspect-ratio:329/415;background-color:#fff;
+  -webkit-mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;
+  mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;}
+.swipe-hint-star{width:15px;aspect-ratio:383/383;background-color:#fff;
+  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
+  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
+@keyframes swipeHintBounce{
+  0%{transform:translateX(0);}
+  32%{transform:translateX(-12px);}
+  48%{transform:translateX(-7px);}
+  64%{transform:translateX(-9px);}
+  100%{transform:translateX(0);}
+}
+.swipe-hint-track.hint-bounce{animation:swipeHintBounce 1.1s cubic-bezier(.3,.7,.4,1) both;}
+@media(prefers-reduced-motion:reduce){
+  .swipe-hint-track.hint-bounce{animation:none;}
+}
+
 /* text/button assets are always white here -- there's always a photo
    underneath, never the plain cream background. */
 .kicker{color:#fff;opacity:.95;}
@@ -120,6 +148,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
   .triggers{position:absolute;top:70%;left:5%;width:90%;right:auto;
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
   #triggerStory,#triggerCover{position:static;}
+
+  /* the clear band above the kicker is too short on a phone screen --
+     use the open space below the buttons instead. */
+  .swipe-hint{top:auto;bottom:8%;right:6%;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
@@ -307,6 +339,13 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <span class="btn-caption">Capture a cover</span>
       </button>
     </div>
+
+    <div class="swipe-hint" aria-hidden="true">
+      <div class="swipe-hint-track" id="swipeHintTrack">
+        <div class="swipe-hint-arrow"></div>
+        <div class="swipe-hint-star"></div>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -490,6 +529,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
     startX=e.clientX;startY=e.clientY;
     gallery.classList.add("is-dragging");
     slides.forEach(el=>el.classList.remove("peek-hint"));
+    if(hintTrack)hintTrack.classList.remove("hint-bounce");
     gallery.setPointerCapture(pointerId);
   }
   function onMove(e){
@@ -528,12 +568,18 @@ button.go[disabled]{opacity:.55;cursor:default;}
   // onboarding cue: once, shortly after load, peek the next photo in
   // from the right edge and let it settle back -- a wordless "swipe
   // here" hint. Skipped if the user has already started interacting.
+  // The swipe-hint icons (arrow + star) bounce in step with it.
+  const hintTrack=document.getElementById("swipeHintTrack");
   window.addEventListener("load",()=>{
     setTimeout(()=>{
       if(hasInteracted)return;
       const next=slides[(active+1)%N];
       next.addEventListener("animationend",()=>next.classList.remove("peek-hint"),{once:true});
       next.classList.add("peek-hint");
+      if(hintTrack){
+        hintTrack.addEventListener("animationend",()=>hintTrack.classList.remove("hint-bounce"),{once:true});
+        hintTrack.classList.add("hint-bounce");
+      }
     },1200);
   });
 })();
