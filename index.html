@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#17140D" />
 <title>Cousin — A new print magazine for Salt Lake City</title>
 <meta name="description" content="Cousin is an independent print magazine widening the lens on Salt Lake City. Issue 01 coming soon — sign up for updates." />
 <meta property="og:title" content="Cousin — A new print magazine for Salt Lake City" />
@@ -26,7 +27,7 @@
   --egg-ratio:.7701; /* popup width:height — true US magazine trim size, 8.375in x 10.875in */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{-webkit-text-size-adjust:100%;}
+html{-webkit-text-size-adjust:100%;background:var(--ink);}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .35s ease,color .35s ease;}
 
 .grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.07;mix-blend-mode:multiply;
@@ -128,7 +129,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
   mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
-.kicker{position:absolute;top:36%;left:6.6%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+.kicker{position:absolute;top:36%;left:19.6%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
 .wordmark{position:absolute;top:37%;left:19.6%;width:min(58%,844px);
@@ -192,7 +193,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
   transition:background-color 5000s ease-in-out 0s;
 }
 .foot-keep-btn{appearance:none;background:none;border:none;padding:0 0 4px;margin:0;cursor:pointer;
-  display:inline-flex;align-items:center;gap:8px;color:var(--wordmark);
+  display:inline-flex;align-items:center;gap:8px;color:var(--cream);
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   border-bottom:2px solid currentColor;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
 .foot-keep-btn svg{width:16px;height:16px;flex:0 0 auto;}
@@ -297,11 +298,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
   padding:0;-webkit-tap-highlight-color:transparent;}
 .egg-booth-tray button svg{width:100%;height:100%;}
 .egg-booth-tray .shutter{width:56px;height:56px;}
-.egg-booth-countdown{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.3);pointer-events:none;}
-.egg-booth-countdown.is-active{display:flex;}
-.egg-booth-countdown span{font-family:var(--serif);font-weight:500;color:#fff;font-size:6.5rem;animation:eggCountPulse .9s ease;}
-@keyframes eggCountPulse{0%{opacity:0;transform:scale(1.35);}35%{opacity:1;transform:scale(1);}100%{opacity:1;transform:scale(1);}}
 .egg-booth-flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s ease;}
 .egg-booth-flash.is-flash{animation:eggFlashPop .4s ease;}
 .egg-booth-flash.is-fill{opacity:1;transition:none;}
@@ -359,9 +355,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <div class="bg-slide" data-bg="assets/bg-mobile-10.jpg"></div>
     <div class="bg-slide" data-bg="assets/bg-mobile-11.jpg"></div>
     <div class="bg-slide" data-bg="assets/bg-mobile-12.jpg"></div>
-    <div class="bg-slide" data-bg="assets/bg-mobile-13.jpg"></div>
-    <div class="bg-slide" data-bg="assets/bg-mobile-14.jpg"></div>
-    <div class="bg-slide" data-bg="assets/bg-mobile-15.jpg"></div>
   </div>
   <div class="hero-inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
@@ -467,7 +460,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <div class="bars"></div>
         <div class="digits">0&nbsp;&nbsp;00000&nbsp;&nbsp;00000&nbsp;&nbsp;0</div>
       </div>
-      <div class="egg-booth-countdown" id="eggBoothCountdown" aria-hidden="true"></div>
       <div class="egg-booth-flash" id="eggBoothFlash" aria-hidden="true"></div>
       <div class="egg-booth-tray">
         <button id="eggBoothFlashToggle" class="egg-booth-flash-toggle" aria-pressed="false" aria-label="Toggle flash" type="button">
@@ -665,7 +657,7 @@ function initBgGallery(gallery,opts){
       next.addEventListener("animationend",()=>next.classList.remove("peek-hint"),{once:true});
       next.classList.add("peek-hint");
       triggerHintBounce();
-    },1200);
+    },3000);
   });
 
   return {loadIfVisible};
@@ -684,7 +676,7 @@ function cancelHintBounce(){
 }
 
 const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"),{clickZone:0.22});
-const mobileGallery=initBgGallery(document.getElementById("bgGalleryMobile"));
+const mobileGallery=initBgGallery(document.getElementById("bgGalleryMobile"),{clickZone:0.3});
 // crossing the 900px breakpoint (a resized desktop browser window,
 // not a real device) can swap which gallery is visible without a
 // page reload -- backfill whichever one just appeared.
@@ -846,7 +838,6 @@ eggFlashToggleBtn.addEventListener("click",()=>{
 });
 
 /* ===== COVER PHOTO CAPTURE =========================================== */
-const eggBoothCountdown=document.getElementById("eggBoothCountdown");
 const eggBoothFlash=document.getElementById("eggBoothFlash");
 const eggBoothLogo=document.querySelector(".egg-booth-logo");
 const eggBoothMetaLines=document.querySelectorAll(".egg-booth-meta span");
@@ -970,50 +961,27 @@ async function eggComposeCoverPhoto(){
   return canvas.toDataURL("image/png");
 }
 
-function eggRunCountdown(skipFlashCue){
-  return new Promise(resolve=>{
-    const seq=["3","2","1"];
-    let i=0;
-    eggBoothCountdown.classList.add("is-active");
-    function tick(){
-      eggBoothCountdown.innerHTML="";
-      const span=document.createElement("span");
-      span.textContent=seq[i];
-      eggBoothCountdown.appendChild(span);
-      i++;
-      if(i<seq.length){setTimeout(tick,900);}
-      else{
-        setTimeout(()=>{
-          eggBoothCountdown.classList.remove("is-active");
-          eggBoothCountdown.innerHTML="";
-          if(!skipFlashCue){
-            eggBoothFlash.classList.add("is-flash");
-            setTimeout(()=>eggBoothFlash.classList.remove("is-flash"),400);
-          }
-          resolve();
-        },900);
-      }
-    }
-    tick();
-  });
-}
-
 document.getElementById("eggBoothShutter").addEventListener("click",async()=>{
   if(eggIsCapturing)return;
   eggIsCapturing=true;
-  await eggRunCountdown(eggFlashEnabled);
   try{
     let dataUrl;
     if(eggFlashEnabled){
       // Screen-flash fill light: snap the screen to full white so it
       // lights the user's face (this is the front camera's only real
       // light source), hold briefly for exposure to catch up, capture,
-      // then fade it back out.
+      // then fade it back out. This is the one deliberate delay left --
+      // it's doing real photographic work, not a photobooth countdown.
       eggBoothFlash.classList.add("is-fill");
       await new Promise(r=>setTimeout(r,350));
       dataUrl=await eggComposeCoverPhoto();
       eggBoothFlash.classList.remove("is-fill");
     }else{
+      // no fill light needed -- just a quick shutter-blink for tactile
+      // feedback that a photo was taken, fired instantly with no delay
+      // beforehand (this is a camera-roll snapshot, not a photobooth).
+      eggBoothFlash.classList.add("is-flash");
+      setTimeout(()=>eggBoothFlash.classList.remove("is-flash"),400);
       dataUrl=await eggComposeCoverPhoto();
     }
     eggCapturedPhotoDataUrl=dataUrl;
@@ -1106,8 +1074,17 @@ eggAddNameForm.addEventListener("submit",e=>{
       body:new URLSearchParams({email})
     }).catch(()=>{/* fire-and-forget — no user-visible error */});
   }
+  const submittedType=eggSubmissionType;
   eggSubmissionType=null;
-  eggClose();
+  if(submittedType==="photo"){
+    // straight back to the camera, not the homepage, so shooting
+    // another cover is one tap instead of re-opening the whole flow.
+    eggAddNameForm.reset();
+    eggCapturedPhotoDataUrl=null;
+    eggSetScreen("egg-booth");
+  }else{
+    eggClose();
+  }
 });
 </script>
 </body>
