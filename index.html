@@ -129,7 +129,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
   mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
-.kicker{position:absolute;top:36%;left:19.6%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+.kicker{position:absolute;top:32.8%;left:19.6%;font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
 .wordmark{position:absolute;top:37%;left:19.6%;width:min(58%,844px);
@@ -154,7 +154,7 @@ button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
 @media(max-width:900px){
-  .kicker{top:15%;left:4%;}
+  .kicker{top:15%;left:0;width:100%;text-align:center;}
   .wordmark{top:18%;left:4%;width:92%;}
   .tagline-handwritten{top:50%;left:0;right:auto;width:100%;}
   .triggers{position:absolute;top:70%;left:5%;width:90%;right:auto;
@@ -261,12 +261,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .egg-story-textarea-wrap{position:relative;flex:1;display:flex;min-height:120px;}
 .egg-story-textarea{flex:1;border:none;background:none;resize:none;outline:none;width:100%;
   font-family:var(--serif);font-size:1.3rem;line-height:1.5;color:#000;overflow:hidden;min-height:120px;}
-.egg-story-textarea::placeholder{color:transparent;}
-.egg-story-placeholder-img{position:absolute;top:0;left:0;width:92%;max-width:520px;
-  aspect-ratio:3329/927;background-color:rgba(0,0,0,.4);pointer-events:none;
-  -webkit-mask:url("assets/story-prompt-handwritten.png") left top/contain no-repeat;
-  mask:url("assets/story-prompt-handwritten.png") left top/contain no-repeat;}
-.egg-story-textarea-wrap.has-text .egg-story-placeholder-img{display:none;}
+.egg-story-textarea::placeholder{color:rgba(0,0,0,.4);font-style:italic;}
 .egg-story-submit{margin-top:14px;}
 
 /* ---- fig 3: allow camera ---- */
@@ -340,7 +335,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <div class="bg-slide" data-bg="assets/bg-desktop-08.jpg"></div>
     <div class="bg-slide" data-bg="assets/bg-desktop-09.jpg"></div>
     <div class="bg-slide" data-bg="assets/bg-desktop-10.jpg"></div>
-    <div class="bg-slide" data-bg="assets/bg-desktop-11.jpg"></div>
   </div>
   <div class="bg-gallery" id="bgGalleryMobile" data-gallery="mobile" aria-hidden="true">
     <div class="bg-slide" data-bg="assets/bg-mobile-01.jpg"></div>
@@ -353,8 +347,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
     <div class="bg-slide" data-bg="assets/bg-mobile-08.jpg"></div>
     <div class="bg-slide" data-bg="assets/bg-mobile-09.jpg"></div>
     <div class="bg-slide" data-bg="assets/bg-mobile-10.jpg"></div>
-    <div class="bg-slide" data-bg="assets/bg-mobile-11.jpg"></div>
-    <div class="bg-slide" data-bg="assets/bg-mobile-12.jpg"></div>
   </div>
   <div class="hero-inner">
     <p class="kicker reveal d1">Coming soon — Issue 01</p>
@@ -427,7 +419,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <div class="egg-topleft-logo wm-mask" role="img" aria-label="Cousin"></div>
         <div class="egg-story-textarea-wrap" id="eggStoryTextareaWrap">
           <textarea class="egg-story-textarea" id="eggStoryTextarea" aria-label="Your story" placeholder="Tell us about a person, a place, or a moment in Salt Lake City that stuck with you..."></textarea>
-          <div class="egg-story-placeholder-img" aria-hidden="true"></div>
         </div>
         <div class="egg-story-submit">
           <button class="egg-link" id="eggStorySubmit" type="button">Share with Us</button>
@@ -591,12 +582,18 @@ function initBgGallery(gallery,opts){
     ensureLoaded(active+1);
     ensureLoaded(active-1);
   }
-  // is a given x (viewport coords) inside the click-to-advance zone --
-  // the right-hand strip near the swipe-hint icons.
-  function inClickZone(clientX){
+  // is a given x (viewport coords) inside a click-to-advance zone --
+  // right-hand strip (near the swipe-hint icons) goes forward, left-
+  // hand strip goes backward.
+  function inRightZone(clientX){
     if(!opts.clickZone)return false;
     const r=gallery.getBoundingClientRect();
     return (clientX-r.left)>=r.width*(1-opts.clickZone);
+  }
+  function inLeftZone(clientX){
+    if(!opts.clickZoneLeft)return false;
+    const r=gallery.getBoundingClientRect();
+    return (clientX-r.left)<=r.width*opts.clickZoneLeft;
   }
   function onUp(e){
     if(!dragging||e.pointerId!==pointerId)return;
@@ -607,10 +604,13 @@ function initBgGallery(gallery,opts){
       const threshold=Math.max(44,w*0.14);
       if(dragX<=-threshold)goTo(active+1);
       else if(dragX>=threshold)goTo(active-1);
-    }else if(axis===null&&inClickZone(startX)){
+    }else if(axis===null&&inRightZone(startX)){
       // a plain click/tap (no drag) landing in the right-side zone --
       // advance one photo, same direction a swipe-left would.
       goTo(active+1);
+    }else if(axis===null&&inLeftZone(startX)){
+      // same idea on the left -- go back one photo.
+      goTo(active-1);
     }
     dragX=0;axis=null;
     place(true);
@@ -621,10 +621,10 @@ function initBgGallery(gallery,opts){
   gallery.addEventListener("pointerup",onUp);
   gallery.addEventListener("pointercancel",onUp);
 
-  if(opts.clickZone){
+  if(opts.clickZone||opts.clickZoneLeft){
     gallery.addEventListener("pointermove",e=>{
       if(dragging)return;
-      gallery.classList.toggle("in-click-zone",inClickZone(e.clientX));
+      gallery.classList.toggle("in-click-zone",inRightZone(e.clientX)||inLeftZone(e.clientX));
     });
     gallery.addEventListener("pointerleave",()=>gallery.classList.remove("in-click-zone"));
   }
@@ -675,8 +675,8 @@ function cancelHintBounce(){
   if(hintTrack)hintTrack.classList.remove("hint-bounce");
 }
 
-const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"),{clickZone:0.22});
-const mobileGallery=initBgGallery(document.getElementById("bgGalleryMobile"),{clickZone:0.3});
+const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"),{clickZone:0.22,clickZoneLeft:0.22});
+const mobileGallery=initBgGallery(document.getElementById("bgGalleryMobile"),{clickZone:0.3,clickZoneLeft:0.3});
 // crossing the 900px breakpoint (a resized desktop browser window,
 // not a real device) can swap which gallery is visible without a
 // page reload -- backfill whichever one just appeared.
@@ -765,7 +765,6 @@ function eggCloseUI(){
   eggCurrentScreen=null;
   eggStoryTextarea.value="";
   eggStoryTextarea.style.height="auto";
-  eggStoryTextareaWrap.classList.remove("has-text");
   eggAddNameForm.reset();
   eggCapturedPhotoDataUrl=null;
 }
@@ -1018,11 +1017,9 @@ document.getElementById("eggReviewSave").addEventListener("click",async()=>{
 
 /* ===== STORY WRITER ================================================== */
 const eggStoryTextarea=document.getElementById("eggStoryTextarea");
-const eggStoryTextareaWrap=document.getElementById("eggStoryTextareaWrap");
 eggStoryTextarea.addEventListener("input",()=>{
   eggStoryTextarea.style.height="auto";
   eggStoryTextarea.style.height=eggStoryTextarea.scrollHeight+"px";
-  eggStoryTextareaWrap.classList.toggle("has-text",eggStoryTextarea.value.length>0);
 });
 document.getElementById("eggStorySubmit").addEventListener("click",()=>{
   eggSubmissionType="story";
