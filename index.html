@@ -92,7 +92,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
    element here since the aspect-ratio-driven heights above and below
    it don't scale the same way at every viewport size). */
 .scroll-hint-arrow{position:absolute;opacity:.85;pointer-events:none;
-  width:32px;aspect-ratio:329/415;background-color:#fff;
+  width:46px;aspect-ratio:329/415;background-color:#fff;
   -webkit-mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;
   mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;}
 @keyframes scrollHintBounce{
@@ -134,7 +134,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .wordmark{position:absolute;top:21.55%;left:calc(50% - min(29%,422px));width:min(58%,844px);
   transform:rotate(-3deg);}
 
-.scroll-hint-arrow{top:48%;left:calc(50% - min(29%,422px));}
+.scroll-hint-arrow{top:45%;left:auto;right:5%;}
 
 .tagline-handwritten{position:absolute;top:54.5%;left:46.6%;right:auto;width:min(48%,700px);aspect-ratio:3660/1239;
   margin:0;transform:none;
@@ -188,7 +188,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 @media(max-width:900px){
   .kicker{top:15%;left:0;width:100%;text-align:center;}
   .wordmark{top:18%;left:4%;width:92%;}
-  .scroll-hint-arrow{top:32%;left:4%;width:24px;}
+  .scroll-hint-arrow{top:32%;left:auto;right:6%;width:30px;}
   .tagline-handwritten{top:41%;left:0;right:auto;width:100%;}
   .triggers{position:absolute;top:62.5%;left:5%;width:90%;right:auto;
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
