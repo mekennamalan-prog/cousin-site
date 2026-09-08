@@ -86,34 +86,25 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   .bg-slide.peek-hint{animation:none;}
 }
 
-/* persistent "you can swipe" indicator -- hand-drawn chevron + star,
-   right side of the hero. the outer element only ever centers it
-   vertically; the inner track is what bounces, so the two transforms
-   never fight each other. */
-/* desktop: far right edge, vertically centered on the wordmark (which
-   lands within a few points of true 50% across real desktop sizes --
-   see the reference measurements this was checked against).
-   mobile gets its own placement + smaller size below -- the layouts
-   don't share a vertical band clear of text on both, so each is
-   positioned independently rather than forcing one shared rule. */
-.swipe-hint{position:absolute;top:50%;right:5%;transform:translateY(-50%);z-index:2;pointer-events:none;}
-.swipe-hint-track{display:flex;flex-direction:column;align-items:center;gap:20px;opacity:.85;}
-.swipe-hint-arrow{width:52px;aspect-ratio:329/415;background-color:#fff;
+/* "you can swipe" indicator -- a hand-drawn chevron sitting in the
+   main text column between the logo and tagline (its own top/left
+   per breakpoint, positioned independently like every other hero
+   element here since the aspect-ratio-driven heights above and below
+   it don't scale the same way at every viewport size). */
+.scroll-hint-arrow{position:absolute;opacity:.85;pointer-events:none;
+  width:32px;aspect-ratio:329/415;background-color:#fff;
   -webkit-mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;
   mask:url("assets/icon-swipe-chevron.png") center/contain no-repeat;}
-.swipe-hint-star{width:30px;aspect-ratio:383/383;background-color:#fff;
-  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
-  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
-@keyframes swipeHintBounce{
+@keyframes scrollHintBounce{
   0%{transform:translateX(0);}
-  32%{transform:translateX(-12px);}
-  48%{transform:translateX(-7px);}
-  64%{transform:translateX(-9px);}
+  32%{transform:translateX(-10px);}
+  48%{transform:translateX(-6px);}
+  64%{transform:translateX(-8px);}
   100%{transform:translateX(0);}
 }
-.swipe-hint-track.hint-bounce{animation:swipeHintBounce 1.1s cubic-bezier(.3,.7,.4,1) both;}
+.scroll-hint-arrow.hint-bounce{animation:scrollHintBounce 1.1s cubic-bezier(.3,.7,.4,1) both;}
 @media(prefers-reduced-motion:reduce){
-  .swipe-hint-track.hint-bounce{animation:none;}
+  .scroll-hint-arrow.hint-bounce{animation:none;}
 }
 
 /* text/button assets are always white here -- there's always a photo
@@ -137,23 +128,44 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
   mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
-.kicker{position:absolute;top:23%;left:calc(50% - min(29%,422px));font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+.kicker{position:absolute;top:17.35%;left:calc(50% - min(29%,422px));font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
-.wordmark{position:absolute;top:27.2%;left:calc(50% - min(29%,422px));width:min(58%,844px);
+.wordmark{position:absolute;top:21.55%;left:calc(50% - min(29%,422px));width:min(58%,844px);
   transform:rotate(-3deg);}
 
-.tagline-handwritten{position:absolute;top:53.7%;left:46.6%;right:auto;width:min(48%,700px);aspect-ratio:3660/1239;
+.scroll-hint-arrow{top:48%;left:calc(50% - min(29%,422px));}
+
+.tagline-handwritten{position:absolute;top:54.5%;left:46.6%;right:auto;width:min(48%,700px);aspect-ratio:3660/1239;
   margin:0;transform:none;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
+/* ---- HERO TRIGGERS: share a story / capture a cover ---- */
+.triggers{position:absolute;top:84.75%;left:46.6%;width:min(48%,700px);right:auto;
+  display:flex;justify-content:center;gap:clamp(56px,7vw,110px);}
+button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
+  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
+  transition:transform .15s ease,opacity .15s ease,background .35s ease;}
+button.go svg{width:18px;height:18px;flex:0 0 auto;}
+button.go:hover{opacity:.88;}
+button.go:active{transform:translateY(1px);}
+button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
+button.go[disabled]{opacity:.55;cursor:default;}
+
 /* ---- HERO EMAIL SIGNUP: moved up from the footer. Input + submit
    stay on one row at every width (mobile included) -- it's a flex
-   row with the input flexing and the arrow button fixed-size, never
+   row with the input flexing and the star button fixed-size, never
    a stack. Status text is absolutely positioned below so an error
-   message never pushes the buttons underneath it out of place. */
-.hero-email{position:absolute;top:84%;left:46.6%;width:min(48%,700px);right:auto;}
+   message never pushes anything below it out of place. Centered
+   horizontally on desktop (unlike the column above it, which is
+   left-aligned to match the wordmark/tagline column). */
+/* centered via left:50%+margin-left, not transform:translateX(-50%) --
+   this element also carries the .reveal entrance-animation class,
+   whose own transform (translateY, fill-mode:forwards) would silently
+   win over a static transform on the same element once it finishes. */
+.hero-email{position:absolute;top:92.83%;left:50%;width:min(48%,700px);right:auto;margin-left:calc(-1 * min(24%,350px));}
 .hero-email-row{display:flex;align-items:center;gap:14px;}
 .hero-email input[type=email]{flex:1;min-width:0;height:40px;border:none;border-bottom:2px solid rgba(255,255,255,.5);
   background:none;color:#fff;font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;
@@ -166,40 +178,22 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   -webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 1000px transparent inset;transition:background-color 5000s ease-in-out 0s;}
 .hero-email-submit{flex:0 0 auto;width:32px;height:32px;margin-bottom:6px;display:inline-flex;align-items:center;justify-content:center;
   background:none;border:none;color:#fff;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
-.hero-email-submit svg{width:100%;height:100%;}
+.hero-email-submit-icon{display:block;width:100%;height:100%;background-color:#fff;
+  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
+  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
 .hero-email-submit:hover{opacity:.8;}
 .hero-email-submit[disabled]{opacity:.5;cursor:default;}
-.hero-email .status{position:absolute;top:100%;left:0;margin-top:6px;font-size:.78rem;color:#fff;}
-
-/* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:90.5%;left:46.6%;width:min(48%,700px);right:auto;
-  display:flex;justify-content:center;gap:clamp(56px,7vw,110px);}
-button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
-  font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
-  transition:transform .15s ease,opacity .15s ease,background .35s ease;}
-button.go svg{width:18px;height:18px;flex:0 0 auto;}
-button.go:hover{opacity:.88;}
-button.go:active{transform:translateY(1px);}
-button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
-button.go[disabled]{opacity:.55;cursor:default;}
+.hero-email .status{position:absolute;top:100%;left:0;margin-top:6px;font-size:.78rem;color:#fff;text-align:center;width:100%;}
 
 @media(max-width:900px){
   .kicker{top:15%;left:0;width:100%;text-align:center;}
   .wordmark{top:18%;left:4%;width:92%;}
-  .tagline-handwritten{top:40%;left:0;right:auto;width:100%;}
-  .hero-email{top:61%;left:5%;width:90%;right:auto;}
-  .triggers{position:absolute;top:70%;left:5%;width:90%;right:auto;
+  .scroll-hint-arrow{top:32%;left:4%;width:24px;}
+  .tagline-handwritten{top:41%;left:0;right:auto;width:100%;}
+  .triggers{position:absolute;top:62.5%;left:5%;width:90%;right:auto;
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
   #triggerStory,#triggerCover{position:static;}
-
-  /* vertically centering on the wordmark works on desktop but there's
-     no clear space there on a phone screen -- use the open area below
-     the buttons instead, and keep the icons at their original size. */
-  .swipe-hint{top:auto;bottom:8%;right:6%;transform:none;}
-  .swipe-hint-track{gap:12px;}
-  .swipe-hint-arrow{width:26px;}
-  .swipe-hint-star{width:15px;}
+  .hero-email{top:74.5%;left:5%;width:90%;right:auto;margin-left:0;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
@@ -362,17 +356,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <div class="wordmark wm-mask reveal d2" role="img" aria-label="Cousin"></div>
 
-    <div class="tagline-handwritten reveal d3" role="img" aria-label="An independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting."></div>
+    <div class="scroll-hint-arrow" id="scrollHintArrow" aria-hidden="true"></div>
 
-    <div class="hero-email reveal d3">
-      <div class="hero-email-row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Keep in touch" aria-label="Email address" />
-        <button id="submit" class="hero-email-submit" type="button" aria-label="Submit email">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
-    </div>
+    <div class="tagline-handwritten reveal d3" role="img" aria-label="An independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting."></div>
 
     <div class="triggers reveal d4">
       <button id="triggerStory" class="go" type="button">
@@ -383,11 +369,14 @@ button.go[disabled]{opacity:.55;cursor:default;}
       </button>
     </div>
 
-    <div class="swipe-hint" aria-hidden="true">
-      <div class="swipe-hint-track" id="swipeHintTrack">
-        <div class="swipe-hint-arrow"></div>
-        <div class="swipe-hint-star"></div>
+    <div class="hero-email reveal d3">
+      <div class="hero-email-row">
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Keep in touch" aria-label="Email address" />
+        <button id="submit" class="hero-email-submit" type="button" aria-label="Submit email">
+          <span class="hero-email-submit-icon"></span>
+        </button>
       </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
     </div>
   </div>
 </main>
@@ -593,8 +582,7 @@ function initBgGallery(gallery,opts){
     ensureLoaded(active-1);
   }
   // is a given x (viewport coords) inside a click-to-advance zone --
-  // right-hand strip (near the swipe-hint icons) goes forward, left-
-  // hand strip goes backward.
+  // right-hand strip goes forward, left-hand strip goes backward.
   function inRightZone(clientX){
     if(!opts.clickZone)return false;
     const r=gallery.getBoundingClientRect();
@@ -658,7 +646,7 @@ function initBgGallery(gallery,opts){
   // here" hint. Skipped if the user has already started interacting,
   // or if this gallery isn't the one visible at the current breakpoint
   // (both galleries schedule this, but only one is ever on screen).
-  // The swipe-hint icons (arrow + star) bounce in step with it.
+  // The scroll-hint arrow bounces in step with it.
   window.addEventListener("load",()=>{
     setTimeout(()=>{
       if(hasInteracted)return;
@@ -673,16 +661,16 @@ function initBgGallery(gallery,opts){
   return {loadIfVisible};
 }
 
-// swipe-hint icons (arrow + star) are shared UI, not per-gallery --
-// whichever gallery is visible drives the same bounce.
-const hintTrack=document.getElementById("swipeHintTrack");
+// the scroll-hint arrow is shared UI, not per-gallery -- whichever
+// gallery is visible drives the same bounce.
+const scrollHintEl=document.getElementById("scrollHintArrow");
 function triggerHintBounce(){
-  if(!hintTrack)return;
-  hintTrack.addEventListener("animationend",()=>hintTrack.classList.remove("hint-bounce"),{once:true});
-  hintTrack.classList.add("hint-bounce");
+  if(!scrollHintEl)return;
+  scrollHintEl.addEventListener("animationend",()=>scrollHintEl.classList.remove("hint-bounce"),{once:true});
+  scrollHintEl.classList.add("hint-bounce");
 }
 function cancelHintBounce(){
-  if(hintTrack)hintTrack.classList.remove("hint-bounce");
+  if(scrollHintEl)scrollHintEl.classList.remove("hint-bounce");
 }
 
 const desktopGallery=initBgGallery(document.getElementById("bgGalleryDesktop"),{clickZone:0.22,clickZoneLeft:0.22});
