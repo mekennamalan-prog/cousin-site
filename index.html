@@ -52,7 +52,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.14) 32%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.6) 100%);}
 .hero-inner{position:absolute;inset:0;z-index:2;pointer-events:none;}
-.hero-inner .triggers,.hero-inner .hero-email{pointer-events:auto;}
+.hero-inner .triggers{pointer-events:auto;}
 
 /* the swipeable background gallery -- one full-bleed photo at a time.
    each .bg-slide is positioned via inline transform (see script below)
@@ -144,7 +144,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:83%;left:46.6%;width:min(48%,700px);right:auto;
+.triggers{position:absolute;top:86%;left:46.6%;width:min(48%,700px);right:auto;
   display:flex;justify-content:center;gap:clamp(56px,7vw,110px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
@@ -156,37 +156,6 @@ button.go:active{transform:translateY(1px);}
 button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
-/* ---- HERO EMAIL SIGNUP: moved up from the footer. Input + submit
-   stay on one row at every width (mobile included) -- it's a flex
-   row with the input flexing and the star button fixed-size, never
-   a stack. Status text is absolutely positioned below so an error
-   message never pushes anything below it out of place. Centered
-   horizontally on desktop (unlike the column above it, which is
-   left-aligned to match the wordmark/tagline column). */
-/* centered via left:50%+margin-left, not transform:translateX(-50%) --
-   this element also carries the .reveal entrance-animation class,
-   whose own transform (translateY, fill-mode:forwards) would silently
-   win over a static transform on the same element once it finishes. */
-.hero-email{position:absolute;top:91.7%;left:50%;width:min(48%,700px);right:auto;margin-left:calc(-1 * min(24%,350px));}
-.hero-email-row{display:flex;align-items:center;gap:14px;}
-.hero-email input[type=email]{flex:1;min-width:0;height:40px;border:none;border-bottom:2px solid rgba(255,255,255,.5);
-  background:none;color:#fff;font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;
-  text-transform:uppercase;padding:0 0 8px;outline:none;transition:border-color .15s;}
-.hero-email input[type=email]::placeholder{color:rgba(255,255,255,.72);}
-.hero-email input[type=email]:focus-visible{border-bottom-color:#fff;}
-.hero-email input[type=email]:-webkit-autofill,
-.hero-email input[type=email]:-webkit-autofill:hover,
-.hero-email input[type=email]:-webkit-autofill:focus{
-  -webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 1000px transparent inset;transition:background-color 5000s ease-in-out 0s;}
-.hero-email-submit{flex:0 0 auto;width:32px;height:32px;margin-bottom:6px;display:inline-flex;align-items:center;justify-content:center;
-  background:none;border:none;color:#fff;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
-.hero-email-submit-icon{display:block;width:100%;height:100%;background-color:#fff;
-  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
-  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
-.hero-email-submit:hover{opacity:.8;}
-.hero-email-submit[disabled]{opacity:.5;cursor:default;}
-.hero-email .status{position:absolute;top:100%;left:0;margin-top:6px;font-size:.78rem;color:#fff;text-align:center;width:100%;}
-
 @media(max-width:900px){
   .kicker{top:15%;left:0;width:100%;text-align:center;}
   .wordmark{top:18%;left:4%;width:92%;}
@@ -194,10 +163,9 @@ button.go[disabled]{opacity:.55;cursor:default;}
      tagline -- frees that gap back up to its normal rhythm. */
   .scroll-hint-arrow{top:auto;bottom:5%;left:auto;right:6%;width:30px;}
   .tagline-handwritten{top:40%;left:0;right:auto;width:100%;}
-  .triggers{position:absolute;top:62.5%;left:5%;width:90%;right:auto;
+  .triggers{position:absolute;top:66%;left:5%;width:90%;right:auto;
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
   #triggerStory,#triggerCover{position:static;}
-  .hero-email{top:74.5%;left:5%;width:90%;right:auto;margin-left:0;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
@@ -219,11 +187,37 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .foot-credit{margin-top:10px;font-family:var(--serif);font-size:.78rem;letter-spacing:.05em;
   line-height:1.6;color:rgba(245,244,240,.55);}
 .foot-credit-label{color:var(--cream);}
+
+/* ---- FOOTER EMAIL SIGNUP: moved back down from the hero. Same
+   placeholder-as-label + icon-button pattern, just in normal flow
+   instead of absolutely positioned, and the button's sized down a
+   touch to sit better among the footer's smaller type/icons. */
+.foot-email{display:flex;flex-direction:column;gap:6px;width:100%;max-width:320px;}
+.foot-email-row{display:flex;align-items:center;gap:12px;}
+.foot-email input[type=email]{flex:1;min-width:0;height:36px;border:none;border-bottom:2px solid rgba(245,244,240,.4);
+  background:none;color:var(--cream);font-family:var(--sans);font-weight:600;font-size:.78rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:0 0 7px;outline:none;transition:border-color .15s;}
+.foot-email input[type=email]::placeholder{color:rgba(245,244,240,.6);}
+.foot-email input[type=email]:focus-visible{border-bottom-color:var(--cream);}
+.foot-email input[type=email]:-webkit-autofill,
+.foot-email input[type=email]:-webkit-autofill:hover,
+.foot-email input[type=email]:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--cream);-webkit-box-shadow:0 0 0 1000px transparent inset;transition:background-color 5000s ease-in-out 0s;}
+.foot-email-submit{flex:0 0 auto;width:24px;height:24px;margin-bottom:5px;display:inline-flex;align-items:center;justify-content:center;
+  background:none;border:none;color:var(--cream);cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+.foot-email-submit-icon{display:block;width:100%;height:100%;background-color:var(--cream);
+  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
+  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
+.foot-email-submit:hover{opacity:.8;}
+.foot-email-submit[disabled]{opacity:.5;cursor:default;}
+.foot-email .status{font-size:.75rem;color:var(--cream);min-height:1.2em;}
+
 @media(max-width:639px){
   .foot .inner{flex-direction:column;align-items:center;text-align:center;}
   .foot-left{align-items:center;}
   .foot-meta{align-items:center;}
   .foot .signoff{justify-content:center;}
+  .foot-email{align-items:center;text-align:center;}
 }
 
 .reveal{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards;}
@@ -372,16 +366,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <span class="btn-caption">Snap a cover</span>
       </button>
     </div>
-
-    <div class="hero-email reveal d3">
-      <div class="hero-email-row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Keep in touch" aria-label="Email address" />
-        <button id="submit" class="hero-email-submit" type="button" aria-label="Submit email">
-          <span class="hero-email-submit-icon"></span>
-        </button>
-      </div>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
-    </div>
   </div>
 </main>
 
@@ -406,6 +390,15 @@ button.go[disabled]{opacity:.55;cursor:default;}
       </div>
     </div>
 
+    <div class="foot-email">
+      <div class="foot-email-row">
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Keep in touch" aria-label="Email address" />
+        <button id="submit" class="foot-email-submit" type="button" aria-label="Submit email">
+          <span class="foot-email-submit-icon"></span>
+        </button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
   </div>
 </footer>
 
