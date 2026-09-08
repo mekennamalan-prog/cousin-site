@@ -52,7 +52,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.14) 32%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.6) 100%);}
 .hero-inner{position:absolute;inset:0;z-index:2;pointer-events:none;}
-.hero-inner .triggers{pointer-events:auto;}
+.hero-inner .hero-email{pointer-events:auto;}
 
 /* the swipeable background gallery -- one full-bleed photo at a time.
    each .bg-slide is positioned via inline transform (see script below)
@@ -113,18 +113,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 .wordmark{background-color:#fff;}
 .tagline-handwritten{background-color:#fff;}
 .btn-caption{color:#fff;}
-.triggers button.go:hover .btn-caption{color:#fff;opacity:1;}
+.trigger-story:hover .btn-caption,.trigger-cover:hover .btn-caption{color:#fff;opacity:1;}
 .btn-caption::after{background-color:#fff;}
 
-.triggers button.go{background:none;padding:6px;}
-.triggers button.go:hover{opacity:1;}
+.go.trigger-story,.go.trigger-cover{background:none;padding:6px;}
+.go.trigger-story:hover,.go.trigger-cover:hover{opacity:1;}
 .btn-caption{position:relative;display:inline-block;font-weight:600;font-size:clamp(.74rem,1.4vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;padding-bottom:16px;transition:color .2s ease;}
 .btn-caption::after{content:"";position:absolute;left:0;bottom:2px;width:100%;}
-#triggerStory .btn-caption::after{aspect-ratio:873/89;transform-origin:left bottom;transform:rotate(4deg);
+.trigger-story .btn-caption::after{aspect-ratio:873/89;transform-origin:left bottom;transform:rotate(4deg);
   -webkit-mask:url("assets/btn-line-share.png") center/contain no-repeat;
   mask:url("assets/btn-line-share.png") center/contain no-repeat;}
-#triggerCover .btn-caption::after{aspect-ratio:965/164;transform-origin:left bottom;transform:rotate(6deg);
+.trigger-cover .btn-caption::after{aspect-ratio:965/164;transform-origin:left bottom;transform:rotate(6deg);
   -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
   mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
@@ -143,9 +143,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
-/* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:86%;left:46.6%;width:min(48%,700px);right:auto;
-  display:flex;justify-content:center;gap:clamp(56px,7vw,110px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--bg);background:var(--wordmark);border:none;border-radius:10px;
@@ -156,6 +153,55 @@ button.go:active{transform:translateY(1px);}
 button.go:focus-visible{outline:3px solid var(--text);outline-offset:3px;}
 button.go[disabled]{opacity:.55;cursor:default;}
 
+/* ---- HERO EMAIL SIGNUP: back in the hero, last thing in the stack.
+   Input + submit stay on one row at every width -- flex row, input
+   flexing, star button fixed-size, never a stack. Status text is
+   absolutely positioned below so an error message never pushes
+   anything else out of place. Centered horizontally on desktop. */
+.hero-email{position:absolute;top:83%;left:50%;width:min(48%,700px);right:auto;margin-left:calc(-1 * min(24%,350px));}
+.hero-email-row{display:flex;align-items:center;gap:14px;}
+.hero-email input[type=email]{flex:1;min-width:0;height:40px;border:none;border-bottom:2px solid rgba(255,255,255,.5);
+  background:none;color:#fff;font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:0 0 8px;outline:none;transition:border-color .15s;}
+.hero-email input[type=email]::placeholder{color:rgba(255,255,255,.72);}
+.hero-email input[type=email]:focus-visible{border-bottom-color:#fff;}
+.hero-email input[type=email]:-webkit-autofill,
+.hero-email input[type=email]:-webkit-autofill:hover,
+.hero-email input[type=email]:-webkit-autofill:focus{
+  -webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 1000px transparent inset;transition:background-color 5000s ease-in-out 0s;}
+.hero-email-submit{flex:0 0 auto;width:32px;height:32px;margin-bottom:6px;display:inline-flex;align-items:center;justify-content:center;
+  background:none;border:none;color:#fff;cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+.hero-email-submit-icon{display:block;width:100%;height:100%;background-color:#fff;
+  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
+  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
+.hero-email-submit:hover{opacity:.8;}
+.hero-email-submit[disabled]{opacity:.5;cursor:default;}
+.hero-email .status{position:absolute;top:100%;left:0;margin-top:6px;font-size:.78rem;color:#fff;text-align:center;width:100%;}
+
+/* ---- MAIN NAV: "Tell a story" / "Snap a cover" ----
+   desktop: persistent top-right nav row, always on screen.
+   mobile: hidden behind a starburst toggle top-left instead -- tap it
+   to reveal the same two links in a small translucent panel. */
+.site-nav{position:fixed;top:26px;right:26px;z-index:10;display:flex;gap:32px;}
+@media(max-width:900px){
+  .site-nav{display:none;}
+}
+.mobile-nav{position:fixed;top:20px;left:20px;z-index:10;display:none;}
+@media(max-width:900px){
+  .mobile-nav{display:block;}
+}
+.mobile-nav-toggle{width:30px;height:30px;background:none;border:none;padding:0;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.mobile-nav-toggle-icon{display:block;width:100%;height:100%;background-color:#fff;
+  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
+  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;transition:transform .2s ease;}
+.mobile-nav.is-open .mobile-nav-toggle-icon{transform:rotate(45deg);}
+.mobile-nav-menu{position:absolute;top:calc(100% + 14px);left:0;display:none;flex-direction:column;
+  align-items:flex-start;gap:18px;padding:20px 26px;border-radius:16px;min-width:190px;
+  background:rgba(23,20,13,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+.mobile-nav.is-open .mobile-nav-menu{display:flex;}
+.mobile-nav .go{background:none;padding:0;height:auto;}
+
 @media(max-width:900px){
   .kicker{top:15%;left:0;width:100%;text-align:center;}
   .wordmark{top:18%;left:4%;width:92%;}
@@ -163,9 +209,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
      tagline -- frees that gap back up to its normal rhythm. */
   .scroll-hint-arrow{top:auto;bottom:5%;left:auto;right:6%;width:30px;}
   .tagline-handwritten{top:40%;left:0;right:auto;width:100%;}
-  .triggers{position:absolute;top:66%;left:5%;width:90%;right:auto;
-    display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
-  #triggerStory,#triggerCover{position:static;}
+  .hero-email{top:62%;left:5%;width:90%;right:auto;margin-left:0;}
 }
 
 /* ---- FOOTER (ink band, centered) ---- */
@@ -188,36 +232,11 @@ button.go[disabled]{opacity:.55;cursor:default;}
   line-height:1.6;color:rgba(245,244,240,.55);}
 .foot-credit-label{color:var(--cream);}
 
-/* ---- FOOTER EMAIL SIGNUP: moved back down from the hero. Same
-   placeholder-as-label + icon-button pattern, just in normal flow
-   instead of absolutely positioned, and the button's sized down a
-   touch to sit better among the footer's smaller type/icons. */
-.foot-email{display:flex;flex-direction:column;gap:6px;width:100%;max-width:320px;}
-.foot-email-row{display:flex;align-items:center;gap:12px;}
-.foot-email input[type=email]{flex:1;min-width:0;height:36px;border:none;border-bottom:2px solid rgba(245,244,240,.4);
-  background:none;color:var(--cream);font-family:var(--sans);font-weight:600;font-size:.78rem;letter-spacing:.08em;
-  text-transform:uppercase;padding:0 0 7px;outline:none;transition:border-color .15s;}
-.foot-email input[type=email]::placeholder{color:rgba(245,244,240,.6);}
-.foot-email input[type=email]:focus-visible{border-bottom-color:var(--cream);}
-.foot-email input[type=email]:-webkit-autofill,
-.foot-email input[type=email]:-webkit-autofill:hover,
-.foot-email input[type=email]:-webkit-autofill:focus{
-  -webkit-text-fill-color:var(--cream);-webkit-box-shadow:0 0 0 1000px transparent inset;transition:background-color 5000s ease-in-out 0s;}
-.foot-email-submit{flex:0 0 auto;width:24px;height:24px;margin-bottom:5px;display:inline-flex;align-items:center;justify-content:center;
-  background:none;border:none;color:var(--cream);cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
-.foot-email-submit-icon{display:block;width:100%;height:100%;background-color:var(--cream);
-  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
-  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;}
-.foot-email-submit:hover{opacity:.8;}
-.foot-email-submit[disabled]{opacity:.5;cursor:default;}
-.foot-email .status{font-size:.75rem;color:var(--cream);min-height:1.2em;}
-
 @media(max-width:639px){
   .foot .inner{flex-direction:column;align-items:center;text-align:center;}
   .foot-left{align-items:center;}
   .foot-meta{align-items:center;}
   .foot .signoff{justify-content:center;}
-  .foot-email{align-items:center;text-align:center;}
 }
 
 .reveal{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards;}
@@ -239,6 +258,17 @@ button.go[disabled]{opacity:.55;cursor:default;}
   background:var(--bg);color:var(--text);box-shadow:0 40px 90px rgba(0,0,0,.5);}
 @media(max-width:639px){
   .egg-card{max-width:none;height:100dvh;box-shadow:none;}
+}
+/* a sheet of paper being set down on top of the homepage, not a modal
+   sliding/fading in -- a slight rotation and overshoot on the way to rest. */
+@keyframes eggCardDrop{
+  0%{transform:translateY(-26px) scale(.97) rotate(-1.4deg);opacity:0;}
+  55%{transform:translateY(5px) scale(1.008) rotate(.5deg);opacity:1;}
+  100%{transform:translateY(0) scale(1) rotate(0deg);opacity:1;}
+}
+.egg-overlay.is-open .egg-card{animation:eggCardDrop .5s cubic-bezier(.2,.8,.3,1) both;}
+@media(prefers-reduced-motion:reduce){
+  .egg-overlay.is-open .egg-card{animation:none;}
 }
 .egg-close{position:absolute;top:18px;right:18px;z-index:30;width:30px;height:30px;
   background:none;border:none;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;}
@@ -358,16 +388,40 @@ button.go[disabled]{opacity:.55;cursor:default;}
 
     <div class="tagline-handwritten reveal d3" role="img" aria-label="An independent print magazine that widens the lens on the people and ideas that make Salt Lake City interesting."></div>
 
-    <div class="triggers reveal d4">
-      <button id="triggerStory" class="go" type="button">
-        <span class="btn-caption">Tell a story</span>
-      </button>
-      <button id="triggerCover" class="go" type="button">
-        <span class="btn-caption">Snap a cover</span>
-      </button>
+    <div class="hero-email reveal d3">
+      <div class="hero-email-row">
+        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Keep in touch" aria-label="Email address" />
+        <button id="submit" class="hero-email-submit" type="button" aria-label="Submit email">
+          <span class="hero-email-submit-icon"></span>
+        </button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
     </div>
   </div>
 </main>
+
+<nav class="site-nav" aria-label="Main">
+  <button class="go trigger-story" type="button">
+    <span class="btn-caption">Tell a story</span>
+  </button>
+  <button class="go trigger-cover" type="button">
+    <span class="btn-caption">Snap a cover</span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-toggle" id="mobileNavToggle" aria-expanded="false" aria-label="Menu" type="button">
+    <span class="mobile-nav-toggle-icon"></span>
+  </button>
+  <div class="mobile-nav-menu" id="mobileNavMenu">
+    <button class="go trigger-story" type="button">
+      <span class="btn-caption">Tell a story</span>
+    </button>
+    <button class="go trigger-cover" type="button">
+      <span class="btn-caption">Snap a cover</span>
+    </button>
+  </div>
+</div>
 
 <footer class="foot">
   <div class="inner">
@@ -388,16 +442,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
         <a class="privacy-link" href="privacy.html">Privacy Policy</a>
         <p class="foot-credit"><span class="foot-credit-label">Photography:</span> Ian Casey, Ava Kennedy,<br>Damon Kirchmeier, Klara Lanae, Lauren Turley</p>
       </div>
-    </div>
-
-    <div class="foot-email">
-      <div class="foot-email-row">
-        <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="Keep in touch" aria-label="Email address" />
-        <button id="submit" class="foot-email-submit" type="button" aria-label="Submit email">
-          <span class="foot-email-submit-icon"></span>
-        </button>
-      </div>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
     </div>
   </div>
 </footer>
@@ -778,11 +822,22 @@ window.addEventListener("popstate",()=>{
   }
 });
 document.getElementById("eggClose").addEventListener("click",eggClose);
-document.getElementById("eggBackdrop").addEventListener("click",eggClose);
-window.addEventListener("keydown",e=>{if(e.key==="Escape"&&eggOverlay.classList.contains("is-open"))eggClose();});
+// No backdrop-click or Escape-to-close: these are meant to feel like a
+// sheet of paper physically placed on top of the homepage, staying put
+// until deliberately dismissed via the X (or a swipe-back gesture,
+// which still works through the popstate handler above).
 
-/* ===== HOMEPAGE TRIGGERS ============================================ */
-document.getElementById("triggerStory").addEventListener("click",()=>eggOpen("egg-story"));
+/* ===== HOMEPAGE TRIGGERS ============================================
+   Two live copies of each button now -- the persistent desktop nav
+   (.site-nav) and the mobile menu hidden behind the starburst toggle
+   (.mobile-nav-menu) -- so these bind by class by rather than a single
+   id, and fire the same handler no matter which copy was clicked. */
+document.querySelectorAll(".trigger-story").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    closeMobileNav();
+    eggOpen("egg-story");
+  });
+});
 // Straight into the booth -- eggSetScreen's own egg-booth branch calls
 // eggEnsureStream immediately, which is what actually triggers the
 // browser's native permission prompt. That prompt is unavoidable (no
@@ -790,7 +845,28 @@ document.getElementById("triggerStory").addEventListener("click",()=>eggOpen("eg
 // screen asking them to tap first isn't -- it read as a dead/broken
 // page in testing, so it's now just the fallback if permission is
 // denied (see eggSetScreen's .catch below), not the first thing shown.
-document.getElementById("triggerCover").addEventListener("click",()=>eggOpen("egg-booth"));
+document.querySelectorAll(".trigger-cover").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    closeMobileNav();
+    eggOpen("egg-booth");
+  });
+});
+
+/* ===== MOBILE NAV: starburst toggle -> Tell a story / Snap a cover === */
+const mobileNav=document.getElementById("mobileNav");
+const mobileNavToggle=document.getElementById("mobileNavToggle");
+function closeMobileNav(){
+  mobileNav.classList.remove("is-open");
+  mobileNavToggle.setAttribute("aria-expanded","false");
+}
+mobileNavToggle.addEventListener("click",()=>{
+  const nowOpen=!mobileNav.classList.contains("is-open");
+  mobileNav.classList.toggle("is-open",nowOpen);
+  mobileNavToggle.setAttribute("aria-expanded",String(nowOpen));
+});
+document.addEventListener("click",e=>{
+  if(mobileNav.classList.contains("is-open")&&!mobileNav.contains(e.target))closeMobileNav();
+});
 
 /* ===== CAMERA STATE ================================================= */
 const eggBoothVideo=document.getElementById("eggBoothVideo");
