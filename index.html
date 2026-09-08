@@ -128,21 +128,23 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   -webkit-mask:url("assets/btn-line-capture.png") center/contain no-repeat;
   mask:url("assets/btn-line-capture.png") center/contain no-repeat;}
 
-.kicker{position:absolute;top:17.35%;left:calc(50% - min(29%,422px));font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
+.kicker{position:absolute;top:20.8%;left:calc(50% - min(29%,422px));font-weight:600;font-size:clamp(.7rem,1.3vw,.88rem);
   letter-spacing:.24em;text-transform:uppercase;opacity:.82;white-space:nowrap;}
 
-.wordmark{position:absolute;top:21.55%;left:calc(50% - min(29%,422px));width:min(58%,844px);
+.wordmark{position:absolute;top:25%;left:calc(50% - min(29%,422px));width:min(58%,844px);
   transform:rotate(-3deg);}
 
-.scroll-hint-arrow{top:45%;left:auto;right:5%;}
+/* inline with the logo instead of stacked below it -- doesn't cost
+   any of the vertical rhythm between the logo and tagline. */
+.scroll-hint-arrow{top:37.6%;left:auto;right:5%;transform:translateY(-50%);}
 
-.tagline-handwritten{position:absolute;top:54.5%;left:46.6%;right:auto;width:min(48%,700px);aspect-ratio:3660/1239;
+.tagline-handwritten{position:absolute;top:52%;left:46.6%;right:auto;width:min(48%,700px);aspect-ratio:3660/1239;
   margin:0;transform:none;
   -webkit-mask:url("assets/tagline-handwritten.png") center/contain no-repeat;
   mask:url("assets/tagline-handwritten.png") center/contain no-repeat;}
 
 /* ---- HERO TRIGGERS: share a story / capture a cover ---- */
-.triggers{position:absolute;top:84.75%;left:46.6%;width:min(48%,700px);right:auto;
+.triggers{position:absolute;top:83%;left:46.6%;width:min(48%,700px);right:auto;
   display:flex;justify-content:center;gap:clamp(56px,7vw,110px);}
 button.go{flex:0 0 auto;height:52px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 22px;cursor:pointer;
   font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;
@@ -165,7 +167,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
    this element also carries the .reveal entrance-animation class,
    whose own transform (translateY, fill-mode:forwards) would silently
    win over a static transform on the same element once it finishes. */
-.hero-email{position:absolute;top:92.83%;left:50%;width:min(48%,700px);right:auto;margin-left:calc(-1 * min(24%,350px));}
+.hero-email{position:absolute;top:91.7%;left:50%;width:min(48%,700px);right:auto;margin-left:calc(-1 * min(24%,350px));}
 .hero-email-row{display:flex;align-items:center;gap:14px;}
 .hero-email input[type=email]{flex:1;min-width:0;height:40px;border:none;border-bottom:2px solid rgba(255,255,255,.5);
   background:none;color:#fff;font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;
@@ -188,8 +190,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
 @media(max-width:900px){
   .kicker{top:15%;left:0;width:100%;text-align:center;}
   .wordmark{top:18%;left:4%;width:92%;}
-  .scroll-hint-arrow{top:32%;left:auto;right:6%;width:30px;}
-  .tagline-handwritten{top:41%;left:0;right:auto;width:100%;}
+  /* bottom of the hero/photo, not stacked between the logo and
+     tagline -- frees that gap back up to its normal rhythm. */
+  .scroll-hint-arrow{top:auto;bottom:5%;left:auto;right:6%;width:30px;}
+  .tagline-handwritten{top:40%;left:0;right:auto;width:100%;}
   .triggers{position:absolute;top:62.5%;left:5%;width:90%;right:auto;
     display:flex;justify-content:center;gap:clamp(16px,5vw,32px);}
   #triggerStory,#triggerCover{position:static;}
