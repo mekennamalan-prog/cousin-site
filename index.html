@@ -182,25 +182,19 @@ button.go[disabled]{opacity:.55;cursor:default;}
    desktop: persistent top-right nav row, always on screen.
    mobile: hidden behind a starburst toggle top-left instead -- tap it
    to reveal the same two links in a small translucent panel. */
-.site-nav{position:fixed;top:26px;left:26px;z-index:10;display:flex;gap:32px;}
-@media(max-width:900px){
-  .site-nav{display:none;}
-}
-.mobile-nav{position:fixed;top:20px;left:20px;z-index:10;display:none;}
-@media(max-width:900px){
-  .mobile-nav{display:block;}
-}
-.mobile-nav-toggle{width:30px;height:30px;background:none;border:none;padding:0;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;}
-.mobile-nav-toggle-icon{display:block;width:100%;height:100%;background-color:#fff;
-  -webkit-mask:url("assets/icon-swipe-star.png") center/contain no-repeat;
-  mask:url("assets/icon-swipe-star.png") center/contain no-repeat;transition:transform .2s ease;}
-.mobile-nav.is-open .mobile-nav-toggle-icon{transform:rotate(45deg);}
-.mobile-nav-menu{position:absolute;top:calc(100% + 14px);left:0;display:none;flex-direction:column;
-  align-items:flex-start;gap:18px;padding:20px 26px;border-radius:16px;min-width:190px;
+.site-menu{position:fixed;top:26px;left:26px;z-index:10;}
+.site-menu-toggle{position:relative;width:26px;height:26px;background:none;border:none;padding:0;
+  cursor:pointer;color:#fff;-webkit-tap-highlight-color:transparent;}
+.site-menu-toggle svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity .15s ease;}
+.site-menu-toggle .icon-close{opacity:0;}
+.site-menu.is-open .site-menu-toggle .icon-menu{opacity:0;}
+.site-menu.is-open .site-menu-toggle .icon-close{opacity:1;}
+.site-menu-panel{position:absolute;top:calc(100% + 14px);left:0;display:none;flex-direction:column;
+  align-items:flex-start;gap:18px;padding:20px 26px;border-radius:16px;min-width:230px;
   background:rgba(23,20,13,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
-.mobile-nav.is-open .mobile-nav-menu{display:flex;}
-.mobile-nav .go{background:none;padding:0;height:auto;}
+.site-menu.is-open .site-menu-panel{display:flex;}
+.site-menu .go{background:none;padding:0;height:auto;}
+.site-menu .btn-caption{white-space:nowrap;}
 
 @media(max-width:900px){
   .kicker{top:15%;left:0;width:100%;text-align:center;}
@@ -400,20 +394,12 @@ button.go[disabled]{opacity:.55;cursor:default;}
   </div>
 </main>
 
-<nav class="site-nav" aria-label="Main">
-  <button class="go trigger-story" type="button">
-    <span class="btn-caption">Tell a story</span>
+<div class="site-menu" id="siteMenu">
+  <button class="site-menu-toggle" id="siteMenuToggle" aria-expanded="false" aria-label="Menu" type="button">
+    <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </button>
-  <button class="go trigger-cover" type="button">
-    <span class="btn-caption">Snap a cover</span>
-  </button>
-</nav>
-
-<div class="mobile-nav" id="mobileNav">
-  <button class="mobile-nav-toggle" id="mobileNavToggle" aria-expanded="false" aria-label="Menu" type="button">
-    <span class="mobile-nav-toggle-icon"></span>
-  </button>
-  <div class="mobile-nav-menu" id="mobileNavMenu">
+  <div class="site-menu-panel" id="siteMenuPanel">
     <button class="go trigger-story" type="button">
       <span class="btn-caption">Tell a story</span>
     </button>
@@ -828,13 +814,14 @@ document.getElementById("eggClose").addEventListener("click",eggClose);
 // which still works through the popstate handler above).
 
 /* ===== HOMEPAGE TRIGGERS ============================================
-   Two live copies of each button now -- the persistent desktop nav
-   (.site-nav) and the mobile menu hidden behind the starburst toggle
-   (.mobile-nav-menu) -- so these bind by class by rather than a single
-   id, and fire the same handler no matter which copy was clicked. */
+   Email signup is the one visible CTA on the page now -- Tell a
+   story / Snap a cover are secondary, easter-egg-like actions tucked
+   behind the menu toggle (same treatment at every screen size, not
+   just mobile), so this binds by class rather than a single id in
+   case that ever grows back into more than one live copy. */
 document.querySelectorAll(".trigger-story").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    closeMobileNav();
+    closeSiteMenu();
     eggOpen("egg-story");
   });
 });
@@ -847,25 +834,25 @@ document.querySelectorAll(".trigger-story").forEach(btn=>{
 // denied (see eggSetScreen's .catch below), not the first thing shown.
 document.querySelectorAll(".trigger-cover").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    closeMobileNav();
+    closeSiteMenu();
     eggOpen("egg-booth");
   });
 });
 
-/* ===== MOBILE NAV: starburst toggle -> Tell a story / Snap a cover === */
-const mobileNav=document.getElementById("mobileNav");
-const mobileNavToggle=document.getElementById("mobileNavToggle");
-function closeMobileNav(){
-  mobileNav.classList.remove("is-open");
-  mobileNavToggle.setAttribute("aria-expanded","false");
+/* ===== SITE MENU: hamburger toggle -> Tell a story / Snap a cover === */
+const siteMenu=document.getElementById("siteMenu");
+const siteMenuToggle=document.getElementById("siteMenuToggle");
+function closeSiteMenu(){
+  siteMenu.classList.remove("is-open");
+  siteMenuToggle.setAttribute("aria-expanded","false");
 }
-mobileNavToggle.addEventListener("click",()=>{
-  const nowOpen=!mobileNav.classList.contains("is-open");
-  mobileNav.classList.toggle("is-open",nowOpen);
-  mobileNavToggle.setAttribute("aria-expanded",String(nowOpen));
+siteMenuToggle.addEventListener("click",()=>{
+  const nowOpen=!siteMenu.classList.contains("is-open");
+  siteMenu.classList.toggle("is-open",nowOpen);
+  siteMenuToggle.setAttribute("aria-expanded",String(nowOpen));
 });
 document.addEventListener("click",e=>{
-  if(mobileNav.classList.contains("is-open")&&!mobileNav.contains(e.target))closeMobileNav();
+  if(siteMenu.classList.contains("is-open")&&!siteMenu.contains(e.target))closeSiteMenu();
 });
 
 /* ===== CAMERA STATE ================================================= */
