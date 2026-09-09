@@ -160,10 +160,10 @@ button.go[disabled]{opacity:.55;cursor:default;}
    anything else out of place. Centered horizontally on desktop. */
 .hero-email{position:absolute;top:83%;left:50%;width:min(48%,700px);right:auto;margin-left:calc(-1 * min(24%,350px));}
 .hero-email-row{display:flex;align-items:center;gap:14px;}
-.hero-email input[type=email]{flex:1;min-width:0;height:40px;border:none;border-bottom:2px solid rgba(255,255,255,.5);
+.hero-email input[type=email]{flex:1;min-width:0;height:40px;border:none;border-bottom:2px solid #fff;
   background:none;color:#fff;font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.08em;
   text-transform:uppercase;padding:0 0 8px;outline:none;transition:border-color .15s;}
-.hero-email input[type=email]::placeholder{color:rgba(255,255,255,.72);}
+.hero-email input[type=email]::placeholder{color:#fff;}
 .hero-email input[type=email]:focus-visible{border-bottom-color:#fff;}
 .hero-email input[type=email]:-webkit-autofill,
 .hero-email input[type=email]:-webkit-autofill:hover,
@@ -182,7 +182,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
    desktop: persistent top-right nav row, always on screen.
    mobile: hidden behind a starburst toggle top-left instead -- tap it
    to reveal the same two links in a small translucent panel. */
-.site-nav{position:fixed;top:26px;right:26px;z-index:10;display:flex;gap:32px;}
+.site-nav{position:fixed;top:26px;left:26px;z-index:10;display:flex;gap:32px;}
 @media(max-width:900px){
   .site-nav{display:none;}
 }
