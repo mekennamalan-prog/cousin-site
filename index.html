@@ -725,23 +725,21 @@ const statusEl=document.getElementById("status");
 const valid=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const setStatus=m=>{statusEl.textContent=m;};
 
-async function subscribe(){
+function subscribe(){
   const email=emailEl.value.trim();
   if(!valid(email)){setStatus("That email doesn’t look right — give it another go.");emailEl.focus();return;}
-  btn.disabled=true;
-  try{
-    await fetch(SHEET_ENDPOINT,{
-      method:"POST",
-      mode:"no-cors",
-      body:new URLSearchParams({email:email})
-    });
-    setStatus("You’re on the list.");
-    emailEl.value="";
-  }catch(e){
-    setStatus("Something broke on our end. Try again in a moment?");
-  }finally{
-    btn.disabled=false;
-  }
+  // Actually fire-and-forget now: don't await this. Apps Script's
+  // round-trip can take several seconds, and mode:"no-cors" already
+  // makes the response opaque (we can't read status/body from it
+  // either way), so awaiting it before showing success was just
+  // making visitors wait on a response we were never going to look at.
+  fetch(SHEET_ENDPOINT,{
+    method:"POST",
+    mode:"no-cors",
+    body:new URLSearchParams({email:email})
+  }).catch(()=>{/* fire-and-forget — no user-visible error */});
+  setStatus("You’re on the list.");
+  emailEl.value="";
 }
 btn.addEventListener("click",subscribe);
 emailEl.addEventListener("keydown",e=>{if(e.key==="Enter")subscribe();});
