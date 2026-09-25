@@ -857,6 +857,11 @@ document.getElementById("pitchRibbon").addEventListener("click",e=>{
   const ribbon=document.getElementById("pitchRibbon");
   if(!track||!ribbon)return;
   const baseHTML=track.children[0].outerHTML;
+  // constant px/sec pace so more copies on a wide screen (needed just
+  // to keep the track filled, see above) doesn't also read as a
+  // faster scroll -- a fixed animation-duration would cover the extra
+  // width in the same time and visibly speed up.
+  const PITCH_MARQUEE_SPEED=74;
   function fillTrack(){
     track.innerHTML=baseHTML;
     const singleWidth=track.scrollWidth;
@@ -865,6 +870,8 @@ document.getElementById("pitchRibbon").addEventListener("click",e=>{
     if(count%2)count++;
     count=Math.max(2,count);
     track.innerHTML=baseHTML.repeat(count);
+    const halfWidth=track.scrollWidth/2;
+    track.style.animationDuration=(halfWidth/PITCH_MARQUEE_SPEED)+"s";
   }
   fillTrack();
   let resizeTimer;
