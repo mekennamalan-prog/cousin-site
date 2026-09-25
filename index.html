@@ -49,9 +49,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
 }
 
 /* ---- PITCH RIBBON (skinny announcement bar, top of page) ----
-   a continuous right-to-left marquee -- two copies of the text back
-   to back in a track, animated exactly one copy-width to the left
-   and looped, so the seam is never visible. */
+   a continuous right-to-left marquee -- copies of the text back to
+   back in a track, animated exactly one copy-width to the left and
+   looped, so the seam is never visible (see the fillTrack script
+   further down, which also normalizes the scroll speed). */
 .pitch-ribbon{position:relative;z-index:20;display:block;overflow:hidden;
   min-height:var(--ribbon-h);width:100%;background:#000;color:#fff;text-decoration:none;cursor:pointer;}
 .pitch-ribbon:hover .pitch-ribbon-track{opacity:.82;}
@@ -303,16 +304,27 @@ button.go[disabled]{opacity:.55;cursor:default;}
 .flyer-overlay{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;}
 .flyer-overlay.is-open{display:flex;}
 .flyer-backdrop{position:absolute;inset:0;background:rgba(23,20,13,.6);}
-.flyer-card{position:relative;z-index:1;width:100%;height:90dvh;max-width:calc(90dvh * var(--egg-ratio));overflow-y:auto;
+.flyer-card{position:relative;z-index:1;width:min(92vw,560px);max-height:90dvh;overflow-y:auto;
   background:var(--bg);box-shadow:0 40px 90px rgba(0,0,0,.5);-webkit-overflow-scrolling:touch;}
+/* the flyer image's own aspect ratio doesn't match the egg overlay's
+   magazine-trim ratio those fixed dimensions were written for, which
+   left a band of empty card background under a shorter image -- size
+   the card to the image itself (auto height) instead so there's
+   nothing left over. Mobile keeps a full-screen card (matching every
+   other overlay at that size), but centers the image within it so
+   any leftover space splits evenly instead of trailing underneath. */
 @media(max-width:639px){
-  .flyer-card{max-width:none;height:100dvh;box-shadow:none;}
+  .flyer-card{width:100%;max-height:none;height:100dvh;box-shadow:none;
+    display:flex;align-items:center;justify-content:center;}
 }
 .flyer-overlay.is-open .flyer-card{animation:eggCardDrop .5s cubic-bezier(.2,.8,.3,1) both;}
 @media(prefers-reduced-motion:reduce){
   .flyer-overlay.is-open .flyer-card{animation:none;}
 }
 .flyer-card img{display:block;width:100%;height:auto;}
+@media(max-width:639px){
+  .flyer-card img{width:auto;max-width:100%;max-height:100%;}
+}
 
 .egg-card .screen{display:none;position:absolute;inset:0;flex-direction:column;
   background:var(--bg);color:var(--text);overflow-y:auto;-webkit-overflow-scrolling:touch;}
