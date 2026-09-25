@@ -395,8 +395,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
 <div class="grain" aria-hidden="true"></div>
 
 <a class="pitch-ribbon" id="pitchRibbon" href="assets/cousin-flyer.png" rel="noopener">
-  <div class="pitch-ribbon-track" aria-hidden="true">
-    <span class="pitch-ribbon-text">Call for pitches open until 10/26. View submission guidelines →</span>
+  <div class="pitch-ribbon-track" id="pitchRibbonTrack" aria-hidden="true">
     <span class="pitch-ribbon-text">Call for pitches open until 10/26. View submission guidelines →</span>
   </div>
   <span class="sr-only">Call for pitches open until 10/26. View submission guidelines.</span>
@@ -845,6 +844,35 @@ document.getElementById("pitchRibbon").addEventListener("click",e=>{
   e.preventDefault();
   flyerOpen();
 });
+
+/* the marquee track needs enough copies of the text to always be at
+   least 2x the ribbon's own width -- the loop animation only shifts
+   it by half of its own width, so if the track (a fixed number of
+   copies sized to their own content) is narrower than that, the
+   right side of a wide desktop viewport is left permanently blank.
+   Copy count must stay even so the -50% shift lands exactly on a
+   copy boundary, or the loop point visibly seams. */
+(function(){
+  const track=document.getElementById("pitchRibbonTrack");
+  const ribbon=document.getElementById("pitchRibbon");
+  if(!track||!ribbon)return;
+  const baseHTML=track.children[0].outerHTML;
+  function fillTrack(){
+    track.innerHTML=baseHTML;
+    const singleWidth=track.scrollWidth;
+    if(!singleWidth)return;
+    let count=Math.ceil((ribbon.clientWidth*2)/singleWidth)+1;
+    if(count%2)count++;
+    count=Math.max(2,count);
+    track.innerHTML=baseHTML.repeat(count);
+  }
+  fillTrack();
+  let resizeTimer;
+  window.addEventListener("resize",()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(fillTrack,200);
+  });
+})();
 
 /* ===== EASTER EGG OVERLAY ===========================================
    Nothing here is uploaded anywhere — the camera stream, captured
