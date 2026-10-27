@@ -42,7 +42,6 @@
   --serif:"Fraunces",Georgia,serif;
   --sans:"Inter Tight",system-ui,-apple-system,sans-serif;
   --egg-ratio:.7701; /* popup width:height — true US magazine trim size, 8.375in x 10.875in */
-  --ribbon-h:48px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;background:var(--ink);}
@@ -57,28 +56,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font
   aspect-ratio:2000 / 487;
 }
 
-/* ---- PITCH RIBBON (skinny announcement bar, top of page) ----
-   a continuous right-to-left marquee -- copies of the text back to
-   back in a track, animated exactly one copy-width to the left and
-   looped, so the seam is never visible (see the fillTrack script
-   further down, which also normalizes the scroll speed). */
-.pitch-ribbon{position:relative;z-index:20;display:block;overflow:hidden;
-  min-height:var(--ribbon-h);width:100%;background:#000;color:#fff;text-decoration:none;cursor:pointer;}
-.pitch-ribbon:hover .pitch-ribbon-track{opacity:.82;}
-.pitch-ribbon-track{display:flex;align-items:center;width:max-content;padding:14px 0;
-  animation:pitchMarquee 13s linear infinite;}
-.pitch-ribbon-text{font-family:var(--sans);font-weight:600;font-size:clamp(.68rem,1.4vw,.8rem);
-  letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;padding:0 1.5em;}
-@keyframes pitchMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-@media(prefers-reduced-motion:reduce){
-  .pitch-ribbon-track{animation:none;}
-  .pitch-ribbon{overflow-x:auto;}
-}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
-  clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 /* ---- HERO (full-bleed swipeable photo gallery) ---- */
-.hero{min-height:calc(100dvh - var(--ribbon-h));position:relative;overflow:hidden;touch-action:pan-y;background:#111;}
+.hero{min-height:100dvh;position:relative;overflow:hidden;touch-action:pan-y;background:#111;}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.14) 32%,rgba(0,0,0,.18) 55%,rgba(0,0,0,.6) 100%);}
 .hero-inner{position:absolute;inset:0;z-index:2;pointer-events:none;}
@@ -219,7 +199,7 @@ button.go[disabled]{opacity:.55;cursor:default;}
    desktop: persistent top-right nav row, always on screen.
    mobile: hidden behind a starburst toggle top-left instead -- tap it
    to reveal the same two links in a small translucent panel. */
-.site-menu{position:fixed;top:calc(var(--ribbon-h) + 26px);left:26px;z-index:10;}
+.site-menu{position:fixed;top:26px;left:26px;z-index:10;}
 .site-menu-toggle{position:relative;width:26px;height:26px;background:none;border:none;padding:0;
   cursor:pointer;color:#fff;-webkit-tap-highlight-color:transparent;}
 .site-menu-toggle svg{position:absolute;inset:0;width:100%;height:100%;transition:opacity .15s ease;}
@@ -306,35 +286,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
   background:none;border:none;color:var(--text);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .egg-close svg{width:100%;height:100%;}
 
-/* flyer overlay -- same "sheet of paper set down" popup as the egg
-   overlay above (same backdrop/card sizing, same eggCardDrop motion),
-   just a single static screen holding the PDF instead of a multi-step
-   flow, so it gets its own small overlay rather than another egg screen. */
-.flyer-overlay{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;}
-.flyer-overlay.is-open{display:flex;}
-.flyer-backdrop{position:absolute;inset:0;background:rgba(23,20,13,.6);}
-.flyer-card{position:relative;z-index:1;width:min(92vw,560px);max-height:90dvh;overflow-y:auto;
-  background:var(--bg);box-shadow:0 40px 90px rgba(0,0,0,.5);-webkit-overflow-scrolling:touch;}
-/* the flyer image's own aspect ratio doesn't match the egg overlay's
-   magazine-trim ratio those fixed dimensions were written for, which
-   left a band of empty card background under a shorter image -- size
-   the card to the image itself (auto height) instead so there's
-   nothing left over. Mobile keeps a full-screen card (matching every
-   other overlay at that size), but centers the image within it so
-   any leftover space splits evenly instead of trailing underneath. */
-@media(max-width:639px){
-  .flyer-card{width:100%;max-height:none;height:100dvh;box-shadow:none;
-    display:flex;align-items:center;justify-content:center;}
-}
-.flyer-overlay.is-open .flyer-card{animation:eggCardDrop .5s cubic-bezier(.2,.8,.3,1) both;}
-@media(prefers-reduced-motion:reduce){
-  .flyer-overlay.is-open .flyer-card{animation:none;}
-}
-.flyer-card img{display:block;width:100%;height:auto;}
-@media(max-width:639px){
-  .flyer-card img{width:auto;max-width:100%;max-height:100%;}
-}
-
 .egg-card .screen{display:none;position:absolute;inset:0;flex-direction:column;
   background:var(--bg);color:var(--text);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .egg-card .screen.is-active{display:flex;}
@@ -414,13 +365,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
-
-<a class="pitch-ribbon" id="pitchRibbon" href="assets/cousin-flyer.png" rel="noopener">
-  <div class="pitch-ribbon-track" id="pitchRibbonTrack" aria-hidden="true">
-    <span class="pitch-ribbon-text">Call for pitches open until 10/26. View submission guidelines →</span>
-  </div>
-  <span class="sr-only">Call for pitches open until 10/26. View submission guidelines.</span>
-</a>
 
 <main class="hero">
   <div class="bg-gallery" id="bgGalleryDesktop" data-gallery="desktop" aria-hidden="true">
@@ -505,16 +449,6 @@ button.go[disabled]{opacity:.55;cursor:default;}
     </div>
   </div>
 </footer>
-
-<div class="flyer-overlay" id="flyerOverlay">
-  <div class="flyer-backdrop" id="flyerBackdrop"></div>
-  <div class="flyer-card" id="flyerCard">
-    <button class="egg-close" id="flyerClose" aria-label="Close" type="button">
-      <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </button>
-    <img id="flyerFrame" alt="Cousin call for pitches — seeking pitches and submissions for our inaugural issue. Full details at hello@cousinmag.com, by October 26." />
-  </div>
-</div>
 
 <div class="egg-overlay" id="eggOverlay">
   <div class="egg-backdrop" id="eggBackdrop"></div>
@@ -827,80 +761,6 @@ function subscribe(){
 }
 btn.addEventListener("click",subscribe);
 emailEl.addEventListener("keydown",e=>{if(e.key==="Enter")subscribe();});
-
-/* ===== FLYER OVERLAY (call-for-pitches ribbon) ======================
-   Same popup motion as the egg overlay (a sheet of paper set down on
-   top of the homepage), its own tiny history/close handling so it
-   doesn't get tangled up with the egg overlay's state. */
-const flyerOverlay=document.getElementById("flyerOverlay");
-const flyerFrame=document.getElementById("flyerFrame");
-let flyerHistoryPushed=false;
-function flyerOpen(){
-  if(!flyerFrame.src)flyerFrame.src="assets/cousin-flyer.png";
-  flyerOverlay.classList.add("is-open");
-  if(!flyerHistoryPushed){
-    history.pushState({flyerOpen:true},"","");
-    flyerHistoryPushed=true;
-  }
-}
-function flyerCloseUI(){
-  flyerOverlay.classList.remove("is-open");
-}
-function flyerClose(){
-  if(flyerHistoryPushed){
-    flyerHistoryPushed=false;
-    history.back();
-  }else{
-    flyerCloseUI();
-  }
-}
-window.addEventListener("popstate",()=>{
-  if(flyerOverlay.classList.contains("is-open")){
-    flyerHistoryPushed=false;
-    flyerCloseUI();
-  }
-});
-document.getElementById("flyerClose").addEventListener("click",flyerClose);
-document.getElementById("pitchRibbon").addEventListener("click",e=>{
-  e.preventDefault();
-  flyerOpen();
-});
-
-/* the marquee track needs enough copies of the text to always be at
-   least 2x the ribbon's own width -- the loop animation only shifts
-   it by half of its own width, so if the track (a fixed number of
-   copies sized to their own content) is narrower than that, the
-   right side of a wide desktop viewport is left permanently blank.
-   Copy count must stay even so the -50% shift lands exactly on a
-   copy boundary, or the loop point visibly seams. */
-(function(){
-  const track=document.getElementById("pitchRibbonTrack");
-  const ribbon=document.getElementById("pitchRibbon");
-  if(!track||!ribbon)return;
-  const baseHTML=track.children[0].outerHTML;
-  // constant px/sec pace so more copies on a wide screen (needed just
-  // to keep the track filled, see above) doesn't also read as a
-  // faster scroll -- a fixed animation-duration would cover the extra
-  // width in the same time and visibly speed up.
-  const PITCH_MARQUEE_SPEED=74;
-  function fillTrack(){
-    track.innerHTML=baseHTML;
-    const singleWidth=track.scrollWidth;
-    if(!singleWidth)return;
-    let count=Math.ceil((ribbon.clientWidth*2)/singleWidth)+1;
-    if(count%2)count++;
-    count=Math.max(2,count);
-    track.innerHTML=baseHTML.repeat(count);
-    const halfWidth=track.scrollWidth/2;
-    track.style.animationDuration=(halfWidth/PITCH_MARQUEE_SPEED)+"s";
-  }
-  fillTrack();
-  let resizeTimer;
-  window.addEventListener("resize",()=>{
-    clearTimeout(resizeTimer);
-    resizeTimer=setTimeout(fillTrack,200);
-  });
-})();
 
 /* ===== EASTER EGG OVERLAY ===========================================
    Nothing here is uploaded anywhere — the camera stream, captured
